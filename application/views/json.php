@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (!isset($status)) {
     $status = 404;
