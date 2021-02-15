@@ -14,6 +14,45 @@ class Starbucks_model extends CI_Model
         parent::__construct();
     }
 
+
+    /**
+     * 조회
+     * @param $param
+     * @return array()
+     */
+    public function select($param)
+    {
+        if (isset($param['content'])) {
+            $param['content'] = '%' . $param['content'] . '%';
+        }
+        $escape = $this->db->escape($param);
+        $arr = array();
+        if (isset($param['product_cd'])) {
+            $arr[] = sprintf('product_cd = %s', $escape['product_cd']);
+        }
+        if (isset($param['cate_cd'])) {
+            $arr[] = sprintf('cate_cd = %s', $escape['cate_cd']);
+        }
+
+        if (isset($param['content'])) {
+            $arr[] = sprintf('content like %s', $escape['content']);
+        }
+
+        $where = '';
+        if (count($arr) > 0) {
+            $where = 'WHERE ' . join(' AND ', $arr);
+        }
+        $sql = <<<SQL
+SELECT product_cd, product_nm, product_img, cate_nm, cate_cd, content, caffeine, regdate 
+FROM drink
+{$where}
+SQL;
+        echo $sql;
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+
     /**
      * 스타벅스로부터 drink테이블에 값 넣기
      * @return int
