@@ -21,6 +21,8 @@ class MY_Controller extends CI_Controller
             $appdb = 'superglue4';
         } else if ($_SERVER['HTTP_HOST'] === 'jasoncafe-ghebk.run.goorm.io') {
 			$appdb = 'jasoncafe';
+		} else if ($_SERVER['HTTP_HOST'] === 'php-hwofx.run.goorm.io') {
+			$appdb = 'dayecafe';
 		}
 
         $this->db = $this->load->database($appdb, true);
