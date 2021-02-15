@@ -15,6 +15,48 @@ class Member_model extends CI_Model
     }
 
     /**
+     * 조회
+     * @param $param
+     * @return array()
+     */
+    public function select($param)
+    {
+
+        $escape = $this->db->escape($param);
+        $arr = array();
+        if (isset($param['name'])) {
+            $arr[] = sprintf('name = %s', $escape['name']);
+        }
+        if (isset($param['pos'])) {
+            $arr[] = sprintf('pos = %s', $escape['pos']);
+        }
+        if (isset($param['dept'])) {
+            $arr[] = sprintf('dept = %s', $escape['dept']);
+        }
+        if (isset($param['team'])) {
+            $arr[] = sprintf('team = %s', $escape['team']);
+        }
+        if (isset($param['part'])) {
+            $arr[] = sprintf('part = %s', $escape['part']);
+        }
+
+        $where = '';
+        if (count($arr) > 0) {
+            $where = 'WHERE ' . join(' AND ', $arr);
+        }
+        $sql = <<<SQL
+SELECT `name`, pos, dept, team, part 
+FROM member
+{$where}
+SQL;
+//        echo $sql;
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+
+
+    /**
      * 회원 긁어오기
      * @return int
      */

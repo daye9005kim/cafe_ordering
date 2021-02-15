@@ -47,7 +47,7 @@ SELECT product_cd, product_nm, product_img, cate_nm, cate_cd, content, caffeine,
 FROM drink
 {$where}
 SQL;
-        echo $sql;
+//        echo $sql;
         $query = $this->db->query($sql);
         return $query->result_array();
     }
