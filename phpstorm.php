@@ -68,6 +68,7 @@ die('This file is used for development purposes only.');
  * @property Starbucks_model     $Starbucks_model                     Starbucks_model
  * @property Member_model        $Member_model                        Member_model
  * @property Buyer_model         $Buyer_model                         Buyer_model
+ * @property Order_model         $Order_model                         Order_model
  */
 class CI_Controller {
 
