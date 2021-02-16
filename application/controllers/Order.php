@@ -11,6 +11,7 @@ class Order extends MY_Controller
 
     public function index()
     {
+    	print_r($this->input->get_post(null));
 
     }
 }
