@@ -46,9 +46,49 @@ SELECT ordnum, member_name, start, `end`, comment, regdate
 FROM buyer
 {$where}
 SQL;
-        echo $sql;
+//        echo $sql;
         $query = $this->db->query($sql);
         return $query->result_array();
+    }
+
+    /**
+     * 입력
+     * @param $param
+     * @return bool
+     */
+    public function insert($param)
+    {
+        if (empty($param['ordnum'])) {
+            return false;
+        }
+        if (empty($param['member_name'])) {
+            return false;
+        }
+        if (empty($param['start'])) {
+            return false;
+        }
+        if (empty($param['end'])) {
+            return false;
+        }
+        if (empty($param['comment'])) {
+            return false;
+        }
+
+        $escape = $this->db->escape($param);
+        $sql = <<<SQL
+INSERT INTO buyer SET 
+ordnum = {$escape['ordnum']},
+member_name = {$escape['member_name']},
+start = {$escape['start']},
+`end` = {$escape['end']},
+comment = {$escape['comment']},    
+regdate = now()     
+SQL;
+        $this->db->query($sql);
+        if ($this->db->affected_rows()) {
+            return true;
+        }
+        return false;
     }
 
 }
