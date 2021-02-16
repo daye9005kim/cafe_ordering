@@ -41,11 +41,11 @@ class MY_Controller extends CI_Controller
 		}
 
 		if (!isset($SES_USER['dept'])) {
-			$usr = $this->Member_model->select(array('name' => $SES_USER['name']));
+			$usr = $this->Member_model->select(array('name' => $user));
 			if (empty($usr)) {
 				return $this->load->view('view', array('status' => 400, 'data' => '사원 정보가 없습니다.'));
 			}
-			$this->session->set_userdata($SES_USER['name'], array('name' => $usr[0]['name'], 'pos' => $usr[0]['pos'], 'dept' => $usr[0]['dept'], 'team' => $usr[0]['team'], 'part' => $usr[0]['part']));
+			$this->session->set_userdata($user, array('name' => $usr[0]['name'], 'pos' => $usr[0]['pos'], 'dept' => $usr[0]['dept'], 'team' => $usr[0]['team'], 'part' => $usr[0]['part']));
 		}
 		$SES_USER = $this->session->userdata($user);
 
