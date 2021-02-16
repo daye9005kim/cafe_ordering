@@ -109,7 +109,7 @@ SQL;
      * 테이블 생성
      * @return bool
      */
-    private function create()
+    public function create()
     {
         $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS `drink` (
@@ -125,7 +125,7 @@ PRIMARY KEY (`product_cd`),
 INDEX `product_nm` (`product_nm` ASC),
 INDEX `cate_cd` (`cate_cd` ASC),
 INDEX `cate_nm` (`cate_nm` ASC)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
         if ($this->db->simple_query($sql)) {
             return true;

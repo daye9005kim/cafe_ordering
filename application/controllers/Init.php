@@ -12,6 +12,9 @@ class Init extends MY_Controller
     public function index()
     {
 
+        $this->Order_model->create();
+        $this->Buyer_model->create();
+
         $drink = $this->Starbucks_model->fetch();
         $member = $this->Member_model->fetch();
         return $this->load->view('json', array('status' => 200, 'data' => array('member' => $member, 'drink' => $drink)));

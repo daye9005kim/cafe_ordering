@@ -124,4 +124,33 @@ SQL;
         return false;
     }
 
+    /**
+     * 쏘는 사람 테이블
+     * @return bool
+     */
+    public function create()
+    {
+
+        $sql = <<<SQL
+CREATE TABLE IF NOT EXISTS `order` (
+   `num` int(10) unsigned NOT NULL AUTO_INCREMENT,
+   `ordnum` char(13) NOT NULL,
+   `status` char(1) DEFAULT '1' COMMENT '1 : 대기, 2 : 완료, 3 : 주문',
+   `member_name` varchar(50) DEFAULT NULL,
+   `product_cd` varchar(20) DEFAULT NULL,
+   `product_cnt` tinyint(4) DEFAULT '0',
+   `comment` text,
+   `regdate` datetime DEFAULT NULL,
+   PRIMARY KEY (`num`),
+   KEY `product_cd` (`product_cd`),
+   KEY `ordnum` (`ordnum`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL;
+
+        if ($this->db->simple_query($sql)) {
+            return true;
+        }
+        return false;
+    }
+
 }

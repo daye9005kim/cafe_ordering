@@ -91,4 +91,29 @@ SQL;
         return false;
     }
 
+    /**
+     * 쏘는 사람 테이블
+     * @return bool
+     */
+    public function create()
+    {
+
+        $sql = <<<SQL
+CREATE TABLE IF NOT EXISTS `buyer` (
+   `ordnum` char(13) NOT NULL,
+   `member_name` varchar(50) NOT NULL,
+   `start` datetime NOT NULL,
+   `end` datetime NOT NULL,
+   `comment` text NOT NULL,
+   `regdate` datetime NOT NULL,
+   PRIMARY KEY (`ordnum`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL;
+
+        if ($this->db->simple_query($sql)) {
+            return true;
+        }
+        return false;
+    }
+
 }

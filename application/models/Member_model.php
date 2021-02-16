@@ -87,7 +87,7 @@ SQL;
      * 테이블 생성
      * @return bool
      */
-    private function create()
+    public function create()
     {
         $sql = <<<SQL
 CREATE TABLE `member` (
@@ -99,7 +99,7 @@ CREATE TABLE `member` (
   PRIMARY KEY (`name`),
   INDEX `dept` (`dept` ASC),
   INDEX `team` (`team` ASC)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
         if ($this->db->simple_query($sql)) {
             return true;
