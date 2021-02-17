@@ -19,7 +19,7 @@ class Member_model extends CI_Model
      * @param $param
      * @return array()
      */
-    public function select($param)
+    public function select($param = array())
     {
 
         $escape = $this->db->escape($param);
