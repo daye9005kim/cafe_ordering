@@ -3,8 +3,8 @@ include_once APPPATH . 'views/_common/header.php';
 //print_r($data);
 ?>
 	<script>
+		let MEMBERS = JSON.parse('<?= json_encode($data['member'])?>');
 		$(function () {
-			let MEMBERS = JSON.parse('<?= json_encode($data['member'])?>');
 			$("#name").autocomplete({
 				source: MEMBERS,
 				select: function (event, ui) {
@@ -44,6 +44,11 @@ include_once APPPATH . 'views/_common/header.php';
 					let name = $("#name").val();
 					if (name === '') {
 						return alert('이름을 입력해주세요.');
+					}
+					console.log(jQuery.inArray(name, MEMBERS));
+					return;
+					if (!jQuery.inArray(name, MEMBERS)) {
+						return alert('제이슨그룹 사원이 아닙니다.');
 					}
 					loginok(name);
 				}

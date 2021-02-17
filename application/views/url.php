@@ -13,7 +13,7 @@ if (!isset($data)) {
 header('Refresh:0;url=' . $url);
 echo <<<HTML
 <script type="text/javascript">
-alert("{$data}");
+//alert("{$data}");
 </script>
 HTML;
 exit;

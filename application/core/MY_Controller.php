@@ -39,7 +39,7 @@ class MY_Controller extends CI_Controller
 //		var_dump(get_cookie('ci_session'));
 		$user = $this->input->get_post('user');
 		if (empty($user)) {
-			return $this->load->view('view', array('status' => 400, 'data' => '당신의 이름은 무엇입니까?'));
+			return $this->load->view('view', array('status' => 308, 'url' => '/member/login','data' => '로그인 해주세요.'));
 		}
 
 		$SES_USER = $this->session->userdata($user);
@@ -48,16 +48,16 @@ class MY_Controller extends CI_Controller
 		}
 
 		if (!isset($SES_USER['dept'])) {
-			return $this->load->view('view', array('status' => 400, 'data' => '로그인 해주세요.'));
+			return $this->load->view('view', array('status' => 308, 'url' => '/member/login','data' => '로그인 해주세요.'));
 
 		}
 		$SES_USER = $this->session->userdata($user);
 
 		$_POST['name'] = $SES_USER['name'];
-		$_POST['pos'] = $SES_USER['pos'];
-		$_POST['dept'] = $SES_USER['dept'];
-		$_POST['team'] = $SES_USER['team'];
-		$_POST['part'] = $SES_USER['part'];
+		$_POST['pos'] = isset($SES_USER['pos']) ? $SES_USER['pos'] : '';
+		$_POST['dept'] = isset($SES_USER['dept']) ? $SES_USER['dept'] : '';
+		$_POST['team'] = isset($SES_USER['team']) ? $SES_USER['team'] : '';
+		$_POST['part'] = isset($SES_USER['part']) ? $SES_USER['part'] : '';
 
 		return true;
     }

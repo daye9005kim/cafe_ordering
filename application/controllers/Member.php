@@ -41,7 +41,6 @@ class Member extends MY_Controller
 		}
 
 		print_r($this->session->userdata($name));
-		die();
 		return $this->load->view('json', array('status' => 200, 'data' => array('msg' => '로그인성공')));
     }
 
