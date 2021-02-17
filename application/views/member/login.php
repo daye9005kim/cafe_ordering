@@ -27,8 +27,11 @@ include_once APPPATH . 'views/_common/header.php';
 				dataType: 'json',
 				url: '/member/login_ok',
 				data: {
-					'name': name
+					'user': name
 				},
+				// beforeSend: function(xhr) {
+				// 	xhr.setRequestHeader("user", name);
+				// }
 				success: function (request) {
 					alert(request.msg);
 				},
@@ -45,9 +48,7 @@ include_once APPPATH . 'views/_common/header.php';
 					if (name === '') {
 						return alert('이름을 입력해주세요.');
 					}
-					console.log(jQuery.inArray(name, MEMBERS));
-					return;
-					if (!jQuery.inArray(name, MEMBERS)) {
+					if (jQuery.inArray(name, MEMBERS) < 0) {
 						return alert('제이슨그룹 사원이 아닙니다.');
 					}
 					loginok(name);
@@ -59,6 +60,9 @@ include_once APPPATH . 'views/_common/header.php';
 				let name = $("#name").val();
 				if (name === '') {
 					return alert('이름을 입력해주세요.');
+				}
+				if (jQuery.inArray(name, MEMBERS) < 0) {
+					return alert('제이슨그룹 사원이 아닙니다.');
 				}
 				loginok(name);
 			});

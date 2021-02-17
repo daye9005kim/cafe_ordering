@@ -40,7 +40,8 @@ class Member extends MY_Controller
 			$this->session->set_userdata($name, array('name' => $usr[0]['name'], 'pos' => $usr[0]['pos'], 'dept' => $usr[0]['dept'], 'team' => $usr[0]['team'], 'part' => $usr[0]['part']));
 		}
 
-		print_r($this->session->userdata($name));
+//		print_r($this->session->userdata($name));
+//		die();
 		return $this->load->view('json', array('status' => 200, 'data' => array('msg' => '로그인성공')));
     }
 

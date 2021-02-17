@@ -30,14 +30,15 @@ class MY_Controller extends CI_Controller
 		// $this->session->unset_userdata('');
 //		$this->session->sess_destroy(); die();
 
-
 		if (!empty($this->uri->segments) && in_array($this->uri->segments[1] . '/' . $this->uri->segments[2], array('member/login', 'member/logout'))) {
 			//인증 절차 패스
 			return true;
 		}
 		$this->load->helper('cookie');
 //		var_dump(get_cookie('ci_session'));
-		$user = $this->input->get_post('user');
+		$user = $this->input->post('user');
+		var_dump($user); die();
+
 		if (empty($user)) {
 			return $this->load->view('view', array('status' => 308, 'url' => '/member/login','data' => '로그인 해주세요.'));
 		}
@@ -47,10 +48,6 @@ class MY_Controller extends CI_Controller
 			$this->session->set_userdata($user, array('part' => '개발팀', 'name' => $user));
 		}
 
-		if (!isset($SES_USER['dept'])) {
-			return $this->load->view('view', array('status' => 308, 'url' => '/member/login','data' => '로그인 해주세요.'));
-
-		}
 		$SES_USER = $this->session->userdata($user);
 
 		$_POST['name'] = $SES_USER['name'];
