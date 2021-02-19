@@ -21,7 +21,6 @@ include_once APPPATH . 'views/_common/header.php';
 		});
 
 		var loginok = function loginok(name = '') {
-			alert(name);
 			$.ajax({
 				type: 'post',
 				dataType: 'json',
@@ -29,11 +28,12 @@ include_once APPPATH . 'views/_common/header.php';
 				data: {
 					'user': name
 				},
-				// beforeSend: function(xhr) {
-				// 	xhr.setRequestHeader("user", name);
-				// }
 				success: function (request) {
-					alert(request.msg);
+					if (request.name === name) {
+						window.location.href = "/order";
+					} else {
+						alert('정보가 없습니다. 관리자에게 문의 바랍니다.');
+					}
 				},
 				error: function (request, status, error) {
 					console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -42,27 +42,31 @@ include_once APPPATH . 'views/_common/header.php';
 		}
 
 		$(document).ready(function () {
+			$("#name").focus();
 			$(".enter").keypress(function ( event ) {
+				let name = $("#name").val();
 				if (event.which == 13) {
-					let name = $("#name").val();
 					if (name === '') {
-						return alert('이름을 입력해주세요.');
+						alert('이름을 입력해주세요.');
+						return $("#name").focus();
 					}
 					if (jQuery.inArray(name, MEMBERS) < 0) {
-						return alert('제이슨그룹 사원이 아닙니다.');
+						alert('제이슨그룹 사원이 아닙니다.');
+						return $("#name").focus();
 					}
 					loginok(name);
 				}
-
 			});
 
 			$("#order").click(function () {
 				let name = $("#name").val();
 				if (name === '') {
-					return alert('이름을 입력해주세요.');
+					alert('이름을 입력해주세요.');
+					return $("#name").focus();
 				}
 				if (jQuery.inArray(name, MEMBERS) < 0) {
-					return alert('제이슨그룹 사원이 아닙니다.');
+					alert('제이슨그룹 사원이 아닙니다.');
+					return $("#name").focus();
 				}
 				loginok(name);
 			});
