@@ -18,6 +18,12 @@ class Order extends MY_Controller
 			return $this->load->view('view', array('status' => 308, 'url' => '/member/login', 'data' => '로그인 해주세요.'));
 		}
 
+		$buyer = $this->Buyer_model->select(array('now' => true));
+
+		if (empty($buyer)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다.'));
+		}
+
     	$menu = $this->Starbucks_model->select(array());
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
@@ -40,12 +46,27 @@ class Order extends MY_Controller
 
 	}
 
+	public function get() {
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+		$ordnum = $this->input->get('ordnum');
+
+		if (empty($SES_USER)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
+		}
+
+		$order = $this->Order_model->select(array('ordnum' => $ordnum, 'member_name' => $SES_USER['name']));
+
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order)));
+	}
+
 	public function set()
 	{
 		$code = $this->input->post('menu_code');
 		$size = $this->input->post('size');
 		$cnt = $this->input->post('cnt');
 		$comment = $this->input->post('comment');
+		$ordnum = $this->input->post('ordnum');
 
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -63,7 +84,7 @@ class Order extends MY_Controller
 			return $this->load->view('json', array('status' => 400, 'data' => '일치하는 메뉴가 없습니다.'));
 		}
 
-		$buyer = $this->Buyer_model->select(array('member_name' => '김민철', 'now' => true));
+		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum, 'now' => true));
 
 		if (empty($buyer)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다.'));
@@ -76,7 +97,7 @@ class Order extends MY_Controller
 			'product_cd' => $code,
 			'product_size' => empty($size) ? 'tall' : $size,
 			'product_cnt' => empty($cnt) ? 1 : $cnt,
-			'comment' => $comment,
+			'comment' => '사이즈: ' . $size. '대체주문: ' . $comment
 		);
 
 		if ($this->Order_model->insert($param)) {
@@ -86,6 +107,12 @@ class Order extends MY_Controller
 	}
 
 	public function start() {
+		$buyer = $this->Buyer_model->select(array('now' => true));
+
+		if (count($buyer) > 1) {
+			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
+		}
+
     	$this->Buyer_model->insert(array(
     		'ordnum' => uniqid(),
     		'member_name' => '김민철',

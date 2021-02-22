@@ -71,9 +71,11 @@ class Order_model extends CI_Model
         }
 
         $sql = <<<SQL
-SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, product_cd, product_cnt, o.comment, o.regdate 
+SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, o.product_cd, s.product_nm, o.product_cnt, o.comment, o.regdate 
 FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
+JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
+ORDER BY o.regdate
 SQL;
         //echo $sql;
         $query = $this->db->query($sql);

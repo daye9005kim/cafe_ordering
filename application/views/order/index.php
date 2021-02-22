@@ -192,6 +192,10 @@ HTML;
 				window.location.href = "/member/logout";
 			});
 
+			$("#myorder").click(function () {
+				window.location.href = "/order/get?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
+			});
+
 			$("#order").click(function () {
 				var menu_code = $("#code").val();
 				var menu_nm = $("#menu_nm").val();
@@ -223,6 +227,7 @@ HTML;
 						'size': size,
 						'cnt': cnt,
 						'comment': comment,
+						'ordnum' : '<?= $data['buyer'][0]['ordnum'] ?>'
 					},
 					success: function (request) {
 						console.log(request);
@@ -272,6 +277,7 @@ HTML;
 		</div>
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
+			<button id="myorder" class="btn btn-warning">내 주문 보기</button>
 		</div>
 	</div>
 	<br>
