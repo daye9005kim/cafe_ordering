@@ -98,7 +98,7 @@ class Order extends MY_Controller
 			}
 			$arr[$item['product_nm']][$item['product_size']] = $arr[$item['product_nm']][$item['product_size']] + $cnt;
 		}
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total)));
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum)));
 	}
 
 	/**

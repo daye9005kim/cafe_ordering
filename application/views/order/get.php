@@ -11,14 +11,8 @@ foreach	($data['order'] as $val) {
 HTML;
 	}
 ?>
-
-<script>
-
-</script>
-
 <body>
 <ul>
 	<?=$list?>
-
 </ul>
 </body>

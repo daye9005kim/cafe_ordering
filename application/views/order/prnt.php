@@ -19,6 +19,7 @@ HTML;
 }
 ?>
 <body>
+<h4 style="text-align: center">주문번호 <?= $data['ordnum'] ?></h4>
 <table class="table table-bordered" style="width: 80%; margin: auto; margin-top: 20px;">
 	<thead>
 	<tr>

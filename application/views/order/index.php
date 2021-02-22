@@ -10,9 +10,6 @@ $order = 0;
 if (!empty($data['order'])) {
 	$order = 1;
 }
-echo "<xmp>";
-print_r($data['order']);
-echo "</xmp>";
 ?>
 	<style>
 		.custom-combobox-toggle {
@@ -205,14 +202,17 @@ echo "</xmp>";
 				window.location.href = "/member/logout";
 			});
 
-			$("#myorder").click(function () {
-				window.location.href = "/order/get?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
-			});
+			//$("#myorder").click(function () {
+			//	window.location.href = "/order/get?ordnum=" + '<?//=  $data['buyer'][0]['ordnum'] ?>//';
+			//});
 
 			$("#print").click(function () {
 				window.location.href = "/order/prnt?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
 			});
 
+			$('#myModal').on('shown.bs.modal', function () {
+				$('#myInput').focus()
+			})
 
 			$("#order").click(function () {
 				var menu_code = $("#code").val();
@@ -249,6 +249,8 @@ echo "</xmp>";
 					},
 					success: function (request) {
 						console.log(request);
+						alert(request.msg);
+						$("#order_result").text(request.info)
 					},
 					error: function (request, status, error) {
 						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -267,6 +269,10 @@ echo "</xmp>";
 		<h5><?= $data['buyer'][0]['member_name'] . '님이 쏘십니다. "' . $data['buyer'][0]['comment'] . '"' ?></h5>
 		<h5><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다. 메뉴를 선택해 주세요.' ?></h5>
 	</div>
+	<br>
+	<div class="image"><img
+				src="https://www.istarbucks.co.kr/upload/store/skuimg/2015/07/[106509]_20150724164325806.jpg"
+				id="thumbnail"><span id="content"></span></div>
 	<div class="form-inline">
 		<div class="ui-widget form-group">
 			<input type="hidden" id="code">
@@ -296,14 +302,29 @@ echo "</xmp>";
 		</div>
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
-			<button id="myorder" class="btn btn-warning">내 주문 보기</button>
+			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal">내 주문 보기</button>
 			<button id="print" class="btn btn-default">인쇄</button>
 		</div>
 	</div>
-	<br>
-	<div class="image"><img
-				src="https://www.istarbucks.co.kr/upload/store/skuimg/2015/07/[106509]_20150724164325806.jpg"
-				id="thumbnail"><span id="content"></span></div>
+	Copy
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	</body>
 
 <?php
