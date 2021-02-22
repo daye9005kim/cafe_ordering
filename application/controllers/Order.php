@@ -32,6 +32,10 @@ class Order extends MY_Controller
 
     }
 
+	/**
+	 * 메뉴 가져오기
+	 * @return object|string
+	 */
 	public function menu()
 	{
 		$code = $this->input->post('code');
@@ -47,6 +51,10 @@ class Order extends MY_Controller
 
 	}
 
+	/**
+	 * 내 주문 보기
+	 * @return object|string
+	 */
 	public function get() {
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -61,6 +69,11 @@ class Order extends MY_Controller
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order)));
 	}
 
+
+	/**
+	 * 최종 주문서
+	 * @return object|string
+	 */
 	public function prnt() {
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -71,10 +84,27 @@ class Order extends MY_Controller
 		}
 
 		$order = $this->Order_model->select(array('ordnum' => $ordnum));
-
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order)));
+		$arr = array();
+		$total = 0;
+		foreach ($order as $item) {
+			$total += $item['product_cnt'];
+			$cnt = $item['product_cnt'];
+			if (!isset($arr[$item['product_nm']][$item['product_size']])) {
+				$arr[$item['product_nm']] = array(
+					'tall'=> 0,
+					'grande'=> 0,
+					'venti'=> 0
+				);
+			}
+			$arr[$item['product_nm']][$item['product_size']] = $arr[$item['product_nm']][$item['product_size']] + $cnt;
+		}
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total)));
 	}
 
+	/**
+	 * 주문하기
+	 * @return object|string
+	 */
 	public function set()
 	{
 		$code = $this->input->post('menu_code');
@@ -111,7 +141,7 @@ class Order extends MY_Controller
 			'member_name' => $SES_USER['name'],
 			'product_cd' => $code,
 			'product_size' => empty($size) ? 'tall' : $size,
-			'product_cnt' => empty($cnt) ? 1 : $cnt,
+			'product_cnt' => empty($cnt) ? 1 : intval($cnt),
 			'comment' => $comment
 		);
 
@@ -129,6 +159,11 @@ class Order extends MY_Controller
 		return $this->load->view('json', array('status' => 400, 'data' => '주문 실패'));
 	}
 
+
+	/**
+	 * 주문 시작
+	 * @return object|string
+	 */
 	public function start() {
 		$buyer = $this->Buyer_model->select(array('now' => true));
 

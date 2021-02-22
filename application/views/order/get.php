@@ -6,13 +6,10 @@ echo "</xmp>";
 
 $list = '';
 foreach	($data['order'] as $val) {
-
 	$list .= <<<HTML
 <li>{$val['product_nm']} {$val['product_size']} {$val['product_cnt']}</li>\n
 HTML;
 	}
-
-
 ?>
 
 <script>
