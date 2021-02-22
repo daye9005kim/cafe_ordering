@@ -26,8 +26,9 @@ class Order extends MY_Controller
 
     	$menu = $this->Starbucks_model->select(array());
 		$buyer = $this->Buyer_model->select(array('now' => true));
+		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('user' => $SES_USER, 'menu' => $menu, 'buyer' => $buyer)));
+		return $this->load->view('view', array('status' => 200, 'data' => array('user' => $SES_USER, 'menu' => $menu, 'buyer' => $buyer, 'order' => isset($order[0]) ? $order[0] : array())));
 
     }
 
@@ -56,6 +57,20 @@ class Order extends MY_Controller
 		}
 
 		$order = $this->Order_model->select(array('ordnum' => $ordnum, 'member_name' => $SES_USER['name']));
+
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order)));
+	}
+
+	public function prnt() {
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+		$ordnum = $this->input->get('ordnum');
+
+		if (empty($SES_USER)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
+		}
+
+		$order = $this->Order_model->select(array('ordnum' => $ordnum));
 
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order)));
 	}
@@ -97,19 +112,27 @@ class Order extends MY_Controller
 			'product_cd' => $code,
 			'product_size' => empty($size) ? 'tall' : $size,
 			'product_cnt' => empty($cnt) ? 1 : $cnt,
-			'comment' => '사이즈: ' . $size. '대체주문: ' . $comment
+			'comment' => $comment
 		);
 
-		if ($this->Order_model->insert($param)) {
-			return $this->load->view('json', array('status' => 200, 'data' => array('info' => $param, 'msg' => '주문 성공')));
+		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
+		if (count($order) > 0) {
+			if ($this->Order_model->update($param)) {
+				return $this->load->view('json', array('status' => 200, 'data' => array('info' => $param, 'msg' => '주문 성공')));
+			}
+		} else {
+			if ($this->Order_model->insert($param)) {
+				return $this->load->view('json', array('status' => 200, 'data' => array('info' => $param, 'msg' => '주문 성공')));
+			}
 		}
+
 		return $this->load->view('json', array('status' => 400, 'data' => '주문 실패'));
 	}
 
 	public function start() {
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
-		if (count($buyer) > 1) {
+		if (count($buyer) > 0) {
 			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
 		}
 

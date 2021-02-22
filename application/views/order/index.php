@@ -6,7 +6,13 @@ foreach ($data['menu'] as $key => $val) {
 <option value="{$val['product_cd']}">{$val['product_nm']}</option>\n
 HTML;
 }
-
+$order = 0;
+if (!empty($data['order'])) {
+	$order = 1;
+}
+echo "<xmp>";
+print_r($data['order']);
+echo "</xmp>";
 ?>
 	<style>
 		.custom-combobox-toggle {
@@ -188,6 +194,13 @@ HTML;
 		});
 
 		$(document).ready(function () {
+			$("#menu_nm").val('<?=isset($data['order']['product_nm']) ? $data['order']['product_nm'] : ''?>');
+			$("#code").val('<?=isset($data['order']['product_cd']) ? $data['order']['product_cd'] : ''?>');
+			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : 'tall'?>');
+			$("#cnt").val('<?=isset($data['order']['product_cnt']) ? $data['order']['product_cnt'] : '1'?>');
+			$("#comment").val('<?=isset($data['order']['comment']) ? $data['order']['comment'] : ''?>');
+
+
 			$("#logout").click(function () {
 				window.location.href = "/member/logout";
 			});
@@ -195,6 +208,11 @@ HTML;
 			$("#myorder").click(function () {
 				window.location.href = "/order/get?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
 			});
+
+			$("#print").click(function () {
+				window.location.href = "/order/prnt?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
+			});
+
 
 			$("#order").click(function () {
 				var menu_code = $("#code").val();
@@ -227,7 +245,7 @@ HTML;
 						'size': size,
 						'cnt': cnt,
 						'comment': comment,
-						'ordnum' : '<?= $data['buyer'][0]['ordnum'] ?>'
+						'ordnum': '<?= $data['buyer'][0]['ordnum'] ?>'
 					},
 					success: function (request) {
 						console.log(request);
@@ -241,11 +259,12 @@ HTML;
 		});
 
 	</script>
-	</head>
-
+	<body>
 	<div class="user_info">
-		<div><button type="button" class="btn btn-success" id="logout">logout</button></div>
-		<h5><?= $data['buyer'][0]['member_name'] . '님이 쏘십니다. "' . $data['buyer'][0]['comment'] . '"'?></h5>
+		<div>
+			<button type="button" class="btn btn-success" id="logout">logout</button>
+		</div>
+		<h5><?= $data['buyer'][0]['member_name'] . '님이 쏘십니다. "' . $data['buyer'][0]['comment'] . '"' ?></h5>
 		<h5><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다. 메뉴를 선택해 주세요.' ?></h5>
 	</div>
 	<div class="form-inline">
@@ -278,6 +297,7 @@ HTML;
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
 			<button id="myorder" class="btn btn-warning">내 주문 보기</button>
+			<button id="print" class="btn btn-default">인쇄</button>
 		</div>
 	</div>
 	<br>

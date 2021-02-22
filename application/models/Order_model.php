@@ -71,17 +71,74 @@ class Order_model extends CI_Model
         }
 
         $sql = <<<SQL
-SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, o.product_cd, s.product_nm, o.product_cnt, o.comment, o.regdate 
+SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, o.product_cd, s.product_nm, o.product_size, o.product_cnt, o.comment, o.regdate 
 FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
 JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
-ORDER BY o.regdate
+ORDER BY o.regdate DESC
 SQL;
         //echo $sql;
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
+	/**
+	 * 수정
+	 * @param $param
+	 * @return bool
+	 */
+	public function update($param)
+	{
+		if (empty($param['ordnum'])) {
+			return false;
+		}
+		if (empty($param['member_name'])) {
+			return false;
+		}
+		if (empty($param['product_cd'])) {
+			return false;
+		}
+		if (empty($param['product_cnt'])) {
+			return false;
+		}
+		if (empty($param['product_size'])) {
+			return false;
+		}
+		if (empty($param['comment'])) {
+			$param['comment'] = '';
+		}
+
+		$escape = $this->db->escape($param);
+
+		$arr = array();
+
+		$arr[] = sprintf('ordnum = %s', $escape['ordnum']);
+		$arr[] = sprintf('member_name = %s', $escape['member_name']);
+
+		$where = '';
+		if (count($arr) > 0) {
+			$where = 'WHERE ' . join(' AND ', $arr);
+		} else {
+			return false;
+		}
+
+
+		$sql = <<<SQL
+UPDATE `order` SET 
+status = {$escape['status']}, 
+product_cd = {$escape['product_cd']}, 
+product_cnt = {$escape['product_cnt']}, 
+product_size = {$escape['product_size']}, 
+comment = {$escape['comment']},    
+regdate = now()
+{$where}
+SQL;
+		$this->db->query($sql);
+		if ($this->db->affected_rows()) {
+			return true;
+		}
+		return false;
+	}
     /**
      * 입력
      * @param $param
@@ -104,6 +161,9 @@ SQL;
         if (empty($param['product_cnt'])) {
             return false;
         }
+        if (empty($param['product_size'])) {
+            return false;
+        }
         if (empty($param['comment'])) {
             $param['comment'] = '';
         }
@@ -116,6 +176,7 @@ status = {$escape['status']},
 member_name = {$escape['member_name']}, 
 product_cd = {$escape['product_cd']}, 
 product_cnt = {$escape['product_cnt']}, 
+product_size = {$escape['product_size']}, 
 comment = {$escape['comment']},    
 regdate = now()     
 SQL;
