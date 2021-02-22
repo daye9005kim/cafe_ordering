@@ -1,6 +1,5 @@
 <?php
 include_once APPPATH . 'views/_common/header.php';
-
 $option = '';
 foreach ($data['menu'] as $key => $val) {
 	$option .= <<<HTML
@@ -163,13 +162,13 @@ HTML;
 
 					// Found a match, nothing to do
 					if (valid) {
-						return;
+						return $("#code").val("");
 					}
 
 					// Remove invalid value
 					this.input
 							.val("")
-							.attr("title", value + " didn't match any item")
+							.attr("title", value + " 일치하는 메뉴가 없습니다.")
 							.tooltip("open");
 					this.element.val("");
 					this._delay(function () {
@@ -198,12 +197,40 @@ HTML;
 				var menu_nm = $("#menu_nm").val();
 				var size = $("#size").val();
 				var cnt = $("#cnt").val();
+				var comment = $("#comment").val();
 
 				if (menu_nm === '' && menu_code === '') {
 					return alert('메뉴를 입력해 주세요.');
 				}
 
+				if (size === '') {
+					return alert('사이즈를 입력해 주세요.');
+				}
+
+				if (cnt === '') {
+					return alert('수량을 입력해 주세요.');
+				}
+
 				alert(menu_code + '/' + menu_nm + '/' + size + '/' + cnt);
+
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '/order/set',
+					data: {
+						'menu_code': menu_code,
+						'menu_nm': menu_nm,
+						'size': size,
+						'cnt': cnt,
+						'comment': comment,
+					},
+					success: function (request) {
+						console.log(request);
+					},
+					error: function (request, status, error) {
+						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
+					}
+				});
 			});
 
 		});
@@ -212,10 +239,11 @@ HTML;
 	</head>
 
 	<div class="user_info">
+		<div><button type="button" class="btn btn-success" id="logout">logout</button></div>
+		<h5><?= $data['buyer'][0]['member_name'] . '님이 쏘십니다. "' . $data['buyer'][0]['comment'] . '"'?></h5>
 		<h5><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다. 메뉴를 선택해 주세요.' ?></h5>
-		<div class="form-group"><button type="button" class="btn btn-success" id="logout">logout</button></div>
 	</div>
-	<form class="form-inline">
+	<div class="form-inline">
 		<div class="ui-widget form-group">
 			<input type="hidden" id="code">
 			<select id="combobox">
@@ -240,12 +268,12 @@ HTML;
 			</select>
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="품절인 경우 대체 주문할 음료 입력">
+			<input type="text" class="form-control" id="comment" placeholder="품절인 경우 대체 주문할 음료 입력">
 		</div>
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
 		</div>
-	</form>
+	</div>
 	<br>
 	<div class="image"><img
 				src="https://www.istarbucks.co.kr/upload/store/skuimg/2015/07/[106509]_20150724164325806.jpg"
