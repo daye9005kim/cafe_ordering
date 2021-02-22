@@ -52,6 +52,8 @@ class Member extends MY_Controller
 
 	public function logout()
 	{
-
+		$SES_KEY = $this->input->post('KEY');
+		$this->session->unset_userdata($SES_KEY);
+		echo 'logout';
 	}
 }
