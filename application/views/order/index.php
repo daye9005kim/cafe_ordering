@@ -212,8 +212,9 @@ if (!empty($data['order'])) {
 
 			$('#myModal').on('shown.bs.modal', function () {
 				var ordnum = '<?= $data['buyer'][0]['ordnum'] ?>';
-				var today
+				var ord_date;
 				var bold;
+				var button;
 
 				$.ajax({
 					type: 'post',
@@ -227,24 +228,34 @@ if (!empty($data['order'])) {
 						var list = [];
 						for(var i in request.order) {
 							console.log(request.order[i]);
-							today = '';
+							ord_date = request.order[i].regdate.split(' ')[0];
 							bold = 'normal';
+							button = $('<button />', {
+								"class": "btn btn-success btn-xs",
+								"data-code": request.order[i].product_cd,
+								"data-name": request.order[i].product_nm,
+								"data-size": request.order[i].product_size,
+								"data-cnt": request.order[i].product_cnt,
+							}).text('재주문');
+
 							if (ordnum === request.order[i].ordnum) {
-								today = ' 오늘의 주문';
-								bold = 'bold'
+								ord_date = '오늘의 주문';
+								bold = 'bold';
+								button = '';
 							}
 							list.push(
-									$('<div />', {
+									$('<span />', {
 										"class": "clear",
 										"style": "font-weight: " + bold,
 										"data-ordnum": request.order[i].ordnum,
-										"data-code": request.order[i].product_cd
 									}).text(
-											request.order[i].regdate.split(' ')[0] + ' ' +
+											ord_date + ' ' +
 											request.order[i].product_nm + ' ' +
 											request.order[i].product_size + ' ' +
-											request.order[i].product_cnt + '개' + today
-									)
+											request.order[i].product_cnt + '개'
+									),
+									button,
+									$('<br>')
 							);
 						}
 						$('.modal-body').prepend(list);
