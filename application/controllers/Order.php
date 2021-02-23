@@ -21,14 +21,20 @@ class Order extends MY_Controller
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
 		if (empty($buyer)) {
-			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다.'));
+			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다. 관리자에게 문의하세요.'));
 		}
 
     	$menu = $this->Starbucks_model->select(array());
 		$buyer = $this->Buyer_model->select(array('now' => true));
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('user' => $SES_USER, 'menu' => $menu, 'buyer' => $buyer, 'order' => isset($order[0]) ? $order[0] : array())));
+		$return = array(
+			'user' => $SES_USER,
+			'menu' => $menu,
+			'buyer' => $buyer,
+			'order' => isset($order[0]) ? $order[0] : array()
+		);
+		return $this->load->view('view', array('status' => 200, 'data' => $return));
 
     }
 

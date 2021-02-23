@@ -11,7 +11,8 @@ class Member extends MY_Controller
 
 	public function index()
 	{
-
+		$this->load->helper('url');
+		redirect('/member/login');
 	}
 
 	public function login()
@@ -21,7 +22,12 @@ class Member extends MY_Controller
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
 		if (empty($buyer)) {
-			echo '구매자가 없습니다.';
+			$admin = $this->config->item('admin');
+			if (in_array($SES_USER['name'], $admin)) {
+				echo '구매자가 없습니다. 관리자에게 문의하세요.';
+				die ('http://starbucks-qmtuw.run.goorm.io/order/start');
+			}
+			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
 		}
 		echo sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
 		echo sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));

@@ -213,8 +213,10 @@ if (!empty($data['order'])) {
 			$('#myModal').on('shown.bs.modal', function () {
 				var ordnum = '<?= $data['buyer'][0]['ordnum'] ?>';
 				var ord_date;
-				var bold;
+				var style;
 				var button;
+
+				$('.modal-body').html('');
 
 				$.ajax({
 					type: 'post',
@@ -224,45 +226,50 @@ if (!empty($data['order'])) {
 						'ordnum': ordnum
 					},
 					success: function (request) {
-						$('.clear').text('');
 						var list = [];
+						var table = $('<table />', {
+							"class" : "table table-bordered"
+						}).prepend($('<thead/>').prepend(
+								$('<tr/>').prepend(
+										$('<th/>').text('주문일'),
+										$('<th/>').text('메뉴'),
+										$('<th/>').text('사이즈'),
+										$('<th/>').text('수량'),
+										$('<th/>').text('담기')
+								)
+						), $('<tbody/>'));
+
+
 						for(var i in request.order) {
-							console.log(request.order[i]);
 							ord_date = request.order[i].regdate.split(' ')[0];
-							bold = 'normal';
-							button = $('<button />', {
+							style = '';
+							button = $('<td/>').prepend($('<button />', {
 								"class": "btn btn-success btn-xs",
 								"data-code": request.order[i].product_cd,
 								"data-name": request.order[i].product_nm,
 								"data-size": request.order[i].product_size,
 								"data-cnt": request.order[i].product_cnt,
-							}).text('재주문');
+							}).text('재주문'));
 
 							if (ordnum === request.order[i].ordnum) {
 								ord_date = '오늘의 주문';
-								bold = 'bold';
-								button = '';
+								style = 'info';
+								button = $('<td />').text('');
 							}
 							list.push(
-									$('<span />', {
-										"class": "clear",
-										"style": "font-weight: " + bold,
-										"data-ordnum": request.order[i].ordnum,
-									}).text(
-											ord_date + ' ' +
-											request.order[i].product_nm + ' ' +
-											request.order[i].product_size + ' ' +
-											request.order[i].product_cnt + '개'
-									),
-									button,
-									$('<br>')
+									$('<tr />',{"class": style}).prepend(
+									$('<td />').text(ord_date),
+									$('<td />').text(request.order[i].product_nm),
+									$('<td />').text(request.order[i].product_size),
+									$('<td />').text(request.order[i].product_cnt + '개'),
+									button)
 							);
 						}
-						$('.modal-body').prepend(list);
+						$('.modal-body').prepend(table.prepend(list));
 					},
 					error: function (request, status, error) {
 						$('#guide').append(
-								$('<div />', {"class": "clear"}).text('주문서 불러오기 실패입니다.')
+								$('<div />').text('주문서 불러오기 실패입니다.')
 						);
 						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
 					}
@@ -372,7 +379,7 @@ if (!empty($data['order'])) {
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">내 주문</h4>
+					<h4 class="modal-title" id="myModalLabel">내 주문 목록</h4>
 				</div>
 				<div class="modal-body">
 				</div>

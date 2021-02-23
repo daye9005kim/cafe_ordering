@@ -9,5 +9,5 @@ if (!isset($data)) {
 }
 
 
-echo $status;
+//echo $status;
 print_r($data);
