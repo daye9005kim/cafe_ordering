@@ -76,6 +76,7 @@ FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
 JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
 ORDER BY o.regdate DESC
+LIMIT 10
 SQL;
         //echo $sql;
         $query = $this->db->query($sql);

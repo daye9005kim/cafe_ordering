@@ -58,13 +58,13 @@ class Order extends MY_Controller
 	public function get() {
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
-		$ordnum = $this->input->get('ordnum');
+		$ordnum = $this->input->get_post('ordnum');
 
 		if (empty($SES_USER)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
 		}
 
-		$order = $this->Order_model->select(array('ordnum' => $ordnum, 'member_name' => $SES_USER['name']));
+		$order = $this->Order_model->select(array('member_name' => $SES_USER['name']));
 
 		return $this->load->view('json', array('status' => 200, 'data' => array('order' => $order)));
 	}

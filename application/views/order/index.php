@@ -211,8 +211,42 @@ if (!empty($data['order'])) {
 			});
 
 			$('#myModal').on('shown.bs.modal', function () {
-				$('.modal-body').text('ddd');
-			})
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '/order/get',
+					data: {
+						'ordnum': '<?= $data['buyer'][0]['ordnum'] ?>'
+					},
+					success: function (request) {
+						$('.clear').text('');
+						var list = [];
+						for(var i in request.order) {
+							console.log(request.order[i]);
+							list.push(
+									$('<div />', {
+										"class": "clear",
+										"data-ordnum": request.order[i].ordnum,
+										"data-code": request.order[i].product_cd
+									}).text(
+											request.order[i].regdate.split(' ')[0] + ' ' +
+											request.order[i].product_nm + ' ' +
+											request.order[i].product_size + ' ' +
+											request.order[i].product_cnt + '개'
+									)
+							);
+						}
+						$('.modal-body').prepend(list);
+					},
+					error: function (request, status, error) {
+						$('#guide').append(
+								$('<div />', {"class": "clear"}).text('주문서 불러오기 실패입니다.')
+						);
+						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
+					}
+				});
+
+			});
 
 			$("#order").click(function () {
 				var menu_code = $("#code").val();
@@ -256,7 +290,7 @@ if (!empty($data['order'])) {
 
 					},
 					error: function (request, status, error) {
-						alert(JSON.parse(request.responseText);
+						alert(JSON.parse(request.responseText));
 						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
 					}
 				});
@@ -319,9 +353,9 @@ if (!empty($data['order'])) {
 					<h4 class="modal-title" id="myModalLabel">내 주문</h4>
 				</div>
 				<div class="modal-body">
-					다시 주문하시면 주문이 수정됩니다.
 				</div>
 				<div class="modal-footer">
+					<span id="guide">다시 주문하시면 주문이 수정됩니다.</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
