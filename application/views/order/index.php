@@ -303,7 +303,7 @@ if (!empty($data['order'])) {
 					return alert('수량을 입력해 주세요.');
 				}
 
-				var str = '주문 하시겠습니까? \n' + menu_code + ' / ' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
+				var str = '주문 하시겠습니까? \n' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
 				if (!confirm(str)) {
 					return 0;
 				}
