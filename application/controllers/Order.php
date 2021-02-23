@@ -21,6 +21,11 @@ class Order extends MY_Controller
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
 		if (empty($buyer)) {
+			$admin = $this->config->item('admin');
+			if (in_array($SES_USER['name'], $admin)) {
+				return $this->load->view('view', array('status' => 308, 'url' => '/admin','data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
+			}
+
 			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다. 관리자에게 문의하세요.'));
 		}
 
@@ -192,7 +197,7 @@ class Order extends MY_Controller
     		'ordnum' => uniqid(),
     		'member_name' => '김민철',
     		'start' => date('Y-m-d H:i:s'),
-    		'end' =>  date('Y-m-d H:i:s', strtotime('1 hour')),
+    		'end' =>  date('Y-m-d H:i:s', strtotime('2 hour')),
     		'comment' => "음료 고르세요.",
 		));
 

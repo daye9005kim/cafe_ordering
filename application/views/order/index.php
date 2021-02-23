@@ -228,7 +228,7 @@ if (!empty($data['order'])) {
 					success: function (request) {
 						var list = [];
 						var table = $('<table />', {
-							"class" : "table table-bordered"
+							"class": "table table-bordered"
 						}).prepend($('<thead/>').prepend(
 								$('<tr/>').prepend(
 										$('<th/>').text('주문일'),
@@ -239,7 +239,7 @@ if (!empty($data['order'])) {
 								)
 						), $('<tbody/>'));
 
-						for(var i in request.order) {
+						for (var i in request.order) {
 							ord_date = request.order[i].regdate.split(' ')[0];
 							style = '';
 							button = $('<td/>').prepend($('<button />', {
@@ -264,12 +264,12 @@ if (!empty($data['order'])) {
 								button = $('<td />').text('');
 							}
 							list.push(
-									$('<tr />',{"class": style}).prepend(
-									$('<td />').text(ord_date),
-									$('<td />').text(request.order[i].product_nm),
-									$('<td />').text(request.order[i].product_size),
-									$('<td />').text(request.order[i].product_cnt + '개'),
-									button)
+									$('<tr />', {"class": style}).prepend(
+											$('<td />').text(ord_date),
+											$('<td />').text(request.order[i].product_nm),
+											$('<td />').text(request.order[i].product_size),
+											$('<td />').text(request.order[i].product_cnt + '개'),
+											button)
 							);
 						}
 						$('.modal-body').prepend(table.prepend(list));
@@ -378,7 +378,9 @@ if (!empty($data['order'])) {
 		</div>-->
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
-			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal">내 주문 목록</button>
+			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal">내 주문
+				목록
+			</button>
 			<button id="print" class="btn btn-default">인쇄</button>
 		</div>
 	</div>
@@ -387,7 +389,8 @@ if (!empty($data['order'])) {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+								aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="myModalLabel">내 주문 목록</h4>
 				</div>
 				<div class="modal-body">

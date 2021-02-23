@@ -24,8 +24,7 @@ class Member extends MY_Controller
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
 			if (in_array($SES_USER['name'], $admin)) {
-				echo '구매자가 없습니다. 관리자에게 문의하세요.';
-				die ('http://starbucks-qmtuw.run.goorm.io/order/start');
+				return $this->load->view('view', array('status' => 308, 'url' => '/admin','data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
 			}
 			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
 		}
