@@ -31,7 +31,7 @@ class Order extends MY_Controller
 		$return = array(
 			'user' => $SES_USER,
 			'menu' => $menu,
-			'buyer' => $buyer,
+			'buyer' => $buyer[0],
 			'order' => isset($order[0]) ? $order[0] : array()
 		);
 		return $this->load->view('view', array('status' => 200, 'data' => $return));

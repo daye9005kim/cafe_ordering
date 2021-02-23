@@ -191,6 +191,7 @@ if (!empty($data['order'])) {
 		});
 
 		$(document).ready(function () {
+			var ordnum = '<?= $data['buyer']['ordnum'] ?>';
 			$("#menu_nm").val('<?=isset($data['order']['product_nm']) ? $data['order']['product_nm'] : ''?>');
 			$("#code").val('<?=isset($data['order']['product_cd']) ? $data['order']['product_cd'] : ''?>');
 			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : 'tall'?>');
@@ -207,11 +208,10 @@ if (!empty($data['order'])) {
 			});
 
 			$("#print").click(function () {
-				window.location.href = "/order/prnt?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
+				window.location.href = "/order/prnt?ordnum=" + ordnum;
 			});
 
 			$('#myModal').on('shown.bs.modal', function () {
-				var ordnum = '<?= $data['buyer'][0]['ordnum'] ?>';
 				var ord_date;
 				var style;
 				var button;
@@ -249,11 +249,13 @@ if (!empty($data['order'])) {
 								"data-size": request.order[i].product_size,
 								"data-cnt": request.order[i].product_cnt,
 								"data-dismiss": "modal",
-							}).text('재주문').click(function () {
+							}).text('입력').click(function () {
 								$('#code').val($(this).attr('data-code'));
 								$('#menu_nm').val($(this).attr('data-name'));
 								$('#size').val($(this).attr('data-size'));
 								$('#cnt').val($(this).attr('data-cnt'));
+
+								alert('주문이 입력 되었습니다. 주문하기를 다시 눌러주세요.');
 							}));
 
 							if (ordnum === request.order[i].ordnum) {
@@ -316,7 +318,7 @@ if (!empty($data['order'])) {
 						'size': size,
 						'cnt': cnt,
 						'comment': comment,
-						'ordnum': '<?= $data['buyer'][0]['ordnum'] ?>'
+						'ordnum': ordnum
 					},
 					success: function (request) {
 						alert(request.msg);
@@ -338,13 +340,14 @@ if (!empty($data['order'])) {
 		<div>
 			<button type="button" class="btn btn-success" id="logout">logout</button>
 		</div>
-		<h5><?= $data['buyer'][0]['member_name'] . '님이 쏘십니다. "' . $data['buyer'][0]['comment'] . '"' ?></h5>
-		<h5><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다. 메뉴를 선택해 주세요.' ?></h5>
+		<h5><?= $data['buyer']['member_name'] . '님이 쏘십니다. "' . $data['buyer']['comment'] . '"' ?></h5>
+		<h4><?= '주문기한 : ' . date('Y-m-d H:i', strtotime($data['buyer']['start'])) . ' ~ ' . date('Y-m-d H:i', strtotime($data['buyer']['end'])) ?></h4>
 	</div>
 	<br>
 	<div class="image"><img
 				src="https://www.istarbucks.co.kr/upload/store/skuimg/2015/07/[106509]_20150724164325806.jpg"
 				id="thumbnail"><span id="content"></span></div>
+	<h5><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다. 메뉴를 선택해 주세요.' ?></h5>
 	<div class="form-inline">
 		<div class="ui-widget form-group">
 			<input type="hidden" id="code">
@@ -369,12 +372,13 @@ if (!empty($data['order'])) {
 				<option value="5">5개</option>
 			</select>
 		</div>
+		<!--
 		<div class="form-group">
 			<input type="text" class="form-control" id="comment" placeholder="품절인 경우 대체 주문할 음료 입력">
-		</div>
+		</div>-->
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
-			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal">내 주문 보기</button>
+			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal">내 주문 목록</button>
 			<button id="print" class="btn btn-default">인쇄</button>
 		</div>
 	</div>
