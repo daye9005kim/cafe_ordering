@@ -211,28 +211,39 @@ if (!empty($data['order'])) {
 			});
 
 			$('#myModal').on('shown.bs.modal', function () {
+				var ordnum = '<?= $data['buyer'][0]['ordnum'] ?>';
+				var today
+				var bold;
+
 				$.ajax({
 					type: 'post',
 					dataType: 'json',
 					url: '/order/get',
 					data: {
-						'ordnum': '<?= $data['buyer'][0]['ordnum'] ?>'
+						'ordnum': ordnum
 					},
 					success: function (request) {
 						$('.clear').text('');
 						var list = [];
 						for(var i in request.order) {
 							console.log(request.order[i]);
+							today = '';
+							bold = 'normal';
+							if (ordnum === request.order[i].ordnum) {
+								today = ' 오늘의 주문';
+								bold = 'bold'
+							}
 							list.push(
 									$('<div />', {
 										"class": "clear",
+										"style": "font-weight: " + bold,
 										"data-ordnum": request.order[i].ordnum,
 										"data-code": request.order[i].product_cd
 									}).text(
 											request.order[i].regdate.split(' ')[0] + ' ' +
 											request.order[i].product_nm + ' ' +
 											request.order[i].product_size + ' ' +
-											request.order[i].product_cnt + '개'
+											request.order[i].product_cnt + '개' + today
 									)
 							);
 						}
