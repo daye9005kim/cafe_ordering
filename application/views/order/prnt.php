@@ -38,3 +38,6 @@ HTML;
 	</tbody>
 </table>
 </body>
+
+<?php
+include_once APPPATH . 'views/_common/footer.php';

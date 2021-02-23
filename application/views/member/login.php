@@ -32,7 +32,7 @@ include_once APPPATH . 'views/_common/header.php';
 					if (request.name === name) {
 						window.location.href = "/order";
 					} else {
-						alert('정보가 없습니다. 관리자에게 문의 바랍니다.');
+						alert('로그아웃 하십시오.');
 					}
 				},
 				error: function (request, status, error) {
@@ -72,7 +72,6 @@ include_once APPPATH . 'views/_common/header.php';
 			});
 		})
 	</script>
-
 	<form class="form-inline" name="order" method="post">
 		<div class="ui-widget form-group">
 			<input id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">

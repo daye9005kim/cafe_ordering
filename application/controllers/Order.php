@@ -66,7 +66,7 @@ class Order extends MY_Controller
 
 		$order = $this->Order_model->select(array('ordnum' => $ordnum, 'member_name' => $SES_USER['name']));
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order)));
+		return $this->load->view('json', array('status' => 200, 'data' => array('order' => $order)));
 	}
 
 
@@ -146,17 +146,19 @@ class Order extends MY_Controller
 		);
 
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
-		if (count($order) > 0) {
-			if ($this->Order_model->update($param)) {
-				return $this->load->view('json', array('status' => 200, 'data' => array('info' => $param, 'msg' => '주문 성공')));
-			}
+
+		if (!empty($order)) {
+			$result = $this->Order_model->update($param);
 		} else {
-			if ($this->Order_model->insert($param)) {
-				return $this->load->view('json', array('status' => 200, 'data' => array('info' => $param, 'msg' => '주문 성공')));
-			}
+			$result = $this->Order_model->insert($param);
 		}
 
-		return $this->load->view('json', array('status' => 400, 'data' => '주문 실패'));
+		if (!$result) {
+			return $this->load->view('json', array('status' => 400, 'data' => '주문 실패'));
+		}
+
+		return $this->load->view('json', array('status' => 200, 'data' => array('info' => $param, 'msg' => '주문 성공')));
+
 	}
 
 
@@ -165,10 +167,19 @@ class Order extends MY_Controller
 	 * @return object|string
 	 */
 	public function start() {
-		$buyer = $this->Buyer_model->select(array('now' => true));
 
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		$admin = $this->config->item('admin');
+
+		if (!(in_array($SES_USER['name'], $admin))) {
+			return $this->load->view('view', array('status' => 400, 'data' => '당신은 주문자를 생성할 권한이 없습니다.'));
+		}
+
+		$buyer = $this->Buyer_model->select(array('now' => true));
 		if (count($buyer) > 0) {
-			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
+			return $this->load->view('view', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
 		}
 
     	$this->Buyer_model->insert(array(
@@ -178,5 +189,8 @@ class Order extends MY_Controller
     		'end' =>  date('Y-m-d H:i:s', strtotime('1 hour')),
     		'comment' => "음료 고르세요.",
 		));
+
+		return $this->load->view('view', array('status' => 200, 'data' => '주문자가 생성되었습니다.'));
 	}
+
 }

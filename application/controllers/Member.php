@@ -16,6 +16,20 @@ class Member extends MY_Controller
 
 	public function login()
 	{
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		$buyer = $this->Buyer_model->select(array('now' => true));
+		if (empty($buyer)) {
+			echo '구매자가 없습니다.';
+		}
+		echo sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
+		echo sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
+
+		if (!empty($SES_USER['dept'])) {
+			return $this->load->view('view', array('status' => 308, 'url' => '/order', 'data' => ''));
+		}
+
 		$members = $this->Member_model->select();
 		$list = array();
 		foreach ($members as $value) {
@@ -54,6 +68,6 @@ class Member extends MY_Controller
 	{
 		$SES_KEY = $this->input->post('KEY');
 		$this->session->unset_userdata($SES_KEY);
-		echo 'logout';
+		return $this->load->view('view', array('status' => 308, 'url' => '/member/login', 'data' => ''));
 	}
 }

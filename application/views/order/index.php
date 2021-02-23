@@ -211,7 +211,7 @@ if (!empty($data['order'])) {
 			});
 
 			$('#myModal').on('shown.bs.modal', function () {
-				$('#myInput').focus()
+				$('.modal-body').text('ddd');
 			})
 
 			$("#order").click(function () {
@@ -233,7 +233,10 @@ if (!empty($data['order'])) {
 					return alert('수량을 입력해 주세요.');
 				}
 
-				alert(menu_code + '/' + menu_nm + '/' + size + '/' + cnt);
+				var str = '주문 하시겠습니까? \n' + menu_code + ' / ' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
+				if (!confirm(str)) {
+					return 0;
+				}
 
 				$.ajax({
 					type: 'post',
@@ -248,11 +251,12 @@ if (!empty($data['order'])) {
 						'ordnum': '<?= $data['buyer'][0]['ordnum'] ?>'
 					},
 					success: function (request) {
-						console.log(request);
 						alert(request.msg);
-						$("#order_result").text(request.info)
+						$('#myorder').trigger('click');
+
 					},
 					error: function (request, status, error) {
+						alert(JSON.parse(request.responseText);
 						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
 					}
 				});
@@ -306,21 +310,19 @@ if (!empty($data['order'])) {
 			<button id="print" class="btn btn-default">인쇄</button>
 		</div>
 	</div>
-	Copy
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+					<h4 class="modal-title" id="myModalLabel">내 주문</h4>
 				</div>
 				<div class="modal-body">
-					...
+					다시 주문하시면 주문이 수정됩니다.
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>

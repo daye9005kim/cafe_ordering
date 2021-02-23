@@ -5,7 +5,7 @@ class Welcome extends MY_Controller
 {
     public function index()
     {
-
+		echo 'welcome';
 //        print_r($this->Order_model->select(array('num'=>'2','ordnum' => '602b2335be448', 'status' => '1', 'member_name' => '김다예', 'product_cd' => '9200000002502', 'product_cnt' => '1', 'comment' => '잘먹겠습니다.')));
 
 //                print_r($this->Order_model->select(array('ordnum' => '602b2335be448')));
