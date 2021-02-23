@@ -202,9 +202,9 @@ if (!empty($data['order'])) {
 				window.location.href = "/member/logout";
 			});
 
-			//$("#myorder").click(function () {
-			//	window.location.href = "/order/get?ordnum=" + '<?//=  $data['buyer'][0]['ordnum'] ?>//';
-			//});
+			$(".reorder").click(function () {
+				alert();
+			});
 
 			$("#print").click(function () {
 				window.location.href = "/order/prnt?ordnum=" + '<?=  $data['buyer'][0]['ordnum'] ?>';
@@ -239,7 +239,6 @@ if (!empty($data['order'])) {
 								)
 						), $('<tbody/>'));
 
-
 						for(var i in request.order) {
 							ord_date = request.order[i].regdate.split(' ')[0];
 							style = '';
@@ -249,7 +248,13 @@ if (!empty($data['order'])) {
 								"data-name": request.order[i].product_nm,
 								"data-size": request.order[i].product_size,
 								"data-cnt": request.order[i].product_cnt,
-							}).text('재주문'));
+								"data-dismiss": "modal",
+							}).text('재주문').click(function () {
+								$('#code').val($(this).attr('data-code'));
+								$('#menu_nm').val($(this).attr('data-name'));
+								$('#size').val($(this).attr('data-size'));
+								$('#cnt').val($(this).attr('data-cnt'));
+							}));
 
 							if (ordnum === request.order[i].ordnum) {
 								ord_date = '오늘의 주문';
