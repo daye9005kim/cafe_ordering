@@ -36,7 +36,11 @@ if (!empty($data['buyer'])) {
 	});
 </script>
 <body>
-<h3>주문</h3>
+<div class="form-group">
+	<button onclick="location.href='/member/logout'" class="btn btn-warning">로그아웃</button>
+	<button onclick="location.href='/order'" class="btn btn-default">주문서</button>
+</div>
+<h3>생성된 주문</h3>
 <ul>
 <li>
 	<?=$buyer?>
@@ -59,7 +63,7 @@ if (!empty($data['buyer'])) {
 		</select>
 	</div>
 	<div class="form-group">
-		<button id="create" class="btn btn-info">주문 생성하기</button>
+		<button id="create" class="btn btn-info">생성하기</button>
 	</div>
 </div>
 </body>
