@@ -4,7 +4,7 @@ include_once APPPATH . 'views/_common/header.php';
 
 $buyer = '진행중인 주문이 없습니다.';
 if (!empty($data['buyer'])) {
-	$buyer = sprintf('%s %s %s %s %s %s', $data['ordnum'], $data['member_name'], $data['start'], $data['end'], $data['comment'], $data['regdate']);
+	$buyer = sprintf('%s - %s - %s <br> %s ~ %s <br> 생성일 %s', $data['buyer']['ordnum'], $data['buyer']['member_name'], $data['buyer']['comment'], $data['buyer']['start'], $data['buyer']['end'], $data['buyer']['regdate']);
 }
 
 ?>
@@ -13,7 +13,25 @@ if (!empty($data['buyer'])) {
 		$('#create').click(function () {
 			var name = $('#name').val();
 			var time = $('#time').val();
-			alert(name + time);
+			var comment = $('#comment').val();
+
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				url: '/order/start',
+				data: {
+					'name': name,
+					'time': time,
+					'comment': comment
+				},
+				success: function (request) {
+					location.reload();
+				},
+				error: function (request, status, error) {
+					alert(JSON.parse(request.responseText));
+					console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
+				}
+			});
 		});
 	});
 </script>
@@ -27,6 +45,9 @@ if (!empty($data['buyer'])) {
 <div class="form-inline">
 	<div class="form-group">
 		<input type="text" id="name" class="form-control" placeholder="구매자 이름" title="구매자 이름">
+	</div>
+	<div class="form-group">
+		<input type="text" id="comment" class="form-control" placeholder="코멘트" title="코멘트">
 	</div>
 	<div class="form-group">
 		<select id="time" class="form-control" title="유효기간" data-original-title="유효기간">

@@ -321,7 +321,6 @@ if (!empty($data['order'])) {
 						'ordnum': ordnum
 					},
 					success: function (request) {
-						alert(request.msg);
 						$('#myorder').trigger('click');
 
 					},

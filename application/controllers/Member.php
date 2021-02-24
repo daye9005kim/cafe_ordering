@@ -21,15 +21,25 @@ class Member extends MY_Controller
 		$SES_USER = $this->session->userdata($SES_KEY);
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
+		$str = '';
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
 			if (in_array($SES_USER['name'], $admin)) {
-				return $this->load->view('view', array('status' => 308, 'url' => '/admin','data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
+				return $this->load->view('view', array('status' => 400, 'url' => '/admin','data' => '당신은 관리자. 구매자를 생성하세요.'));
 			}
-			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
+			$str = '구매자가 없습니다. 관리자에게 문의하세요.';
+			echo $str;
+			$buyer = array(array(
+				'member_name' => '',
+				'comment' => '',
+				'start' => '',
+				'end' => ''
+			));
 		}
-		echo sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
-		echo sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
+		if (empty($str)) {
+			echo sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
+			echo sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
+		}
 
 		if (!empty($SES_USER['dept'])) {
 			return $this->load->view('view', array('status' => 308, 'url' => '/order', 'data' => ''));

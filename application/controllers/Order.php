@@ -178,6 +178,9 @@ class Order extends MY_Controller
 	 * @return object|string
 	 */
 	public function start() {
+		$name = $this->input->post('name');
+		$time = $this->input->post('time');
+		$comment = $this->input->post('comment');
 
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -185,23 +188,25 @@ class Order extends MY_Controller
 		$admin = $this->config->item('admin');
 
 		if (!(in_array($SES_USER['name'], $admin))) {
-			return $this->load->view('view', array('status' => 400, 'data' => '당신은 주문자를 생성할 권한이 없습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '당신은 주문자를 생성할 권한이 없습니다.'));
 		}
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
 		if (count($buyer) > 0) {
-			return $this->load->view('view', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
 		}
 
     	$this->Buyer_model->insert(array(
     		'ordnum' => uniqid(),
-    		'member_name' => '김민철',
+    		'member_name' => $name,
     		'start' => date('Y-m-d H:i:s'),
-    		'end' =>  date('Y-m-d H:i:s', strtotime('2 hour')),
-    		'comment' => "음료 고르세요.",
+    		'end' =>  date('Y-m-d H:i:s', strtotime($time . ' hours')),
+    		'comment' => $comment
 		));
 
-		return $this->load->view('view', array('status' => 200, 'data' => '주문자가 생성되었습니다.'));
+		$buyer = $this->Buyer_model->select(array('now' => true));
+
+		return $this->load->view('json', array('status' => 200, 'data' => array('buyer' => $buyer[0], 'msg' => '주문자가 생성되었습니다.')));
 	}
 
 }

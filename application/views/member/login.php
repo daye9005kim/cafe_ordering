@@ -72,12 +72,12 @@ include_once APPPATH . 'views/_common/header.php';
 			});
 		})
 	</script>
-	<form class="form-inline" name="order" method="post">
+	<div class="form-inline">
 		<div class="ui-widget form-group">
-			<input id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">
-			<button type="button" class="btn btn-primary" id="order">주문하기</button>
+			<input type="text" id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">
+			<button type="button" class="btn btn-primary" id="order">로그인</button>
 		</div>
-	</form>
+	</div>
 
 
 <?php
