@@ -203,6 +203,7 @@ CREATE TABLE IF NOT EXISTS `order` (
    `member_name` varchar(50) DEFAULT NULL,
    `product_cd` varchar(20) DEFAULT NULL,
    `product_cnt` tinyint(4) DEFAULT '0',
+   `product_size` varchar(20) NOT NULL DEFAULT 'tall',
    `comment` text,
    `regdate` datetime DEFAULT NULL,
    PRIMARY KEY (`num`),
