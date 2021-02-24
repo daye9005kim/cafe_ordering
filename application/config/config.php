@@ -524,4 +524,4 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-$config['admin'] = array('김다예','신정열','문재민');
+$config['admin'] = array('김다예');
