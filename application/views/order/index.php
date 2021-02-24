@@ -75,10 +75,7 @@ if (!empty($data['order'])) {
 			_timer = setInterval(showRemaining, 1000);
 		}
 
-		console.log('<?=$data['timer']?>');
-		console.log('04/01/2024 00:00 AM');
-		countDownTimer('sample02', '<?=$data['timer']?>'); // 2024년 4월 1일, 시간 표시 01:00 AM.
-		// countDownTimer('sample02', '02/24/2021 23:59'); // 2024년 4월 1일, 시간 표시 01:00 AM.
+		countDownTimer('sample02', '<?=$data['timer']?>'); // countDownTimer('sample02', '02/24/2021 23:59');
 
 		$(function () {
 			$.widget("custom.combobox", {
@@ -244,6 +241,7 @@ if (!empty($data['order'])) {
 			});
 
 			$("#print").click(function () {
+				alert('완료된 주문의 총 합계 목록입니다.');
 				window.location.href = "/order/prnt?ordnum=" + ordnum;
 			});
 
@@ -371,19 +369,23 @@ if (!empty($data['order'])) {
 
 	</script>
 	<body>
-	<div class="user_info">
-		<div>
-			<button type="button" class="btn btn-success" id="logout">logout</button>
+	<div class="user_info form-inline">
+		<div class="form-group" style="margin-left: 60%">
+			<span><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다.' ?></span>
+			<button type="button" class="btn btn-default" id="logout">logout</button>
 		</div>
-		<h4><?= $data['buyer']['member_name'] . '님이 쏘십니다. "' . $data['buyer']['comment'] . '"' ?></h4>
-		<h4 id="sample02"></h4>
+		<div style="text-align: center">
+			<h4><?= $data['buyer']['member_name'] . '님 - "' . $data['buyer']['comment'] . '"' ?></h4>
+			<h2><span class="label label-success" id="sample02">Timer</span></h2>
+		</div>
 	</div>
 	<br>
-	<div class="image"><img
-				src="https://www.istarbucks.co.kr/upload/store/skuimg/2015/07/[106509]_20150724164325806.jpg"
-				id="thumbnail"><span id="content"></span></div>
-	<h5><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다. 메뉴를 선택해 주세요.' ?></h5>
-	<div class="form-inline">
+	<div class="image" style="text-align: center; margin-bottom: 10px">
+		<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail">
+		<br>
+		<span id="content"></span>
+	</div>
+	<div class="form-inline" style="text-align: center">
 		<div class="ui-widget form-group">
 			<input type="hidden" id="code">
 			<select id="combobox">
@@ -413,10 +415,12 @@ if (!empty($data['order'])) {
 		</div>-->
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
-			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal">내 주문
-				목록
+			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal" aria-label="List">
+				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 			</button>
-			<button id="print" class="btn btn-default">인쇄</button>
+			<button id="print" class="btn btn-default" aria-label="Print">
+				<span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+			</button>
 		</div>
 	</div>
 	<!-- Modal -->
