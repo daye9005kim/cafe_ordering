@@ -202,10 +202,7 @@ if (!empty($data['order'])) {
 					}
 
 					// Remove invalid value
-					this.input
-							.val("")
-							.attr("title", value + " 일치하는 메뉴가 없습니다.")
-							.tooltip("open");
+					this.input.val("").attr("title", value + " 일치하는 메뉴가 없습니다.").tooltip("open");
 					this.element.val("");
 					this._delay(function () {
 						this.input.tooltip("close").attr("title", "");

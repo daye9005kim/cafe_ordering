@@ -22,6 +22,7 @@ class Member extends MY_Controller
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
 		$str = '';
+		$msg = array('buyer'=>'','time'=>'');
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
 			if (in_array($SES_USER['name'], $admin)) {
@@ -37,8 +38,8 @@ class Member extends MY_Controller
 			));
 		}
 		if (empty($str)) {
-			echo sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
-			echo sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
+			$msg['buyer'] = sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
+			$msg['time'] = sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
 		}
 
 		if (!empty($SES_USER['dept'])) {
@@ -50,7 +51,7 @@ class Member extends MY_Controller
 		foreach ($members as $value) {
 			$list[] = $value['name'];
 		}
-		return $this->load->view('view', array('status' => 200, 'data' => array('member' => $list)));
+		return $this->load->view('view', array('status' => 200, 'data' => array('member' => $list, 'msg' => $msg)));
 	}
 
 	public function login_ok()
