@@ -37,7 +37,8 @@ class Order extends MY_Controller
 			'user' => $SES_USER,
 			'menu' => $menu,
 			'buyer' => $buyer[0],
-			'order' => isset($order[0]) ? $order[0] : array()
+			'order' => isset($order[0]) ? $order[0] : array(),
+			'timer' => date('m/d/Y H:i', strtotime($buyer[0]['end']))
 		);
 		return $this->load->view('view', array('status' => 200, 'data' => $return));
 
@@ -208,5 +209,4 @@ class Order extends MY_Controller
 
 		return $this->load->view('json', array('status' => 200, 'data' => array('buyer' => $buyer[0], 'msg' => '주문자가 생성되었습니다.')));
 	}
-
 }

@@ -44,6 +44,42 @@ if (!empty($data['order'])) {
 
 	</style>
 	<script>
+		const countDownTimer = function (id, data) {
+			var _vDate = new Date(data); // 전달 받은 일자
+			var _second = 1000;
+			var _minute = _second * 60;
+			var _hour = _minute * 60;
+			var _day = _hour * 60;
+			var _timer;
+
+			function showRemaining() {
+				var now = new Date();
+				var disDt = _vDate - now;
+				if (disDt < 0) {
+					clearInterval(_timer);
+					document.getElementById(id).textContent = '해당 이벤트가 종료 되었습니다.';
+					return;
+				}
+
+				var days = Math.floor(disDt / _day);
+				var hours = Math.floor((disDt % _day) / _hour);
+				var minutes = Math.floor((disDt % _hour) / _minute);
+				var seconds = Math.floor((disDt % _minute) / _second);
+
+				document.getElementById(id).textContent = days + '일 ';
+				document.getElementById(id).textContent += hours + '시간 ';
+				document.getElementById(id).textContent += minutes + '분 ';
+				document.getElementById(id).textContent += seconds + '초';
+			}
+
+			_timer = setInterval(showRemaining, 1000);
+		}
+
+		console.log('<?=$data['timer']?>');
+		console.log('04/01/2024 00:00 AM');
+		countDownTimer('sample02', '<?=$data['timer']?>'); // 2024년 4월 1일, 시간 표시 01:00 AM.
+		// countDownTimer('sample02', '02/24/2021 23:59'); // 2024년 4월 1일, 시간 표시 01:00 AM.
+
 		$(function () {
 			$.widget("custom.combobox", {
 				_create: function () {
@@ -339,8 +375,8 @@ if (!empty($data['order'])) {
 		<div>
 			<button type="button" class="btn btn-success" id="logout">logout</button>
 		</div>
-		<h5><?= $data['buyer']['member_name'] . '님이 쏘십니다. "' . $data['buyer']['comment'] . '"' ?></h5>
-		<h4><?= '주문기한 : ' . date('Y-m-d H:i', strtotime($data['buyer']['start'])) . ' ~ ' . date('Y-m-d H:i', strtotime($data['buyer']['end'])) ?></h4>
+		<h4><?= $data['buyer']['member_name'] . '님이 쏘십니다. "' . $data['buyer']['comment'] . '"' ?></h4>
+		<h4 id="sample02"></h4>
 	</div>
 	<br>
 	<div class="image"><img
