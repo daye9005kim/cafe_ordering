@@ -375,7 +375,7 @@ if (!empty($data['order'])) {
 			<button type="button" class="btn btn-default" id="logout">logout</button>
 		</div>
 		<div style="text-align: center">
-			<h4><?= $data['buyer']['member_name'] . '님 - "' . $data['buyer']['comment'] . '"' ?></h4>
+			<h4><?= $data['buyer']['member_name'] . '님이 주문합니다. "' . $data['buyer']['comment'] . '"' ?></h4>
 			<h2><span class="label label-success" id="sample02">Timer</span></h2>
 		</div>
 	</div>
