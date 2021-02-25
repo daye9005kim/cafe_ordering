@@ -2,12 +2,6 @@
 include_once APPPATH . 'views/_common/header.php';
 //print_r($data);
 
-$buyer = array();
-if (!empty($data['buyer'])) {
-	foreach ($data['buyer'] as $item) {
-		$buyer[]= sprintf('%s - %s - %s | %s ~ %s', $item['ordnum'], $item['member_name'], $item['comment'],$item['start'], $item['end']);
-	}
-}
 ?>
 <script>
 	$(document).ready(function () {
@@ -42,18 +36,33 @@ if (!empty($data['buyer'])) {
 	<button onclick="location.href='/order'" class="btn btn-default">주문하기</button>
 </div>
 <h3>생성된 주문</h3>
-<ol>
+<table class="table table-bordered">
+	<thead>
+	<tr>
+		<th>주문번호</th>
+		<th>생성자</th>
+		<th>코멘트</th>
+		<th>유효기간</th>
+	</tr>
+	</thead>
+	<tbody>
 	<?php
 	//$item['ordnum'], $item['member_name'], $item['comment'], $item['regdate'], $item['start'], $item['end']
 	if (!empty($data['buyer'])) {
 		foreach ($data['buyer'] as $key => $item) {
-	?>
-				<li><a href="/order/prnt?ordnum=<?=$item['ordnum']?>"><?=$buyer[$key]?></a></li>
-	<?php
+			?>
+				<tr>
+					<td><a href="/order/prnt?ordnum=<?=$item['ordnum']?>"><?=$item['ordnum']?></td>
+					<td><?=$item['member_name']?></td>
+					<td><?=$item['comment']?></td>
+					<td><?= $item['start'] . ' ~ ' .  $item['end']?></td>
+				</tr>
+			<?php
 		}
 	}
 	?>
-</ol>
+	</tbody>
+</table>
 <div class="form-inline">
 	<div class="form-group">
 		<input type="text" id="name" class="form-control" placeholder="구매자 이름" title="구매자 이름">
