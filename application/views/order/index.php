@@ -414,7 +414,7 @@ if (!empty($data['order'])) {
 			</select>
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control" id="comment" placeholder="comment">
+			<input type="text" class="form-control" id="comment" placeholder="comment"  maxlength='20'>
 		</div>
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>

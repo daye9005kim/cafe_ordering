@@ -43,6 +43,7 @@ include_once APPPATH . 'views/_common/header.php';
 		<th>생성자</th>
 		<th>코멘트</th>
 		<th>유효기간</th>
+		<th>출력</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -52,10 +53,13 @@ include_once APPPATH . 'views/_common/header.php';
 		foreach ($data['buyer'] as $key => $item) {
 			?>
 				<tr>
-					<td><a href="/order/prnt?ordnum=<?=$item['ordnum']?>"><?=$item['ordnum']?></td>
+					<td><a href="/order/prnt?ordnum=<?=$item['ordnum']?>"><?=$item['ordnum']?></a></td>
 					<td><?=$item['member_name']?></td>
 					<td><?=$item['comment']?></td>
 					<td><?= $item['start'] . ' ~ ' .  $item['end']?></td>
+					<td><a href="/order/prnt?ordnum=<?=$item['ordnum']?>" class="btn btn-primary btn-xs">주문용</a>
+						<a href="/order/mprnt?ordnum=<?=$item['ordnum']?>" class="btn btn-info btn-xs">회원별</a>
+					</td>
 				</tr>
 			<?php
 		}
