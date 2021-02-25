@@ -2,15 +2,12 @@
 include_once APPPATH . 'views/_common/header.php';
 //print_r($data);
 
-$buyer = '';
+$buyer = array();
 if (!empty($data['buyer'])) {
 	foreach ($data['buyer'] as $item) {
-		$buyer .= sprintf('<li>%s - %s - %s 생성일 %s<br> %s ~ %s</li>', $item['ordnum'], $item['member_name'], $item['comment'], $item['regdate'], $item['start'], $item['end']);
+		$buyer[]= sprintf('%s - %s - %s | %s ~ %s', $item['ordnum'], $item['member_name'], $item['comment'],$item['start'], $item['end']);
 	}
-} else {
-	$buyer = '진행중인 주문이 없습니다.';
 }
-
 ?>
 <script>
 	$(document).ready(function () {
@@ -46,7 +43,16 @@ if (!empty($data['buyer'])) {
 </div>
 <h3>생성된 주문</h3>
 <ol>
-	<?=$buyer?>
+	<?php
+	//$item['ordnum'], $item['member_name'], $item['comment'], $item['regdate'], $item['start'], $item['end']
+	if (!empty($data['buyer'])) {
+		foreach ($data['buyer'] as $key => $item) {
+	?>
+				<li><a href="/order/prnt?ordnum=<?=$item['ordnum']?>"><?=$buyer[$key]?></a></li>
+	<?php
+		}
+	}
+	?>
 </ol>
 <div class="form-inline">
 	<div class="form-group">

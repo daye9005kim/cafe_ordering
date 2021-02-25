@@ -73,6 +73,10 @@ include_once APPPATH . 'views/_common/header.php';
 		})
 	</script>
 	<div class="form-inline">
+		<div>
+			<span><?= $data['msg']['buyer']?></span>
+			<span><?= $data['msg']['time']?></span>
+		</div>
 		<div class="ui-widget form-group">
 			<input type="text" id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">
 			<button type="button" class="btn btn-primary" id="order">로그인</button>

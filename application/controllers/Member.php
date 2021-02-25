@@ -38,7 +38,7 @@ class Member extends MY_Controller
 			));
 		}
 		if (empty($str)) {
-			$msg['buyer'] = sprintf('%s님이 쏘십니다. %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
+			$msg['buyer'] = sprintf('%s님이 생성한 주문 %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
 			$msg['time'] = sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
 		}
 

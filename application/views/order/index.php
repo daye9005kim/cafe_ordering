@@ -413,10 +413,9 @@ if (!empty($data['order'])) {
 				<option value="5">5개</option>
 			</select>
 		</div>
-		<!--
 		<div class="form-group">
-			<input type="text" class="form-control" id="comment" placeholder="품절인 경우 대체 주문할 음료 입력">
-		</div>-->
+			<input type="text" class="form-control" id="comment" placeholder="comment">
+		</div>
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
 			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
@@ -427,6 +426,7 @@ if (!empty($data['order'])) {
 				<span class="glyphicon glyphicon-print" aria-hidden="true"></span>
 			</button>
 		</div>
+		<p class="text-danger" style="margin: 10px 0 10px;">다시 주문하시면 주문이 수정됩니다.</p>
 	</div>
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
