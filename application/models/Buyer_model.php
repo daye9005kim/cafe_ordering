@@ -45,7 +45,7 @@ class Buyer_model extends CI_Model
         }
 
         $sql = <<<SQL
-SELECT ordnum, member_name, start, `end`, comment, regdate 
+SELECT ordnum, member_name, start, `end`, comment, `option`, regdate 
 FROM buyer
 {$where}
 ORDER BY regdate DESC
@@ -77,6 +77,9 @@ SQL;
         if (empty($param['comment'])) {
             return false;
         }
+        if (empty($param['option'])) {
+            $param['option'] = '0';
+        }
 
         $escape = $this->db->escape($param);
         $sql = <<<SQL
@@ -85,7 +88,8 @@ ordnum = {$escape['ordnum']},
 member_name = {$escape['member_name']},
 start = {$escape['start']},
 `end` = {$escape['end']},
-comment = {$escape['comment']},    
+comment = {$escape['comment']},
+`option` = {$escape['option']},
 regdate = now()     
 SQL;
         $this->db->query($sql);
@@ -109,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `buyer` (
    `start` datetime NOT NULL,
    `end` datetime NOT NULL,
    `comment` text NOT NULL,
+   `option` char(1) NOT NULL DEFAULT '0',
    `regdate` datetime NOT NULL,
    PRIMARY KEY (`ordnum`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8

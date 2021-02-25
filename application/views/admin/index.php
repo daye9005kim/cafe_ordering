@@ -9,6 +9,7 @@ include_once APPPATH . 'views/_common/header.php';
 			var name = $('#name').val();
 			var time = $('#time').val();
 			var comment = $('#comment').val();
+			var option = $('#option').val();
 
 			$.ajax({
 				type: 'post',
@@ -17,7 +18,8 @@ include_once APPPATH . 'views/_common/header.php';
 				data: {
 					'name': name,
 					'time': time,
-					'comment': comment
+					'comment': comment,
+					'option': option,
 				},
 				success: function (request) {
 					location.reload();
@@ -83,6 +85,13 @@ include_once APPPATH . 'views/_common/header.php';
 			<option value="5">5시간</option>
 		</select>
 	</div>
+	<div class="form-group">
+		<select id="option" class="form-control" title="주문서에 코멘트(옵션) 입력란 추가합니다." data-original-title="주문서에 코멘트(옵션) 입력란 추가합니다.">
+			<option value="0">옵션 안 받기</option>
+			<option value="1">옵션 받기</option>
+		</select>
+	</div>
+
 	<div class="form-group">
 		<button id="create" class="btn btn-info">생성하기</button>
 	</div>

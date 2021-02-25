@@ -413,9 +413,16 @@ if (!empty($data['order'])) {
 				<option value="5">5개</option>
 			</select>
 		</div>
+		<?php
+		if ($data['buyer']['option'] === '1') {
+?>
 		<div class="form-group">
 			<input type="text" class="form-control" id="comment" placeholder="comment"  maxlength='20'>
 		</div>
+		<?php
+		}
+		?>
+
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
 			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal"

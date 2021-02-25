@@ -222,6 +222,7 @@ class Order extends MY_Controller
 		$name = $this->input->post('name');
 		$time = $this->input->post('time');
 		$comment = $this->input->post('comment');
+		$option = $this->input->post('option');
 
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -242,7 +243,8 @@ class Order extends MY_Controller
 			'member_name' => $name,
 			'start' => date('Y-m-d H:i:s'),
 			'end' => date('Y-m-d H:i:s', strtotime($time . ' hours')),
-			'comment' => $comment
+			'comment' => $comment,
+			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
 		));
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
