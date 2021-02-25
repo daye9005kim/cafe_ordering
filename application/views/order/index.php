@@ -66,10 +66,10 @@ if (!empty($data['order'])) {
 				var minutes = Math.floor((disDt % _hour) / _minute);
 				var seconds = Math.floor((disDt % _minute) / _second);
 
-				document.getElementById(id).textContent = days + '일 ';
-				document.getElementById(id).textContent += hours + '시간 ';
-				document.getElementById(id).textContent += minutes + '분 ';
-				document.getElementById(id).textContent += seconds + '초';
+				document.getElementById(id).textContent = days > 0 ? days + '일 ' : '';
+				document.getElementById(id).textContent += hours > 0 ? hours + '시간 ' : '';
+				document.getElementById(id).textContent += minutes > 0 ? minutes + '분 ' : '';
+				document.getElementById(id).textContent += seconds > 0 ? seconds + '초' : '';
 			}
 
 			_timer = setInterval(showRemaining, 1000);
@@ -367,7 +367,7 @@ if (!empty($data['order'])) {
 	</script>
 	<body>
 	<div class="user_info form-inline">
-		<div class="form-group" style="margin-left: 60%">
+		<div class="form-group" style="width: 90%; text-align: right; margin:auto; margin-top: 20px;">
 			<span><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다.' ?></span>
 			<button type="button" class="btn btn-primary" id="logout">logout</button>
 			<?php
