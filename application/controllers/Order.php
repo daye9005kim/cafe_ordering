@@ -20,9 +20,11 @@ class Order extends MY_Controller
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
+		$conf_admin = $this->config->item('admin');
+		$admin = in_array($SES_USER['name'], $conf_admin) ? 1 : 0;
+
 		if (empty($buyer)) {
-			$admin = $this->config->item('admin');
-			if (in_array($SES_USER['name'], $admin)) {
+			if ($admin) {
 				return $this->load->view('view', array('status' => 308, 'url' => '/admin','data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
 			}
 
@@ -38,7 +40,8 @@ class Order extends MY_Controller
 			'menu' => $menu,
 			'buyer' => $buyer[0],
 			'order' => isset($order[0]) ? $order[0] : array(),
-			'timer' => date('m/d/Y H:i', strtotime($buyer[0]['end']))
+			'timer' => date('m/d/Y H:i', strtotime($buyer[0]['end'])),
+			'admin' => $admin
 		);
 		return $this->load->view('view', array('status' => 200, 'data' => $return));
 

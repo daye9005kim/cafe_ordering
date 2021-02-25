@@ -26,6 +26,9 @@ class Buyer_model extends CI_Model
         if (isset($param['now']) && $param['now'] === true) {
             $arr[] = 'NOW() between `start` and `end`';
         }
+		if (isset($param['interval'])) {
+			$arr[] = sprintf('`end` >= DATE_SUB(NOW(), INTERVAL %s DAY)', $escape['interval']);
+		}
 
         if (isset($param['member_name'])) {
             $arr[] = sprintf('member_name = %s', $escape['member_name']);
@@ -45,6 +48,7 @@ class Buyer_model extends CI_Model
 SELECT ordnum, member_name, start, `end`, comment, regdate 
 FROM buyer
 {$where}
+ORDER BY regdate DESC
 SQL;
 //        echo $sql;
         $query = $this->db->query($sql);

@@ -369,7 +369,14 @@ if (!empty($data['order'])) {
 	<div class="user_info form-inline">
 		<div class="form-group" style="margin-left: 60%">
 			<span><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다.' ?></span>
-			<button type="button" class="btn btn-default" id="logout">logout</button>
+			<button type="button" class="btn btn-primary" id="logout">logout</button>
+			<?php
+			if ($data['admin']) {
+				?>
+				<button type="button" class="btn btn-danger" onclick="location.href='/admin'" id="admin">관리자</button>
+				<?php
+			}
+			?>
 		</div>
 		<div style="text-align: center">
 			<h4><?= $data['buyer']['member_name'] . '님이 주문합니다. "' . $data['buyer']['comment'] . '"' ?></h4>
@@ -412,7 +419,8 @@ if (!empty($data['order'])) {
 		</div>-->
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
-			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal" aria-label="List">
+			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
+					aria-label="List">
 				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 			</button>
 			<button id="print" class="btn btn-default" aria-label="Print">

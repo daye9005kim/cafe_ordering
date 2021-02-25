@@ -2,9 +2,13 @@
 include_once APPPATH . 'views/_common/header.php';
 //print_r($data);
 
-$buyer = '진행중인 주문이 없습니다.';
+$buyer = '';
 if (!empty($data['buyer'])) {
-	$buyer = sprintf('%s - %s - %s <br> %s ~ %s <br> 생성일 %s', $data['buyer']['ordnum'], $data['buyer']['member_name'], $data['buyer']['comment'], $data['buyer']['start'], $data['buyer']['end'], $data['buyer']['regdate']);
+	foreach ($data['buyer'] as $item) {
+		$buyer .= sprintf('<li>%s - %s - %s 생성일 %s<br> %s ~ %s</li>', $item['ordnum'], $item['member_name'], $item['comment'], $item['regdate'], $item['start'], $item['end']);
+	}
+} else {
+	$buyer = '진행중인 주문이 없습니다.';
 }
 
 ?>
@@ -38,14 +42,12 @@ if (!empty($data['buyer'])) {
 <body>
 <div class="form-group">
 	<button onclick="location.href='/member/logout'" class="btn btn-warning">로그아웃</button>
-	<button onclick="location.href='/order'" class="btn btn-default">주문서</button>
+	<button onclick="location.href='/order'" class="btn btn-default">주문하기</button>
 </div>
 <h3>생성된 주문</h3>
-<ul>
-<li>
+<ol>
 	<?=$buyer?>
-</li>
-</ul>
+</ol>
 <div class="form-inline">
 	<div class="form-group">
 		<input type="text" id="name" class="form-control" placeholder="구매자 이름" title="구매자 이름">
