@@ -33,12 +33,12 @@ include_once APPPATH . 'views/_common/header.php';
 	});
 </script>
 <body>
-<div class="form-group">
+<div class="form-group" style="width: 80%; text-align: right; margin:auto; margin-top: 20px;">
 	<button onclick="location.href='/member/logout'" class="btn btn-warning">로그아웃</button>
 	<button onclick="location.href='/order'" class="btn btn-default">주문하기</button>
 </div>
-<h3>생성된 주문</h3>
-<table class="table table-bordered">
+<h3 style="text-align: center">생성된 주문</h3>
+<table class="table table-bordered"  style="width: 80%; margin: auto; margin-top: 20px;">
 	<thead>
 	<tr>
 		<th>주문번호</th>
@@ -69,7 +69,7 @@ include_once APPPATH . 'views/_common/header.php';
 	?>
 	</tbody>
 </table>
-<div class="form-inline">
+<div class="form-inline" style="width: 80%; margin: auto; margin-top: 20px; text-align: center;">
 	<div class="form-group">
 		<input type="text" id="name" class="form-control" placeholder="구매자 이름" title="구매자 이름">
 	</div>
