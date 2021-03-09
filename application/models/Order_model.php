@@ -27,6 +27,7 @@ class Order_model extends CI_Model
 
         $escape = $this->db->escape($param);
         $arr = array();
+		$limit = '';
 
         if (isset($param['num'])) {
             $arr[] = sprintf('o.num = %s', $escape['num']);
@@ -39,6 +40,7 @@ class Order_model extends CI_Model
         }
         if (isset($param['member_name'])) {
             $arr[] = sprintf('o.member_name = %s', $escape['member_name']);
+            $limit = 'LIMIT 10';
         }
         if (isset($param['product_cd'])) {
             $arr[] = sprintf('o.product_cd = %s', $escape['product_cd']);
@@ -76,7 +78,7 @@ FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
 JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
 ORDER BY o.regdate DESC
-LIMIT 10
+{$limit}
 SQL;
         //echo $sql;
         $query = $this->db->query($sql);

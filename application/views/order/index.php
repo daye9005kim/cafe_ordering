@@ -186,10 +186,13 @@ if (!empty($data['order'])) {
 					}
 
 					// Search for a match (case-insensitive)
+
 					var value = this.input.val(),
 							valueLowerCase = value.toLowerCase(),
 							valid = false;
+
 					this.element.children("option").each(function () {
+						console.log($(this).text().toLowerCase());
 						if ($(this).text().toLowerCase() === valueLowerCase) {
 							this.selected = valid = true;
 							return false;
@@ -239,7 +242,7 @@ if (!empty($data['order'])) {
 
 			$("#print").click(function () {
 				alert('완료된 주문의 총 합계 목록입니다.');
-				window.location.href = "/order/prnt?ordnum=" + ordnum;
+				window.location.href = "/order/mprnt?ordnum=" + ordnum;
 			});
 
 			$('#myModal').on('shown.bs.modal', function () {
