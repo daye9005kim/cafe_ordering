@@ -125,4 +125,41 @@ SQL;
         return false;
     }
 
+
+	/**
+	 * delete
+	 * @param $param
+	 * @return bool
+	 */
+	public function delete($param)
+	{
+
+		if (!isset($param['ordnum'])) {
+			return false;
+		}
+
+		$escape = $this->db->escape($param);
+
+		$arr = array();
+
+		if (!empty($param['ordnum'])) {
+			$arr[] = sprintf('ordnum = %s', $escape['ordnum']);
+		}
+
+		if (count($arr) > 0) {
+			$where = join(' AND ', $arr);
+		} else {
+			return false;
+		}
+
+		$sql = <<<SQL
+DELETE FROM buyer WHERE {$where}
+SQL;
+//        echo $sql;
+		$this->db->query($sql);
+		if ($this->db->affected_rows()) {
+			return true;
+		}
+		return false;
+	}
 }

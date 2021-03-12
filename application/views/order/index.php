@@ -57,7 +57,7 @@ if (!empty($data['order'])) {
 				var disDt = _vDate - now;
 				if (disDt < 0) {
 					clearInterval(_timer);
-					document.getElementById(id).textContent = '해당 이벤트가 종료 되었습니다.';
+					document.getElementById(id).textContent = '해당 주문이 종료 되었습니다.';
 					return;
 				}
 
@@ -382,7 +382,8 @@ if (!empty($data['order'])) {
 			?>
 		</div>
 		<div style="text-align: center">
-			<h4><?= $data['buyer']['member_name'] . '님이 주문합니다. "' . $data['buyer']['comment'] . '"' ?></h4>
+			<h4><?= '주문 문의 : ' . $data['buyer']['member_name'] ?></h4>
+			<h4><?= $data['buyer']['comment'] ?></h4>
 			<h2><span class="label label-success" id="sample02">Timer</span></h2>
 		</div>
 	</div>

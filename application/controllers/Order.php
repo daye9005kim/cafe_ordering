@@ -21,7 +21,7 @@ class Order extends MY_Controller
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
 		$conf_admin = $this->config->item('admin');
-		$admin = in_array($SES_USER['name'], $conf_admin) ? 1 : 0;
+		$admin = in_array($SES_USER['name'], $conf_admin['member']) ? 1 : 0;
 
 		if (empty($buyer)) {
 			if ($admin) {
@@ -229,13 +229,35 @@ class Order extends MY_Controller
 
 		$admin = $this->config->item('admin');
 
-		if (!(in_array($SES_USER['name'], $admin))) {
-			return $this->load->view('json', array('status' => 400, 'data' => '당신은 주문자를 생성할 권한이 없습니다.'));
+		if (!(in_array($SES_USER['name'], $admin['member']))) {
+			return $this->load->view('json', array('status' => 400, 'data' => '주문자를 생성할 권한이 없습니다.'));
+		}
+
+		if (empty($name)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '이름을 입력해주세요.'));
+		}
+		if (empty($time)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '시간을 입력해주세요.'));
+		}
+		if (empty($comment)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '코멘트를 입력해주세요.'));
 		}
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
 		if (count($buyer) > 0) {
-			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문자가 존재합니다. 아직 주문이 완료되지 않았습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문이 존재합니다. 아직 주문이 완료되지 않았습니다.'));
+		}
+
+		$file_name = '/tmp/drink.log';
+		$period = date("Ymd" , strtotime('now'));
+
+		if (!is_file($file_name)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
+		}
+		$drink = '';
+		if (date("Ymd" ,filemtime($file_name)) < $period) {
+			$this->Starbucks_model->fetch();
+			$drink = 'drink updated';
 		}
 
 		$this->Buyer_model->insert(array(
@@ -247,8 +269,20 @@ class Order extends MY_Controller
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
 		));
 
-		$buyer = $this->Buyer_model->select(array('now' => true));
+		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $drink . ' 메뉴 업데이트일: ' . $period));
+	}
 
-		return $this->load->view('json', array('status' => 200, 'data' => array('buyer' => $buyer[0], 'msg' => '주문자가 생성되었습니다.')));
+	/**
+	 * 주문 삭제
+	 * @return object|string
+	 */
+	public function delete()
+	{
+		$ordnum = $this->input->post('ordnum');
+
+		if ($this->Buyer_model->delete(array('ordnum' => $ordnum))) {
+			return $this->load->view('json', array('status' => 200, 'data' => '삭제 되었습니다.'));
+		}
+		return $this->load->view('json', array('status' => 400, 'data' => '삭제 실패'));
 	}
 }

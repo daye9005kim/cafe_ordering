@@ -25,7 +25,7 @@ class Member extends MY_Controller
 		$msg = array('buyer'=>'','time'=>'');
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
-			if (in_array($SES_USER['name'], $admin)) {
+			if (in_array($SES_USER['name'], $admin['member'])) {
 				return $this->load->view('view', array('status' => 400, 'url' => '/admin','data' => '당신은 관리자. 구매자를 생성하세요.'));
 			}
 			$str = '구매자가 없습니다. 관리자에게 문의하세요.';

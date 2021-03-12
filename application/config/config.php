@@ -524,4 +524,5 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-$config['admin'] = array('김다예', '장하영');
+$config['admin']['member'] = array('김다예', '장하영');
+$config['admin']['drinkCacheFile'] = '/tmp/drink.log';

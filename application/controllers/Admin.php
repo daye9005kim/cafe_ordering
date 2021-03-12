@@ -17,7 +17,7 @@ class Admin extends MY_Controller
 		$buyer = $this->Buyer_model->select(array('interval' => 5));
 
 		$admin = $this->config->item('admin');
-		if (!in_array($SES_USER['name'], $admin)) {
+		if (!in_array($SES_USER['name'], $admin['member'])) {
 			return $this->load->view('view', array('status' => 400, 'data' => $SES_USER['name'] . '님 당신은 관리자가 아닙니다.'));
 		}
 

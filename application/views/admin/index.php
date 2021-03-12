@@ -22,6 +22,7 @@ include_once APPPATH . 'views/_common/header.php';
 					'option': option,
 				},
 				success: function (request) {
+					alert(request);
 					location.reload();
 				},
 				error: function (request, status, error) {
@@ -30,6 +31,30 @@ include_once APPPATH . 'views/_common/header.php';
 				}
 			});
 		});
+
+		//주문 삭제
+		$('.delete').click(function () {
+			var ordnum = $(this).data('ordnum');
+				if (confirm('주문번호 ' + ordnum + ' 주문을 삭제하시겠습니까?')) {
+					$.ajax({
+						type: 'post',
+						dataType: 'json',
+						url: '/order/delete',
+						data: {
+							'ordnum': ordnum,
+						},
+						success: function (request) {
+							alert(request);
+							location.reload();
+						},
+						error: function (request, status, error) {
+							alert(JSON.parse(request.responseText));
+							console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
+						}
+					});
+				};
+		});
+
 	});
 </script>
 <body>
@@ -46,6 +71,7 @@ include_once APPPATH . 'views/_common/header.php';
 		<th>코멘트</th>
 		<th>유효기간</th>
 		<th>출력</th>
+		<th>삭제</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -61,6 +87,8 @@ include_once APPPATH . 'views/_common/header.php';
 					<td><?= $item['start'] . ' ~ ' .  $item['end']?></td>
 					<td><a href="/order/prnt?ordnum=<?=$item['ordnum']?>" class="btn btn-primary btn-xs">주문용</a>
 						<a href="/order/mprnt?ordnum=<?=$item['ordnum']?>" class="btn btn-info btn-xs">회원별</a>
+					</td>
+					<td><a data-ordnum="<?=$item['ordnum']?>" class="btn btn-danger btn-xs delete">삭제</a>
 					</td>
 				</tr>
 			<?php
