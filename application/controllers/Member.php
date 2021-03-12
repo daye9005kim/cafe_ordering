@@ -21,8 +21,6 @@ class Member extends MY_Controller
 		$SES_USER = $this->session->userdata($SES_KEY);
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
-		$str = '';
-		$msg = array('buyer'=>'','time'=>'');
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
 			if (in_array($SES_USER['name'], $admin['member'])) {
@@ -31,15 +29,12 @@ class Member extends MY_Controller
 			$str = '구매자가 없습니다. 관리자에게 문의하세요.';
 			echo $str;
 			$buyer = array(array(
+				'ordnum' => '',
 				'member_name' => '',
 				'comment' => '',
 				'start' => '',
 				'end' => ''
 			));
-		}
-		if (empty($str)) {
-			$msg['buyer'] = sprintf('%s님이 생성한 주문 %s<br>', $buyer[0]['member_name'], $buyer[0]['comment']);
-			$msg['time'] = sprintf('주문기한 : %s ~ %s', date('Y-m-d H:i', strtotime($buyer[0]['start'])),date('Y-m-d H:i', strtotime($buyer[0]['end'])));
 		}
 
 		if (!empty($SES_USER['dept'])) {
@@ -51,8 +46,9 @@ class Member extends MY_Controller
 		foreach ($members as $value) {
 			$list[] = $value['name'];
 		}
-		return $this->load->view('view', array('status' => 200, 'data' => array('member' => $list, 'msg' => $msg)));
+		return $this->load->view('view', array('status' => 200, 'data' => array('member' => $list, 'order_list' => $buyer)));
 	}
+
 
 	public function login_ok()
 	{

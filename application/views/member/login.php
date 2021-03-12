@@ -20,7 +20,22 @@ include_once APPPATH . 'views/_common/header.php';
 			});
 		});
 
-		var loginok = function loginok(name = '') {
+		let loginok = function loginok(name = '') {
+			var ordnum = $("input[name='order_list']:checked").val();
+
+			if ($('.orderList').length > 0 && typeof ordnum == 'undefined') {
+				alert('주문서를 선택해주세요.');
+				return;
+			}
+			if (name === '') {
+				alert('이름을 입력해주세요.');
+				return $("#name").focus();
+			}
+			if (jQuery.inArray(name, MEMBERS) < 0) {
+				alert('제이슨그룹 사원이 아닙니다.');
+				return $("#name").focus();
+			}
+
 			$.ajax({
 				type: 'post',
 				dataType: 'json',
@@ -30,7 +45,7 @@ include_once APPPATH . 'views/_common/header.php';
 				},
 				success: function (request) {
 					if (request.name === name) {
-						window.location.href = "/order";
+						window.location.href = "/order?ordnum=" + ordnum;
 					} else {
 						alert('로그아웃 하십시오.');
 					}
@@ -43,39 +58,33 @@ include_once APPPATH . 'views/_common/header.php';
 
 		$(document).ready(function () {
 			$("#name").focus();
+
 			$(".enter").keypress(function ( event ) {
-				let name = $("#name").val();
+				var name = $("#name").val();
 				if (event.which == 13) {
-					if (name === '') {
-						alert('이름을 입력해주세요.');
-						return $("#name").focus();
-					}
-					if (jQuery.inArray(name, MEMBERS) < 0) {
-						alert('제이슨그룹 사원이 아닙니다.');
-						return $("#name").focus();
-					}
 					loginok(name);
 				}
 			});
 
 			$("#order").click(function () {
-				let name = $("#name").val();
-				if (name === '') {
-					alert('이름을 입력해주세요.');
-					return $("#name").focus();
-				}
-				if (jQuery.inArray(name, MEMBERS) < 0) {
-					alert('제이슨그룹 사원이 아닙니다.');
-					return $("#name").focus();
-				}
+				var name = $("#name").val();
 				loginok(name);
 			});
 		})
 	</script>
 	<div class="form-inline">
 		<div>
-			<span><?= $data['msg']['buyer']?></span>
-			<span><?= $data['msg']['time']?></span>
+			<ul>
+			<?php
+			foreach ($data['order_list'] as $item) {
+				if (empty($item['ordnum']))	continue;
+				$order_list =   $item['member_name'] . ' | ' . $item['comment'] . ' (' . $item['start'] . ' ~ ' . $item['end'] . ')';
+				?>
+					<li><label><input type="radio" name="order_list" class="orderList" value="<?= $item['ordnum'] ?>"> <?= $order_list ?></label></li>
+			<?php
+			}
+			?>
+			</ul>
 		</div>
 		<div class="ui-widget form-group">
 			<input type="text" id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">

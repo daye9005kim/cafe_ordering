@@ -18,10 +18,11 @@ class Order extends MY_Controller
 			return $this->load->view('view', array('status' => 308, 'url' => '/member/login', 'data' => '로그인 해주세요.'));
 		}
 
-		$buyer = $this->Buyer_model->select(array('now' => true));
+		$ordnum = $this->input->get('ordnum');
+		$buyer = $this->Buyer_model->select(array('now' => true, 'ordnum' => $ordnum));
 
 		$conf_admin = $this->config->item('admin');
-		$admin = in_array($SES_USER['name'], $conf_admin['member']) ? 1 : 0;
+		$admin = in_array($SES_USER['name'], $conf_admin['member']);
 
 		if (empty($buyer)) {
 			if ($admin) {
@@ -32,7 +33,6 @@ class Order extends MY_Controller
 		}
 
 		$menu = $this->Starbucks_model->select(array());
-		$buyer = $this->Buyer_model->select(array('now' => true));
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
 
 		$return = array(
@@ -243,10 +243,10 @@ class Order extends MY_Controller
 			return $this->load->view('json', array('status' => 400, 'data' => '코멘트를 입력해주세요.'));
 		}
 
-		$buyer = $this->Buyer_model->select(array('now' => true));
-		if (count($buyer) > 0) {
-			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문이 존재합니다. 아직 주문이 완료되지 않았습니다.'));
-		}
+//		$buyer = $this->Buyer_model->select(array('now' => true));
+//		if (count($buyer) > 0) {
+//			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문이 존재합니다. 아직 주문이 완료되지 않았습니다.'));
+//		}
 
 		$file_name = '/tmp/drink.log';
 		$period = date("Ymd" , strtotime('now'));
