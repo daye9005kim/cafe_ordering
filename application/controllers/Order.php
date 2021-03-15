@@ -26,10 +26,10 @@ class Order extends MY_Controller
 
 		if (empty($buyer)) {
 			if ($admin) {
-				return $this->load->view('view', array('status' => 308, 'url' => '/admin', 'data' => '구매자가 없습니다. 관리자에게 문의하세요.'));
+				return $this->load->view('view', array('status' => 308, 'url' => '/admin', 'data' => '생성된 주문이 없습니다. 관리자에게 문의하세요.'));
 			}
 
-			return $this->load->view('view', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다. 관리자에게 문의하세요.'));
+			return $this->load->view('view', array('status' => 400, 'data' => '생성된 주문이 없습니다. 관리자에게 문의하세요.'));
 		}
 
 		$menu = $this->Starbucks_model->select(array());
@@ -195,7 +195,7 @@ class Order extends MY_Controller
 		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum, 'now' => true));
 
 		if (empty($buyer)) {
-			return $this->load->view('json', array('status' => 400, 'data' => '구매자가 생성되지 않았습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문이 없습니다.'));
 		}
 
 		$param = array(

@@ -74,7 +74,7 @@ include_once APPPATH . 'views/_common/header.php';
 	</script>
 <body>
 	<div class="form-inline" style="width: 90%; text-align: left; margin:auto; margin-top: 20px;">
-		<p class="label label-info" style="font-size: medium;">해당하는 주문을 선택하세요.</p>
+		<p class="label label-info" style="font-size: medium;"><?= $data['str'] ?></p>
 		<div style="margin: 10px;">
 			<ul class="list-unstyled">
 				<?php
