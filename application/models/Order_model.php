@@ -220,4 +220,45 @@ SQL;
         return false;
     }
 
+	/**
+	 * 다중 주문 체크
+	 * @param $param
+	 * @return int
+	 */
+	public function check($param)
+	{
+		if (empty($param['member_name'])) {
+			return 0;
+		}
+		$escape = $this->db->escape($param);
+		$arr = array();
+
+		if (isset($param['ordnum'])) {
+			$arr[] = sprintf('o.ordnum != %s', $escape['ordnum']);
+		}
+		if (isset($param['status'])) {
+			$arr[] = sprintf('o.status = %s', $escape['status']);
+		}
+		if (isset($param['member_name'])) {
+			$arr[] = sprintf('o.member_name = %s', $escape['member_name']);
+		}
+
+		$where = '';
+		if (count($arr) > 0) {
+			$where = 'AND ' . join(' AND ', $arr);
+		} else {
+			return 0;
+		}
+
+		$sql = <<<SQL
+SELECT o.ordnum,o.member_name FROM `order`AS o 
+JOIN buyer AS b ON o.ordnum = b.ordnum 
+WHERE NOW() BETWEEN `start` AND `end`
+{$where}
+SQL;
+		//echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->num_rows();
+	}
+
 }

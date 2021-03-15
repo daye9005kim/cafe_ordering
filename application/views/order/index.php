@@ -236,12 +236,7 @@ if (!empty($data['order'])) {
 				window.location.href = "/member/logout";
 			});
 
-			$(".reorder").click(function () {
-				alert();
-			});
-
 			$("#print").click(function () {
-				alert('완료된 주문의 총 합계 목록입니다.');
 				window.location.href = "/order/mprnt?ordnum=" + ordnum;
 			});
 
@@ -384,7 +379,7 @@ if (!empty($data['order'])) {
 		<div style="text-align: center">
 			<h4><?= '주문 문의 : ' . $data['buyer']['member_name'] ?></h4>
 			<h4><?= $data['buyer']['comment'] ?></h4>
-			<h2><span class="label label-success" id="sample02">Timer</span></h2>
+			<h2><span class="label label-success" id="sample02">0시 00분 00초</span></h2>
 		</div>
 	</div>
 	<br>
@@ -430,10 +425,10 @@ if (!empty($data['order'])) {
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
 			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
-					aria-label="List">
+					aria-label="List" title="내 주문 목록">
 				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 			</button>
-			<button id="print" class="btn btn-default" aria-label="Print">
+			<button id="print" class="btn btn-default" aria-label="Print" title="주문 출력하기">
 				<span class="glyphicon glyphicon-print" aria-hidden="true"></span>
 			</button>
 		</div>

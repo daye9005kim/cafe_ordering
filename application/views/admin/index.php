@@ -60,10 +60,9 @@ include_once APPPATH . 'views/_common/header.php';
 <body>
 <div class="form-group" style="width: 80%; text-align: right; margin:auto; margin-top: 20px;">
 	<button onclick="location.href='/member/logout'" class="btn btn-warning">로그아웃</button>
-	<button onclick="location.href='/order'" class="btn btn-default">주문하기</button>
 </div>
 <h3 style="text-align: center">생성된 주문</h3>
-<table class="table table-bordered"  style="width: 80%; margin: auto; margin-top: 20px;">
+<table class="table table-bordered table-hover"  style="width: 80%; margin: auto; margin-top: 20px;">
 	<thead>
 	<tr>
 		<th>주문번호</th>
@@ -81,7 +80,7 @@ include_once APPPATH . 'views/_common/header.php';
 		foreach ($data['buyer'] as $key => $item) {
 			?>
 				<tr>
-					<td><a href="/order/prnt?ordnum=<?=$item['ordnum']?>"><?=$item['ordnum']?></a></td>
+					<td><a href="/order?ordnum=<?=$item['ordnum']?>"><?=$item['ordnum']?></a></td>
 					<td><?=$item['member_name']?></td>
 					<td><?=$item['comment']?></td>
 					<td><?= $item['start'] . ' ~ ' .  $item['end']?></td>
@@ -97,7 +96,8 @@ include_once APPPATH . 'views/_common/header.php';
 	?>
 	</tbody>
 </table>
-<div class="form-inline" style="width: 80%; margin: auto; margin-top: 20px; text-align: center;">
+<div class="bg-info form-inline" style="width: 80%; margin: auto; margin-top: 20px; padding-bottom: 20px; text-align: center;">
+	<div class="text-center"><p class="bg-info"><strong>주문 생성하기</strong></p></div>
 	<div class="form-group">
 		<input type="text" id="name" class="form-control" placeholder="구매자 이름" title="구매자 이름">
 	</div>

@@ -72,15 +72,20 @@ include_once APPPATH . 'views/_common/header.php';
 			});
 		})
 	</script>
+<body>
 	<div class="form-inline">
 		<div>
-			<ul>
+			<ul class="list-unstyled">
 			<?php
 			foreach ($data['order_list'] as $item) {
 				if (empty($item['ordnum']))	continue;
-				$order_list =   $item['member_name'] . ' | ' . $item['comment'] . ' (' . $item['start'] . ' ~ ' . $item['end'] . ')';
+				$order_list =   $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
 				?>
-					<li><label><input type="radio" name="order_list" class="orderList" value="<?= $item['ordnum'] ?>"> <?= $order_list ?></label></li>
+					<li>
+						<label class="radio-inline">
+							<input type="radio" name="order_list" class="orderList" value="<?= $item['ordnum'] ?>"> <?= $order_list ?>
+						</label>
+					</li>
 			<?php
 			}
 			?>
@@ -91,7 +96,7 @@ include_once APPPATH . 'views/_common/header.php';
 			<button type="button" class="btn btn-primary" id="order">로그인</button>
 		</div>
 	</div>
-
+</body>
 
 <?php
 include_once APPPATH . 'views/_common/footer.php';

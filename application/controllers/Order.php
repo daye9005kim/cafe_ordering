@@ -170,8 +170,20 @@ class Order extends MY_Controller
 		if (empty($SES_USER)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
 		}
+		if (empty($ordnum)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '주문번호가 없습니다.'));
+		}
 		if (empty($code)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '메뉴를 입력해주세요.'));
+		}
+		if (intval($cnt) > 5) {
+			return $this->load->view('json', array('status' => 400, 'data' => '최대 5개까지 선택 가능합니다.'));
+		}
+
+		//다중 중복 주문 체크
+		$dupl = $this->Order_model->check(array('ordnum' => $ordnum, 'member_name' => $SES_USER['name']));
+		if ($dupl > 0) {
+			return $this->load->view('json', array('status' => 400, 'data' => '중복하여 주문할 수 없습니다.'));
 		}
 
 		$menu = $this->Starbucks_model->select(array('product_cd' => $code));
