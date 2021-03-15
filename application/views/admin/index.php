@@ -99,7 +99,7 @@ include_once APPPATH . 'views/_common/header.php';
 <div class="bg-info form-inline" style="width: 80%; margin: auto; margin-top: 20px; padding-bottom: 20px; text-align: center;">
 	<div class="text-center"><strong>주문 생성하기</strong></div>
 	<div class="form-group">
-		<input type="text" id="name" class="form-control" placeholder="구매자 이름" title="구매자 이름">
+		<input type="text" id="name" class="form-control" placeholder="예)개발팀" title="구매자 이름">
 	</div>
 	<div class="form-group">
 		<input type="text" id="comment" class="form-control" placeholder="예)페이먼트 파트 주문서" title="코멘트">
