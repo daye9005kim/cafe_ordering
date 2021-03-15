@@ -73,22 +73,24 @@ include_once APPPATH . 'views/_common/header.php';
 		})
 	</script>
 <body>
-	<div class="form-inline">
-		<div>
+	<div class="form-inline" style="width: 90%; text-align: center; margin:auto; margin-top: 20px;">
+		<p class="label label-info" style="font-size: medium;">해당하는 주문을 선택하세요.</p>
+		<div style="margin: 10px">
 			<ul class="list-unstyled">
-			<?php
-			foreach ($data['order_list'] as $item) {
-				if (empty($item['ordnum']))	continue;
-				$order_list =   $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
-				?>
+				<?php
+				foreach ($data['order_list'] as $item) {
+					if (empty($item['ordnum'])) continue;
+					$order_list = $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
+					?>
 					<li>
 						<label class="radio-inline">
-							<input type="radio" name="order_list" class="orderList" value="<?= $item['ordnum'] ?>"> <?= $order_list ?>
+							<input type="radio" name="order_list" class="orderList"
+								   value="<?= $item['ordnum'] ?>"> <?= $order_list ?>
 						</label>
 					</li>
-			<?php
-			}
-			?>
+					<?php
+				}
+				?>
 			</ul>
 		</div>
 		<div class="ui-widget form-group">

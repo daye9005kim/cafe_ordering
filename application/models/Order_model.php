@@ -230,6 +230,10 @@ SQL;
 		if (empty($param['member_name'])) {
 			return 0;
 		}
+		if (empty($param['ordnum'])) {
+			return 0;
+		}
+
 		$escape = $this->db->escape($param);
 		$arr = array();
 
