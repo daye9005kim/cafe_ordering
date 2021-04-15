@@ -78,13 +78,14 @@ include_once APPPATH . 'views/_common/header.php';
 		<div style="margin: 10px;">
 			<ul class="list-unstyled">
 				<?php
-				foreach ($data['order_list'] as $item) {
+				$str_checked = count($data['order_list']) === 1 ? 'checked' : '';
+				foreach ($data['order_list'] as $key => $item) {
 					if (empty($item['ordnum'])) continue;
 					$order_list = $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
 					?>
 					<li>
 						<label class="radio-inline">
-							<input type="radio" name="order_list" class="orderList"
+							<input type="radio" name="order_list" class="orderList" <?= $str_checked ?>
 								   value="<?= $item['ordnum'] ?>"> <?= $order_list ?>
 						</label>
 					</li>
