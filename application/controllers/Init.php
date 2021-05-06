@@ -20,6 +20,10 @@ class Init extends MY_Controller
 //		return $this->load->view('json', array('status' => 200, 'data' => array('member' => $member, 'drink' => $drink)));
 	}
 
+	/**
+	 * 음료 메뉴 생성
+	 * @return object|string
+	 */
 	public function drink()
 	{
 		$file_name = '/tmp/drink.log';
@@ -35,5 +39,27 @@ class Init extends MY_Controller
 
 		$drink = $this->Starbucks_model->fetch();
 		return $this->load->view('json', array('status' => 200, 'data' => array('drink' => $drink)));
+	}
+
+
+	/**
+	 * 사원 목록 생성
+	 * @return object|string
+	 */
+	public function member()
+	{
+		$file_name = '/tmp/member.log';
+		$period = strtotime('-1 hour');
+
+		if (!is_file($file_name)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '사원 데이터를 생성하십시오.'));
+		}
+
+		if (filemtime($file_name) > $period) {
+			return $this->load->view('json', array('status' => 400, 'data' => '업데이트한지 1시간 미만임.'));
+		}
+
+		$member = $this->Member_model->fetch();
+		return $this->load->view('json', array('status' => 200, 'data' => array('member' => $member)));
 	}
 }

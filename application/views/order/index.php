@@ -384,8 +384,9 @@ if (!empty($data['order'])) {
 	</div>
 	<br>
 	<div class="image" style="text-align: center; margin-bottom: 10px">
-		<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail">
-		<br>
+		<a href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank"">
+			<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail">
+		</a><br>
 		<span id="content"></span>
 	</div>
 	<div class="form-inline" style="text-align: center">
@@ -424,8 +425,7 @@ if (!empty($data['order'])) {
 
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
-			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
-					aria-label="List" title="내 주문 목록">
+			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal" aria-label="List" title="내 주문 목록">
 				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 			</button>
 			<button id="print" class="btn btn-default" aria-label="Print" title="주문 출력하기">
@@ -439,8 +439,9 @@ if (!empty($data['order'])) {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-								aria-hidden="true">&times;</span></button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 					<h4 class="modal-title" id="myModalLabel">내 주문 목록</h4>
 				</div>
 				<div class="modal-body">

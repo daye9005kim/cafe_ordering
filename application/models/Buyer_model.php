@@ -162,4 +162,54 @@ SQL;
 		}
 		return false;
 	}
+
+
+	/**
+	 * update
+	 * @param $param
+	 * @return bool
+	 */
+	public function update($param)
+	{
+
+		if (!isset($param['ordnum'])) {
+			return false;
+		}
+
+		$escape = $this->db->escape($param);
+
+		$arr = array();
+		if (!empty($param['name'])) {
+			$arr[] = sprintf('`member_name` = %s', $escape['name']);
+		}
+		if (!empty($param['start'])) {
+			$arr[] = sprintf('`start` = %s', $escape['start']);
+		}
+		if (!empty($param['end'])) {
+			$arr[] = sprintf('`end` = %s', $escape['end']);
+		}
+		if (!empty($param['comment'])) {
+			$arr[] = sprintf('`comment` = %s', $escape['comment']);
+		}
+		if (!empty($param['option'])) {
+			$arr[] = sprintf('`option` = %s', $escape['option']);
+		}
+
+		if (count($arr) > 0) {
+			$update = join(' , ', $arr);
+		} else {
+			return false;
+		}
+
+		$sql = <<<SQL
+UPDATE buyer SET 
+{$update}
+WHERE ordnum = {$escape['ordnum']}
+SQL;
+		$this->db->query($sql);
+		if ($this->db->affected_rows()) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -261,13 +261,13 @@ class Order extends MY_Controller
 //		}
 
 		$file_name = '/tmp/drink.log';
-		$period = date("Ymd" , strtotime('now'));
+		$period = date("Ymd", strtotime('now'));
 
 		if (!is_file($file_name)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
 		}
 		$drink = '';
-		if (date("Ymd" ,filemtime($file_name)) < $period) {
+		if (date("Ymd", filemtime($file_name)) < $period) {
 			$this->Starbucks_model->fetch();
 			$drink = 'drink updated';
 		}
@@ -296,5 +296,50 @@ class Order extends MY_Controller
 			return $this->load->view('json', array('status' => 200, 'data' => '삭제 되었습니다.'));
 		}
 		return $this->load->view('json', array('status' => 400, 'data' => '삭제 실패'));
+	}
+
+	/**
+	 * 주문 수정
+	 * @return object|string
+	 */
+	public function edit()
+	{
+		$ordnum = $this->input->post('ordnum');
+		$name = $this->input->post('name');
+		$start = $this->input->post('start');
+		$end = $this->input->post('end');
+		$comment = $this->input->post('comment');
+
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		if (empty($ordnum)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '주문번호가 없습니다.'));
+		}
+
+		if (!preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/', $start)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '날짜 형식이 맞지  없습니다.'));
+		}
+		if (!preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/', $end)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '날짜 형식이 맞지  없습니다.'));
+		}
+
+		$admin = $this->config->item('admin');
+		if (!(in_array($SES_USER['name'], $admin['member']))) {
+			return $this->load->view('json', array('status' => 400, 'data' => '권한이 없습니다.'));
+		}
+
+		$param = array(
+			'ordnum' => $ordnum,
+			'name' => $name,
+			'comment' => $comment,
+			'start' => $start,
+			'end' => $end
+		);
+
+		if ($this->Buyer_model->update($param)) {
+			return $this->load->view('json', array('status' => 200, 'data' => '수정 되었습니다.'));
+		}
+		return $this->load->view('json', array('status' => 400, 'data' => '수정 내역이 없습니다.'));
 	}
 }
