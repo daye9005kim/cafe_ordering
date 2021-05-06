@@ -367,7 +367,7 @@ if (!empty($data['order'])) {
 	<div class="user_info form-inline">
 		<div class="form-group" style="width: 90%; text-align: right; margin:auto; margin-top: 20px;">
 			<span><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다.' ?></span>
-			<button type="button" class="btn btn-primary" id="logout">logout</button>
+			<button type="button" class="btn btn-primary" id="logout">로그아웃</button>
 			<?php
 			if ($data['admin']) {
 				?>
@@ -426,7 +426,7 @@ if (!empty($data['order'])) {
 		<div class="form-group">
 			<button id="order" class="btn btn-info">주문하기</button>
 			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal" aria-label="List" title="내 주문 목록">
-				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+				<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
 			</button>
 			<button id="print" class="btn btn-default" aria-label="Print" title="주문 출력하기">
 				<span class="glyphicon glyphicon-print" aria-hidden="true"></span>

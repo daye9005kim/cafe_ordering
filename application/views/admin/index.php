@@ -5,6 +5,7 @@ include_once APPPATH . 'views/_common/header.php';
 ?>
 <body>
 <div class="form-group" style="width: 80%; text-align: right; margin:auto; margin-top: 20px;">
+	<button onclick="location.href='/member/get'" class="glyphicon glyphicon-user btn btn-success"></button>
 	<button onclick="location.href='/member/logout'" class="btn btn-warning">로그아웃</button>
 	<script>
 		$(document).ready(function () {
@@ -120,7 +121,7 @@ include_once APPPATH . 'views/_common/header.php';
 		<th>코멘트</th>
 		<th>유효기간</th>
 		<th>출력</th>
-		<th>수정</th>
+		<th>수정/삭제</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -140,8 +141,8 @@ include_once APPPATH . 'views/_common/header.php';
 						<a href="/order/mprnt?ordnum=<?=$item['ordnum']?>" class="btn btn-info btn-xs">회원별</a>
 					</td>
 					<td>
-						<a id="edit" data-ordnum="<?=$item['ordnum']?>" class="btn btn-warning btn-xs">수정</a>
-						<a data-ordnum="<?=$item['ordnum']?>" class="btn btn-danger btn-xs delete">삭제</a>
+						<a id="edit" data-ordnum="<?=$item['ordnum']?>" class="glyphicon glyphicon-pencil btn btn-warning btn-xs"></a>
+						<a data-ordnum="<?=$item['ordnum']?>" class="glyphicon glyphicon-trash btn btn-danger btn-xs delete"></a>
 					</td>
 				</tr>
 			<?php

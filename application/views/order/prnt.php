@@ -1,5 +1,6 @@
 <?php
 include_once APPPATH . 'views/_common/header.php';
+include_once APPPATH . 'views/_common/top.php';
 
 $list = '';
 foreach ($data['order'] as $key => $val) {

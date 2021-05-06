@@ -82,4 +82,19 @@ class Member extends MY_Controller
 		$this->session->unset_userdata($SES_KEY);
 		return $this->load->view('view', array('status' => 308, 'url' => '/member/login', 'data' => ''));
 	}
+
+	public function get()
+	{
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		$admin = $this->config->item('admin');
+		if (!(in_array($SES_USER['name'], $admin['member']))) {
+			return $this->load->view('json', array('status' => 400, 'data' => '권한이 없습니다.'));
+		}
+		$members = $this->Member_model->select();
+
+		return $this->load->view('view', array('status' => 200, 'data' => $members));
+	}
+
 }
