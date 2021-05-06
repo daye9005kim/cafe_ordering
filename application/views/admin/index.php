@@ -59,9 +59,9 @@ include_once APPPATH . 'views/_common/header.php';
 				}
 			});
 
-			$('#edit').click(function () {
+			$('.btn-edit').click(function () {
 				var form = $(this).closest('tr');
-				var ordnum = form.find('input[name="ordnum"]').val();
+				var ordnum = $(this).data('ordnum');
 				var name = typeof form.find('input[name="name"]').val() === "undefined" ? '' : form.find('input[name="name"]').val();
 				var comment = typeof form.find('input[name="comment"]').val() === "undefined" ? '' : form.find('input[name="comment"]').val();
 				var start = typeof form.find('input[name="start"]').val() === "undefined" ? '' : form.find('input[name="start"]').val();
@@ -141,7 +141,7 @@ include_once APPPATH . 'views/_common/header.php';
 						<a href="/order/mprnt?ordnum=<?=$item['ordnum']?>" class="btn btn-info btn-xs">회원별</a>
 					</td>
 					<td>
-						<a id="edit" data-ordnum="<?=$item['ordnum']?>" class="glyphicon glyphicon-pencil btn btn-warning btn-xs"></a>
+						<a data-ordnum="<?=$item['ordnum']?>" class="glyphicon glyphicon-pencil btn btn-warning btn-xs btn-edit"></a>
 						<a data-ordnum="<?=$item['ordnum']?>" class="glyphicon glyphicon-trash btn btn-danger btn-xs delete"></a>
 					</td>
 				</tr>
