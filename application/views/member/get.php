@@ -11,33 +11,24 @@ include_once APPPATH . 'views/_common/top.php';
 		</div>
 		<div class="form-group">
 			<select id="pos" class="form-control" title="직급" data-original-title="직급">
-				<option value="1">직급</option>
-				<option value="2">2시간</option>
-				<option value="3">3시간</option>
-				<option value="4">4시간</option>
-				<option value="5">5시간</option>
+				<option value="사원">사원</option>
+				<option value="대리">대리</option>
+				<option value="과장">과장</option>
+				<option value="차장">차장</option>
+				<option value="부장">부장</option>
+				<option value="이사">이사</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<select id="dept" class="form-control" title="부서" data-original-title="부서">
-				<option value="1">부서</option>
-				<option value="2">2시간</option>
-				<option value="3">3시간</option>
-				<option value="4">4시간</option>
-				<option value="5">5시간</option>
+				<option value="플랫폼혁신본부">플랫폼혁신본부</option>
 			</select>
 		</div>
 		<div class="form-group">
-			<select id="team" class="form-control" title="팀" data-original-title="팀">
-				<option value="0">팀</option>
-				<option value="1">옵션 받기</option>
-			</select>
+			<input type="text" id="team" class="form-control" placeholder="팀" title="팀">
 		</div>
 		<div class="form-group">
-			<select id="part" class="form-control" title="파트" data-original-title="파트">
-				<option value="0">파트</option>
-				<option value="1">옵션 받기</option>
-			</select>
+			<input type="text" id="part" class="form-control" placeholder="part" title="part">
 		</div>
 
 		<div class="form-group">
