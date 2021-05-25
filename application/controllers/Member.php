@@ -96,5 +96,33 @@ class Member extends MY_Controller
 
 		return $this->load->view('view', array('status' => 200, 'data' => $members));
 	}
+	
+	public function insert()
+	{
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		$admin = $this->config->item('admin');
+		if (!(in_array($SES_USER['name'], $admin['member']))) {
+			return $this->load->view('json', array('status' => 400, 'data' => '권한이 없습니다.'));
+		}
+
+		$name = $this->input->get_post('name');
+		$pos = $this->input->get_post('pos');
+		$dept = $this->input->get_post('dept');
+		$team = $this->input->get_post('team');
+		$part = $this->input->get_post('part');
+		$param = array(
+			'name' => $name,
+			'pos' => $pos,
+			'dept' => $dept,
+			'team' => $team,
+			'part' => $part
+		);
+		if (!$this->Member_model->insert($param)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '사원 추가에 실패하였습니다.'));
+		}
+		return $this->load->view('json', array('status' => 200, 'data' => $name . '님이 추가 되었습니다.'));
+	}
 
 }
