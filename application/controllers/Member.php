@@ -112,6 +112,23 @@ class Member extends MY_Controller
 		$dept = $this->input->get_post('dept');
 		$team = $this->input->get_post('team');
 		$part = $this->input->get_post('part');
+
+		if (empty($name)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '이름이 없습니다.'));
+		}
+		if (empty($pos)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '직급이 없습니다.'));
+		}
+		if (empty($dept)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '부서가 없습니다.'));
+		}
+		if (empty($team)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '팀이 없습니다.'));
+		}
+		if (empty($part)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '파트가 없습니다.'));
+		}
+
 		$param = array(
 			'name' => $name,
 			'pos' => $pos,

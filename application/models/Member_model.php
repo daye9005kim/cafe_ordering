@@ -66,7 +66,7 @@ SQL;
         //테이블 만들기
         $this->create();
         //삭제
-        $this->delete();
+        $this->table_delete();
 
         $contents = file_get_contents('http://test.jasongroup.co.kr/main/jasonCafe.html', false, stream_context_create(array('http' => array(
             'method' => 'POST',
@@ -112,7 +112,7 @@ SQL;
      * 테이블 삭제
      * @return bool
      */
-    public function delete()
+    public function table_delete()
     {
         $sql = <<<SQL
 DELETE FROM member
