@@ -524,5 +524,19 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+//admin
 $config['admin']['member'] = array('김다예', '장하영');
 $config['admin']['drinkCacheFile'] = '/tmp/drink.log';
+
+//member
+$config['dept']['team'] = array(
+	'R&D센터_개발팀' => array('페이먼트개발파트', '솔루션개발파트', '서비스개발파트', ),
+	'R&D센터_데이터플랫폼개발팀' => array('데이터인프라파트'),
+	'R&D센터_앱개발팀' => array('앱개발파트'),
+	'R&D센터_인프라팀' => array('인프라운영파트'),
+	'R&D센터_플랫폼개발팀' => array('플랫폼개발파트'),
+	'UX디자인팀' => array('UX디자인파트'),
+	'QA팀' => array('QA파트'),
+	'백엔드기획팀' => array('백엔드기획파트'),
+	'서비스기획팀' => array('서비스기획파트'),
+);

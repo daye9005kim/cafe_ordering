@@ -2,6 +2,8 @@
 include_once APPPATH . 'views/_common/header.php';
 include_once APPPATH . 'views/_common/top.php';
 
+$team = $this->config->item('dept');
+
 ?>
 <script>
 	$(document).ready(function () {
