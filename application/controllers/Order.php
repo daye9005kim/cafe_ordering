@@ -260,16 +260,25 @@ class Order extends MY_Controller
 //			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문이 존재합니다. 아직 주문이 완료되지 않았습니다.'));
 //		}
 
-		$file_name = '/tmp/drink.log';
+		$file_name_drink = '/tmp/drink.log';
+		$file_name_mmbr = '/tmp/member.log';
 		$period = date("Ymd", strtotime('now'));
 
-		if (!is_file($file_name)) {
+		if (!is_file($file_name_drink)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
 		}
-		$drink = '';
-		if (date("Ymd", filemtime($file_name)) < $period) {
+		if (!is_file($file_name_mmbr)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '사원 데이터를 생성하십시오.'));
+		}
+
+		$msg = '';
+		if (date("Ymd", filemtime($file_name_drink)) < $period) {
 			$this->Starbucks_model->fetch();
-			$drink = 'drink updated';
+			$msg .= ' drinks updated';
+		}
+		if (date("Ymd", filemtime($file_name_mmbr)) < $period) {
+			$this->Member_model->fetch();
+			$msg .= ' members updated';
 		}
 
 		$this->Buyer_model->insert(array(
@@ -281,7 +290,7 @@ class Order extends MY_Controller
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
 		));
 
-		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $drink . ' 메뉴 업데이트일: ' . $period));
+		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $msg . ' 업데이트일: ' . $period));
 	}
 
 	/**
