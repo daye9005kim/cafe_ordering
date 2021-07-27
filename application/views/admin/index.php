@@ -161,11 +161,13 @@ include_once APPPATH . 'views/_common/header.php';
 	</div>
 	<div class="form-group">
 		<select id="time" class="form-control" title="유효기간" data-original-title="유효기간">
-			<option value="1">1시간</option>
-			<option value="2">2시간</option>
-			<option value="3">3시간</option>
-			<option value="4">4시간</option>
-			<option value="5">5시간</option>
+			<option value="10">10분</option>
+			<option value="20">20분</option>
+			<option value="30">30분</option>
+			<option value="45">45분</option>
+			<option value="60">1시간</option>
+			<option value="120">2시간</option>
+			<option value="180">3시간</option>
 		</select>
 	</div>
 	<div class="form-group">

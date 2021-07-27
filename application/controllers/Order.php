@@ -285,7 +285,7 @@ class Order extends MY_Controller
 			'ordnum' => uniqid(),
 			'member_name' => $name,
 			'start' => date('Y-m-d H:i:s'),
-			'end' => date('Y-m-d H:i:s', strtotime($time . ' hours')),
+			'end' => date('Y-m-d H:i:s', strtotime('+' . $time . ' minutes')),
 			'comment' => $comment,
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
 		));

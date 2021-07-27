@@ -63,6 +63,10 @@ SQL;
     public function fetch()
     {
         $success = 0;
+		$file_name = '/tmp/member.log';
+		$handle = fopen($file_name, 'w');
+		file_put_contents($file_name, strtotime("now"));
+		fclose($handle);
         //테이블 만들기
         $this->create();
         //삭제
