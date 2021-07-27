@@ -407,10 +407,10 @@ if (!empty($data['order'])) {
 		<div class="form-group">
 			<select id="cnt" class="form-control" title="수량" data-original-title="수량">
 				<option value="1">1개</option>
-				<option value="2">2개</option>
-				<option value="3">3개</option>
-				<option value="4">4개</option>
-				<option value="5">5개</option>
+<!--				<option value="2">2개</option>-->
+<!--				<option value="3">3개</option>-->
+<!--				<option value="4">4개</option>-->
+<!--				<option value="5">5개</option>-->
 			</select>
 		</div>
 		<?php
