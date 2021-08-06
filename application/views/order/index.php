@@ -34,7 +34,11 @@ if (!empty($data['order'])) {
 
 		input {
 			background: white !important;
-			width: 300px !important;
+		}
+
+		#menu_nm {
+			width: 380px !important;
+			padding-right: 40px;
 		}
 
 		img {
@@ -81,6 +85,7 @@ if (!empty($data['order'])) {
 			$.widget("custom.combobox", {
 				_create: function () {
 					this.wrapper = $("<span>")
+							.attr("style","position: relative; display: inline-block;")
 							.addClass("custom-combobox")
 							.insertAfter(this.element);
 
@@ -141,6 +146,7 @@ if (!empty($data['order'])) {
 					$("<a>")
 							.attr("tabIndex", -1)
 							.attr("title", "전체 메뉴 보기")
+							.attr("style", "position: absolute; top: 0; right: 0")
 							.text("▼")
 							.tooltip()
 							.appendTo(this.wrapper)
