@@ -126,6 +126,7 @@ if (!empty($data['order'])) {
 								success: function (request) {
 									$("#thumbnail").attr("src", request.menu.product_img);
 									$("#content").text(request.menu.content);
+									$("#drink_view").attr("href","https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd )
 								},
 								error: function (request, status, error) {
 									console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -391,7 +392,7 @@ if (!empty($data['order'])) {
 	</div>
 	<br>
 	<div class="image" style="text-align: center; margin-bottom: 10px">
-		<a href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank"">
+		<a id="drink_view" href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank"">
 			<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail">
 		</a><br>
 		<span id="content"></span>

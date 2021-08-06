@@ -58,6 +58,7 @@ class Order extends MY_Controller
 		$menu = $this->Starbucks_model->select(array('product_cd' => $code));
 
 		$info = array(
+			"product_cd" => $menu[0]['product_cd'],
 			"product_img" => $menu[0]['product_img'],
 			"content" => $menu[0]['content']
 		);
