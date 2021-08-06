@@ -198,7 +198,7 @@ if (!empty($data['order'])) {
 							valid = false;
 
 					this.element.children("option").each(function () {
-						console.log($(this).text().toLowerCase());
+						// console.log($(this).text().toLowerCase());
 						if ($(this).text().toLowerCase() === valueLowerCase) {
 							this.selected = valid = true;
 							return false;
@@ -211,11 +211,12 @@ if (!empty($data['order'])) {
 					}
 
 					// Remove invalid value
-					this.input.val("").attr("title", value + " 일치하는 메뉴가 없습니다.").tooltip("open");
+					alert("일치하는 메뉴가 없습니다.");
+					this.input.val("");
 					this.element.val("");
-					this._delay(function () {
-						this.input.tooltip("close").attr("title", "");
-					}, 2500);
+					// this._delay(function () {
+					// 	this.input.tooltip("close").attr("title", "");
+					// }, 2500);
 					this.input.autocomplete("instance").term = "";
 				},
 
