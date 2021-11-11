@@ -1,5 +1,6 @@
 <?php
 include_once APPPATH . 'views/_common/header.php';
+include_once APPPATH . 'views/_common/top.php';
 $option = '';
 foreach ($data['menu'] as $key => $val) {
 	$option .= <<<HTML
@@ -42,8 +43,8 @@ if (!empty($data['order'])) {
 		}
 
 		img {
-			width: 100px;
-			height: 100px;
+			width: 150px;
+			height: 150px;
 		}
 
 	</style>
@@ -61,7 +62,7 @@ if (!empty($data['order'])) {
 				var disDt = _vDate - now;
 				if (disDt < 0) {
 					clearInterval(_timer);
-					document.getElementById(id).textContent = '해당 주문이 종료 되었습니다.';
+					document.getElementById(id).textContent = '주문 시간이 종료 되었습니다.';
 					return;
 				}
 
@@ -85,7 +86,7 @@ if (!empty($data['order'])) {
 			$.widget("custom.combobox", {
 				_create: function () {
 					this.wrapper = $("<span>")
-							.attr("style","position: relative; display: inline-block;")
+							.attr("style", "position: relative; display: inline-block;")
 							.addClass("custom-combobox")
 							.insertAfter(this.element);
 
@@ -126,7 +127,7 @@ if (!empty($data['order'])) {
 								success: function (request) {
 									$("#thumbnail").attr("src", request.menu.product_img);
 									$("#content").text(request.menu.content);
-									$("#drink_view").attr("href","https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd )
+									$("#drink_view").attr("href", "https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd)
 								},
 								error: function (request, status, error) {
 									console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -152,7 +153,7 @@ if (!empty($data['order'])) {
 							.tooltip()
 							.appendTo(this.wrapper)
 							.removeClass("ui-corner-all")
-							.addClass("custom-combobox-toggle text-right btn btn-default")
+							.addClass("custom-combobox-toggle text-right btn btn-success")
 							.on("mousedown", function () {
 								wasOpen = input.autocomplete("widget").is(":visible");
 							})
@@ -264,23 +265,22 @@ if (!empty($data['order'])) {
 					},
 					success: function (request) {
 						var list = [];
-						var table = $('<table />', {
-							"class": "table table-bordered"
-						}).prepend($('<thead/>').prepend(
-								$('<tr/>').prepend(
-										$('<th/>').text('주문일'),
-										$('<th/>').text('메뉴'),
-										$('<th/>').text('사이즈'),
-										$('<th/>').text('수량'),
-										$('<th/>').text('담기')
-								)
-						), $('<tbody/>'));
+						var table = $('<table />', {"class": "table table-sm table-bordered"}).prepend(
+								$('<thead/>').prepend(
+										$('<tr/>').prepend(
+												$('<th/>').text('주문일'),
+												$('<th/>').text('메뉴'),
+												$('<th/>').text('사이즈'),
+												$('<th/>').text('수량'),
+												$('<th/>').text('재주문')
+										)
+								), $('<tbody/>'));
 
 						for (var i in request.order) {
 							ord_date = request.order[i].regdate.split(' ')[0];
 							style = '';
 							button = $('<td/>').prepend($('<button />', {
-								"class": "btn btn-success btn-xs",
+								"class": "btn btn-success btn-sm",
 								"data-code": request.order[i].product_cd,
 								"data-name": request.order[i].product_nm,
 								"data-size": request.order[i].product_size,
@@ -293,11 +293,13 @@ if (!empty($data['order'])) {
 								$('#cnt').val($(this).attr('data-cnt'));
 
 								alert('주문이 입력 되었습니다. 주문하기를 다시 눌러주세요.');
+								$('#myModal').modal("hide"); //닫기
+								$('#order').focus();
 							}));
 
 							if (ordnum === request.order[i].ordnum) {
 								ord_date = '오늘의 주문';
-								style = 'info';
+								style = 'table-danger';
 								button = $('<td />').text('');
 							}
 							list.push(
@@ -372,91 +374,83 @@ if (!empty($data['order'])) {
 
 	</script>
 	<body>
-	<div class="user_info form-inline">
-		<div class="form-group" style="width: 90%; text-align: right; margin:auto; margin-top: 20px;">
-			<span><?= $data['user']['name'] . ' ' . $data['user']['pos'] . '님 환영 합니다.' ?></span>
-			<button type="button" class="btn btn-primary" id="logout">로그아웃</button>
+	<div class="container bd-content">
+		<div class="bd-callout bd-callout-warning" style="text-align: center;">
+			<h5><?= '주문대상 : ' . $data['buyer']['member_name'] ?></h5>
+			<p><?= $data['buyer']['comment'] ?></p>
+			<div class="alert alert-success" role="alert">
+				<h5><strong><span class="" id="sample02">0시 00분 00초</span></strong></h5>
+			</div>
+		</div>
+	</div>
+	<div class="container" style="max-width: 1000px; margin-top: 20px;">
+		<br>
+		<div class="image" style="text-align: center; margin-bottom: 10px">
+			<a id="drink_view" href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank">
+			<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail" class="ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="스타벅스 홈페이지로 이동"
+			style="margin-bottom: 10px">
+			</a><br>
+			<span id="content" style="margin: 10px"></span>
+		</div>
+		<div class="row g-<?=$data['buyer']['option'] === '1' ? '1' : '3'?> 1" style="text-align: center">
+			<div class="col-auto">
+				<input type="hidden" id="code">
+				<select id="combobox">
+					<option value>메뉴를 선택하세요.</option>
+					<?= $option ?>
+				</select>
+			</div>
+			<div class="col-auto">
+				<select id="size" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="사이즈">
+					<option value="tall">Tall</option>
+					<option value="grande">Grande</option>
+					<option value="venti">Venti</option>
+				</select>
+			</div>
+			<div class="col-auto">
+				<select id="cnt" class="form-select ttip" title="수량" data-bs-toggle="tooltip" data-bs-placement="top">
+					<option value="1">1개</option>
+					<!--<option value="2">2개</option>-->
+					<!--<option value="3">3개</option>-->
+					<!--<option value="4">4개</option>-->
+					<!--<option value="5">5개</option>-->
+				</select>
+			</div>
 			<?php
-			if ($data['admin']) {
+			if ($data['buyer']['option'] === '1') {
 				?>
-				<button type="button" class="btn btn-danger" onclick="location.href='/admin'" id="admin">관리자</button>
+				<div class="col-auto">
+					<input type="text" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top" id="comment" placeholder="comment" maxlength='20' title="옵션 추가">
+				</div>
 				<?php
 			}
 			?>
-		</div>
-		<div style="text-align: center">
-			<h4><?= '주문 문의 : ' . $data['buyer']['member_name'] ?></h4>
-			<h4><?= $data['buyer']['comment'] ?></h4>
-			<h2><span class="label label-success" id="sample02">0시 00분 00초</span></h2>
-		</div>
-	</div>
-	<br>
-	<div class="image" style="text-align: center; margin-bottom: 10px">
-		<a id="drink_view" href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank"">
-			<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail">
-		</a><br>
-		<span id="content"></span>
-	</div>
-	<div class="form-inline" style="text-align: center">
-		<div class="ui-widget form-group">
-			<input type="hidden" id="code">
-			<select id="combobox">
-				<option value>메뉴를 선택하세요.</option>
-				<?= $option ?>
-			</select>
-		</div>
-		<div class="form-group">
-			<select id="size" class="form-control" title="사이즈" data-original-title="사이즈">
-				<option value="tall">Tall</option>
-				<option value="grande">Grande</option>
-				<option value="venti">Venti</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<select id="cnt" class="form-control" title="수량" data-original-title="수량">
-				<option value="1">1개</option>
-<!--				<option value="2">2개</option>-->
-<!--				<option value="3">3개</option>-->
-<!--				<option value="4">4개</option>-->
-<!--				<option value="5">5개</option>-->
-			</select>
-		</div>
-		<?php
-		if ($data['buyer']['option'] === '1') {
-?>
-		<div class="form-group">
-			<input type="text" class="form-control" id="comment" placeholder="comment"  maxlength='20'>
-		</div>
-		<?php
-		}
-		?>
 
-		<div class="form-group">
-			<button id="order" class="btn btn-info">주문하기</button>
-			<button type="button" id="myorder" class="btn btn-warning" data-toggle="modal" data-target="#myModal" aria-label="List" title="내 주문 목록">
-				<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-			</button>
-			<button id="print" class="btn btn-default" aria-label="Print" title="주문 출력하기">
-				<span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-			</button>
+			<div class="col-auto">
+				<button id="order" class="btn btn-outline-success">주문하기
+				</button>
+				<button type="button" id="myorder" class="btn btn-warning ttip" data-bs-toggle="modal" data-bs-target="#myModal" title="내 주문 기록">
+					<span><i class="bi bi-cart4"></i></span>
+				</button>
+				<button id="print" class="btn btn-secondary ttip" aria-label="Print" data-bs-toggle="tooltip" data-bs-placement="top" title="주문서 출력">
+					<span><i class="bi bi-printer"></i></span>
+				</button>
+			</div>
+			<p class="text-danger" style="margin: 10px 0 10px;">다시 주문하시면 주문이 수정됩니다.</p>
 		</div>
-		<p class="text-danger" style="margin: 10px 0 10px;">다시 주문하시면 주문이 수정됩니다.</p>
-	</div>
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">내 주문 목록</h4>
-				</div>
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-					<span id="guide">다시 주문하시면 주문이 수정됩니다.</span>
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+		<!-- Modal -->
+		<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myModalLabel">내 주문 목록</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body"></div>
+					<div class="modal-footer">
+						<span id="guide">입력 선택 후 다시 주문하시면 주문이 수정됩니다.</span>
+						<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
+					</div>
 				</div>
 			</div>
 		</div>

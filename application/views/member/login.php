@@ -59,7 +59,7 @@ include_once APPPATH . 'views/_common/header.php';
 		$(document).ready(function () {
 			$("#name").focus();
 
-			$(".enter").keypress(function ( event ) {
+			$(".enter").keypress(function (event) {
 				var name = $("#name").val();
 				if (event.which == 13) {
 					loginok(name);
@@ -72,34 +72,41 @@ include_once APPPATH . 'views/_common/header.php';
 			});
 		})
 	</script>
-<body>
-	<div class="form-inline" style="width: 90%; text-align: left; margin:auto; margin-top: 20px;">
-		<p class="label label-info" style="font-size: medium;"><?= $data['str'] ?></p>
-		<div style="margin: 10px;">
-			<ul class="list-unstyled">
-				<?php
-				$str_checked = count($data['order_list']) === 1 ? 'checked' : '';
-				foreach ($data['order_list'] as $key => $item) {
-					if (empty($item['ordnum'])) continue;
-					$order_list = $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
-					?>
-					<li>
-						<label class="radio-inline">
-							<input type="radio" name="order_list" class="orderList" <?= $str_checked ?>
-								   value="<?= $item['ordnum'] ?>"> <?= $order_list ?>
-						</label>
-					</li>
+	<body>
+	<div class="container" style="max-width: 600px; margin-top: 20px;">
+		<div class="mb-3">
+			<div style="margin: 10px;">
+				<p class="form-label" style="font-size: medium;"><?= $data['str'] ?></p>
+				<ul class="list-group">
 					<?php
-				}
-				?>
-			</ul>
+					$str_checked = count($data['order_list']) === 1 ? 'checked' : '';
+					foreach ($data['order_list'] as $key => $item) {
+						if (empty($item['ordnum'])) continue;
+						$order_list = $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
+						?>
+						<li class="list-group-item">
+							<div class="form-check">
+								<input type="radio" name="order_list" class="form-check-input orderList"
+									   id="<?= $item['ordnum'] ?>" <?= $str_checked ?> value="<?= $item['ordnum'] ?>">
+								<label class="form-check-label" for="<?= $item['ordnum'] ?>"><?= $order_list ?></label>
+							</div>
+						</li>
+						<?php
+					}
+					?>
+				</ul>
+			</div>
 		</div>
-		<div class="ui-widget form-group">
-			<input type="text" id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">
-			<button type="button" class="btn btn-primary" id="order">로그인</button>
+		<div style="margin: 10px;">
+			<div class="input-group mb-3">
+				<input type="text" id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">
+				<button type="button" class="btn btn-primary" id="order">로그인</button>
+			</div>
 		</div>
 	</div>
-</body>
+
+	</div>
+	</body>
 
 <?php
 include_once APPPATH . 'views/_common/footer.php';

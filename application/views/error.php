@@ -10,11 +10,12 @@ if (!isset($data)) {
 }
 
 //echo $status;
-print_r($data);
+include_once APPPATH . 'views/_common/top.php';
 ?>
 
-<body>
-<button class="btn btn-primary" onclick="location.href='/member/login'"> 홈 </button>
-<button class="btn btn-primary" onclick="location.href='/member/logout'"> 로그아웃 </button>
-<button class="btn btn-danger" onclick="location.href='/admin'"> 관리자 </button>
-</body>
+<div class="container" style="margin-top: 20px">
+	<div class="alert alert-danger" role="alert">
+		<i class="bi bi-exclamation-octagon-fill"></i>
+		<?= $data ?>
+	</div>
+</div>

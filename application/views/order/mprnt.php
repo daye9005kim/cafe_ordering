@@ -25,34 +25,37 @@ HTML;
 	$list .= '</tr>';
 }
 ?>
-<style>
-	body {
-		font-size: 13px;
-	}
-	p {
-		margin: 0 0 0;
-	}
-</style>
-<body>
-<h4 style="text-align: center">주문번호 <?= $data['ordnum'] ?></h4>
-<table class="table table-bordered" style="width: 80%; margin: auto; margin-top: 20px;">
-	<thead>
-	<tr>
-		<th>메뉴</th>
-		<th>Tall</th>
-		<th>Grande</th>
-		<th>Venti</th>
-	</tr>
-	</thead>
-	<tbody>
+	<div class="container" id="orderTable">
+		<div class="clearfix">
+			<div class="float-start">
+				<span class="btn alert-secondary btn-sm">주문번호 <?= $data['ordnum'] ?></span>
+			</div>
+			<div class="float-end">
+				<button id="printing" class="btn btn-outline-secondary btn-sm ttip" aria-label="Print" data-bs-toggle="tooltip"
+						data-bs-placement="top" title="출력하기">
+					<span><i class="bi bi-printer-fill"></i></span>
+				</button>
+			</div>
+		</div>
+	<table class="table table-bordered table-striped table-hover table-sm"
+			   style="margin-top: 10px; font-size: small;">
+			<thead>
+			<tr>
+				<th>메뉴</th>
+				<th>Tall</th>
+				<th>Grande</th>
+				<th>Venti</th>
+			</tr>
+			</thead>
+			<tbody>
 			<?= $list ?>
-	<tr class="info">
-		<td style="text-align: center">총</td>
-		<td colspan="3" style="text-align: center"><?= $data['total'] ?> 개</td>
-	</tr>
-	</tbody>
-</table>
-</body>
+			<tr class="info">
+				<td style="text-align: center">총</td>
+				<td colspan="3" style="text-align: center"><?= $data['total'] ?> 개</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 
 <?php
 include_once APPPATH . 'views/_common/footer.php';

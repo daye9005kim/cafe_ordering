@@ -1,15 +1,22 @@
-<style>
-	.btn_both{overflow:hidden;clear:both;width:100%}
-	.btn_both .fl{float:left}
-	.btn_both .fr{float:right}
+<?php
+$admin = $this->config->item('admin');
+$user = $this->session->user;
 
-</style>
+?>
 <body>
-<div class="form-group btn_both" style="width: 80%; text-align: left; margin:auto; margin-top: 20px;">
-	<div class="fl">
-		<button onclick="history.back()" class="glyphicon glyphicon-arrow-left btn btn-success"></button>
+<div class="container clearfix" style="margin-top: 20px; margin-bottom: 20px;">
+	<div class="float-start">
+		<button onclick="history.back()" class="btn btn-sm btn-success ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="뒤로가기"><i class="bi bi-arrow-left"></i></button>
 	</div>
-	<div class="fr">
-		<button onclick="location.href='/member/logout'" class="btn btn-warning">로그아웃</button>
+	<div class="float-end">
+		<?php if (!empty($user['name'])) : ?>
+		<span style="font-size: small;"><?= $user['name'] . ' ' . $user['pos'] . '님 환영 합니다.' ?></span>
+		<?php endif; ?>
+		<?php if (in_array($user['name'], $admin['member'])) : ?>
+			<button onclick="location.href='/member/get'" class="btn btn-sm btn-success ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="사원목록"><i class="bi bi-people"></i></button>
+			<button onclick="location.href='/admin'" class="btn btn-sm btn-danger ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="관리자">관리자</button>
+		<?php endif; ?>
+		<button onclick="location.href='/member/logout'" class="btn btn-sm btn-warning ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="로그아웃"><i class="bi bi-door-open-fill"></i></button>
 	</div>
 </div>
+
