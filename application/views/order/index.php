@@ -240,7 +240,6 @@ if (!empty($data['order'])) {
 			$("#cnt").val('<?=isset($data['order']['product_cnt']) ? $data['order']['product_cnt'] : '1'?>');
 			$("#comment").val('<?=isset($data['order']['comment']) ? $data['order']['comment'] : ''?>');
 
-
 			$("#logout").click(function () {
 				window.location.href = "/member/logout";
 			});
@@ -295,6 +294,14 @@ if (!empty($data['order'])) {
 								alert('주문이 입력 되었습니다. 주문하기를 다시 눌러주세요.');
 								$('#myModal').modal("hide"); //닫기
 								$('#order').focus();
+								var cnt = 1;
+								var blink = setInterval(function(){
+									$(".blinkEle").toggle();
+									cnt++;
+									if (cnt > 10) {
+										clearInterval(blink);
+									}
+								}, 500);
 							}));
 
 							if (ordnum === request.order[i].ordnum) {
@@ -427,7 +434,8 @@ if (!empty($data['order'])) {
 			?>
 
 			<div class="col-auto">
-				<button id="order" class="btn btn-outline-success">주문하기
+				<button id="order" class="btn btn-outline-success position-relative">주문하기
+					<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle blinkEle" style="display: none;"></span>
 				</button>
 				<button type="button" id="myorder" class="btn btn-warning ttip" data-bs-toggle="modal" data-bs-target="#myModal" title="내 주문 기록">
 					<span><i class="bi bi-cart4"></i></span>
