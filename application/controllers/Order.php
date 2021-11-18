@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Order extends MY_Controller
 {
 
+	//todo:: 페이징,
 	public function __construct()
 	{
 		parent::__construct();
