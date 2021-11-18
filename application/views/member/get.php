@@ -67,13 +67,13 @@ include_once APPPATH . 'views/_common/top.php';
 				<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 					 data-bs-parent="#accordionExample">
 					<div class="accordion-body">
-						<form name="insert" method="post" class="row g-2">
+						<form name="insert" method="post" class="row g-3">
 							<div class="col-auto">
-								<input type="text" id="name" name="name" class="form-control form-control-sm"
+								<input type="text" id="name" name="name" class="form-control"
 									   placeholder="이름" title="사원 이름">
 							</div>
 							<div class="col-auto">
-								<select id="pos" name="pos" class="form-select form-select-sm" title="직급"
+								<select id="pos" name="pos" class="form-select" title="직급"
 										data-original-title="직급">
 									<option value="사원">사원</option>
 									<option value="대리">대리</option>
@@ -84,13 +84,13 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="dept" name="dept" class="form-select form-select-sm" title="부서"
+								<select id="dept" name="dept" class="form-select" title="부서"
 										data-original-title="부서">
 									<option value="플랫폼혁신본부">플랫폼혁신본부</option>
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="team" name="team" class="form-select form-select-sm" title="team"
+								<select id="team" name="team" class="form-select" title="team"
 										data-original-title="team">
 									<option value="R&D센터_개발팀">R&D센터_개발팀</option>
 									<option value="R&D센터_데이터플랫폼개발팀">R&D센터_데이터플랫폼개발팀</option>
@@ -104,7 +104,7 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="part" name="part" class="form-select form-select-sm" title="part"
+								<select id="part" name="part" class="form-select" title="part"
 										data-original-title="part">
 									<option value="페이먼트개발파트">페이먼트개발파트</option>
 									<option value="서비스개발파트">서비스개발파트</option>
@@ -120,7 +120,7 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<button id="insert" class="btn btn-primary btn-sm ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="저장">
+								<button id="insert" class="btn btn-primary ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="저장">
 									<i class="bi bi-check-lg"></i>
 								</button>
 							</div>

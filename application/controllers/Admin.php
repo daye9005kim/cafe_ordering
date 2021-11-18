@@ -15,6 +15,7 @@ class Admin extends MY_Controller
 		$SES_USER = $this->session->userdata($SES_KEY);
 
 		$buyer = $this->Buyer_model->select(array('interval' => 5));
+		$team = $this->Member_model->team();
 
 		$admin = $this->config->item('admin');
 		if (!in_array($SES_USER['name'], $admin['member'])) {
@@ -22,7 +23,8 @@ class Admin extends MY_Controller
 		}
 
 		$return = array(
-			'buyer' => empty($buyer) ? array() : $buyer
+			'buyer' => empty($buyer) ? array() : $buyer,
+			'team' => empty($team) ? array() : $team
 		);
 		return $this->load->view('view', array('status' => 200, 'data' => $return));
 	}

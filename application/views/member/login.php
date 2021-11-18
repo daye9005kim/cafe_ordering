@@ -47,7 +47,8 @@ include_once APPPATH . 'views/_common/header.php';
 					if (request.name === name) {
 						window.location.href = "/order?ordnum=" + ordnum;
 					} else {
-						alert('로그아웃 하십시오.');
+						alert(request.name + ' 계정을 로그아웃 하십시오.');
+						history.back();
 					}
 				},
 				error: function (request, status, error) {
@@ -82,7 +83,7 @@ include_once APPPATH . 'views/_common/header.php';
 					$str_checked = count($data['order_list']) === 1 ? 'checked' : '';
 					foreach ($data['order_list'] as $key => $item) {
 						if (empty($item['ordnum'])) continue;
-						$order_list = $item['member_name'] . ' - ' . $item['comment'] . ' (' . substr($item['start'], 0, -3) . ' ~ ' . substr($item['end'], 11, 5) . ')';
+						$order_list = $item['invite'] . ' - ' . $item['comment'];
 						?>
 						<li class="list-group-item">
 							<div class="form-check">

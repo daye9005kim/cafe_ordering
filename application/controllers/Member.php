@@ -21,6 +21,10 @@ class Member extends MY_Controller
 		$SES_USER = $this->session->userdata($SES_KEY);
 
 		$buyer = $this->Buyer_model->select(array('now' => true));
+
+		$team = explode(',', $buyer[0]['invite']);
+		$buyer[0]['invite'] = strToTeam($team);
+
 		$str = '해당하는 주문을 선택하세요.';
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
@@ -38,7 +42,7 @@ class Member extends MY_Controller
 		}
 
 		if (!empty($SES_USER['dept'])) {
-			return $this->load->view('view', array('status' => 308, 'url' => '/order', 'data' => ''));
+//			return $this->load->view('view', array('status' => 308, 'url' => '/order', 'data' => ''));
 		}
 
 		$members = $this->Member_model->select();
@@ -64,14 +68,15 @@ class Member extends MY_Controller
 			$this->session->set_userdata($SES_KEY, array('name' => $user, 'pos' => '', 'dept' => '', 'team' => '', 'part' => ''));
 		}
 
-		if (empty($SES_USER['dept'])) {
-			$usr = $this->Member_model->select(array('name' => $user));
-			if (empty($usr)) {
-				return $this->load->view('json', array('status' => 400, 'data' => '사원 정보가 없습니다.'));
-			}
-			$this->session->set_userdata($SES_KEY, array('name' => $usr[0]['name'], 'pos' => $usr[0]['pos'], 'dept' => $usr[0]['dept'], 'team' => $usr[0]['team'], 'part' => $usr[0]['part']));
-			$SES_USER = $this->session->userdata($SES_KEY);
+//		if (empty($SES_USER['dept'])) { //세션 유지하는 if문
+		//세션 덮어쓰기
+		$usr = $this->Member_model->select(array('name' => $user));
+		if (empty($usr)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '사원 정보가 없습니다.'));
 		}
+		$this->session->set_userdata($SES_KEY, array('name' => $usr[0]['name'], 'pos' => $usr[0]['pos'], 'dept' => $usr[0]['dept'], 'team' => $usr[0]['team'], 'part' => $usr[0]['part']));
+		$SES_USER = $this->session->userdata($SES_KEY);
+//		}
 
 		return $this->load->view('json', array('status' => 200, 'data' => array('name' => $SES_USER['name'])));
 	}

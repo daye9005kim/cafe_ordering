@@ -30,8 +30,8 @@ class Buyer_model extends CI_Model
 			$arr[] = sprintf('`end` >= DATE_SUB(NOW(), INTERVAL %s DAY)', $escape['interval']);
 		}
 
-        if (isset($param['member_name'])) {
-            $arr[] = sprintf('member_name = %s', $escape['member_name']);
+        if (isset($param['creator'])) {
+            $arr[] = sprintf('creator = %s', $escape['creator']);
         }
         if (isset($param['ordnum'])) {
             $arr[] = sprintf('ordnum = %s', $escape['ordnum']);
@@ -45,7 +45,7 @@ class Buyer_model extends CI_Model
         }
 
         $sql = <<<SQL
-SELECT ordnum, member_name, start, `end`, comment, `option`, regdate 
+SELECT ordnum, invite, start, `end`, comment, `option`, regdate, creator 
 FROM buyer
 {$where}
 ORDER BY regdate DESC
@@ -65,7 +65,7 @@ SQL;
         if (empty($param['ordnum'])) {
             return false;
         }
-        if (empty($param['member_name'])) {
+        if (empty($param['invite'])) {
             return false;
         }
         if (empty($param['start'])) {
@@ -77,6 +77,9 @@ SQL;
         if (empty($param['comment'])) {
             return false;
         }
+        if (empty($param['creator'])) {
+            return false;
+        }
         if (empty($param['option'])) {
             $param['option'] = '0';
         }
@@ -85,10 +88,11 @@ SQL;
         $sql = <<<SQL
 INSERT INTO buyer SET 
 ordnum = {$escape['ordnum']},
-member_name = {$escape['member_name']},
+invite = {$escape['invite']},
 start = {$escape['start']},
 `end` = {$escape['end']},
 comment = {$escape['comment']},
+creator = {$escape['creator']},
 `option` = {$escape['option']},
 regdate = now()     
 SQL;
@@ -109,11 +113,12 @@ SQL;
         $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS `buyer` (
    `ordnum` char(13) NOT NULL,
-   `member_name` varchar(50) NOT NULL,
+   `invite` varchar(100) DEFAULT NULL,
    `start` datetime NOT NULL,
    `end` datetime NOT NULL,
    `comment` text NOT NULL,
    `option` char(1) NOT NULL DEFAULT '0',
+   `creator` varchar(50) DEFAULT NULL,
    `regdate` datetime NOT NULL,
    PRIMARY KEY (`ordnum`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8
@@ -180,7 +185,7 @@ SQL;
 
 		$arr = array();
 		if (!empty($param['name'])) {
-			$arr[] = sprintf('`member_name` = %s', $escape['name']);
+			$arr[] = sprintf('`invite` = %s', $escape['name']);
 		}
 		if (!empty($param['start'])) {
 			$arr[] = sprintf('`start` = %s', $escape['start']);

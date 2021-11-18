@@ -54,6 +54,24 @@ SQL;
         return $query->result_array();
     }
 
+	/**
+	 * 팀 조회
+	 * @param $param
+	 * @return array()
+	 */
+	public function team()
+	{
+		$sql = <<<SQL
+SELECT distinct(team) FROM member
+SQL;
+//        echo $sql;
+		$query = $this->db->query($sql);
+		$team = array();
+		foreach ($query->result_array() as $row) {
+			if (!empty($row['team'])) $team[] = $row['team'];
+		}
+		return $team;
+	}
 
 
     /**

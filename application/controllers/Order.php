@@ -19,8 +19,10 @@ class Order extends MY_Controller
 		}
 
 		$ordnum = $this->input->get('ordnum');
+		if (empty($ordnum)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '주문번호가 없습니다.'));
+		}
 		$buyer = $this->Buyer_model->select(array('now' => true, 'ordnum' => $ordnum));
-
 		$conf_admin = $this->config->item('admin');
 		$admin = in_array($SES_USER['name'], $conf_admin['member']);
 
@@ -32,8 +34,17 @@ class Order extends MY_Controller
 			return $this->load->view('view', array('status' => 400, 'data' => '생성된 주문이 없습니다. 관리자에게 문의하세요.'));
 		}
 
+		$team = explode(',', $buyer[0]['invite']);
+
+		if ($buyer[0]['invite'] !== 'all' && !empty($SES_USER['team'])) { //본부장 제외
+			if (!in_array($SES_USER['team'], $team)) {
+				return $this->load->view('view', array('status' => 400, 'data' => '당신은 주문에 초대되지 않으셨습니다.'));
+			}
+		}
+
 		$menu = $this->Starbucks_model->select(array());
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
+		$buyer[0]['invite'] = strToTeam($team);
 
 		$return = array(
 			'user' => $SES_USER,
@@ -232,7 +243,7 @@ class Order extends MY_Controller
 	 */
 	public function start()
 	{
-		$name = $this->input->post('name');
+		$invite = $this->input->post('invite');
 		$time = $this->input->post('time');
 		$comment = $this->input->post('comment');
 		$option = $this->input->post('option');
@@ -243,11 +254,10 @@ class Order extends MY_Controller
 		$admin = $this->config->item('admin');
 
 		if (!(in_array($SES_USER['name'], $admin['member']))) {
-			return $this->load->view('json', array('status' => 400, 'data' => '주문자를 생성할 권한이 없습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '주문을 생성할 권한이 없습니다.'));
 		}
-
-		if (empty($name)) {
-			return $this->load->view('json', array('status' => 400, 'data' => '이름을 입력해주세요.'));
+		if (empty($invite)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '초대 그룹을 입력해주세요.'));
 		}
 		if (empty($time)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '시간을 입력해주세요.'));
@@ -284,10 +294,11 @@ class Order extends MY_Controller
 
 		$this->Buyer_model->insert(array(
 			'ordnum' => uniqid(),
-			'member_name' => $name,
+			'invite' => join(',', $invite),
 			'start' => date('Y-m-d H:i:s'),
 			'end' => date('Y-m-d H:i:s', strtotime('+' . $time . ' minutes')),
 			'comment' => $comment,
+			'creator' => $SES_USER['name'],
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
 		));
 
@@ -315,7 +326,7 @@ class Order extends MY_Controller
 	public function edit()
 	{
 		$ordnum = $this->input->post('ordnum');
-		$name = $this->input->post('name');
+		$invite = $this->input->post('name');
 		$start = $this->input->post('start');
 		$end = $this->input->post('end');
 		$comment = $this->input->post('comment');
@@ -341,7 +352,7 @@ class Order extends MY_Controller
 
 		$param = array(
 			'ordnum' => $ordnum,
-			'name' => $name,
+			'invite' => $invite,
 			'comment' => $comment,
 			'start' => $start,
 			'end' => $end

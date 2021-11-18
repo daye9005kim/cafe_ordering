@@ -8,13 +8,35 @@ include_once APPPATH . 'views/_common/top.php';
 <script>
 	$(document).ready(function () {
 
+		var invite_check = function() {
+			if ($("#all:checked").length > 0) {
+				$(".team").each(function () {
+					$(this).prop('disabled', true);
+					$(this).prop('checked', false);
+				});
+			} else {
+				$(".team").each(function () {
+					$(this).prop('disabled', false);
+				});
+			}
+		}
+
+		invite_check();
+
+		$("#all:checked").change(function() {
+			invite_check();
+		});
+
 		$('#create').click(function () {
-			var name = $('#name').val();
+			var invite = [];
+			$('input[type=checkbox]:checked').each(function () {
+				invite.push($(this).val());
+			});
 			var time = $('#time').val();
 			var comment = $('#comment').val();
 			var option = $('#option').val();
 
-			if (name === '' || typeof name === "undefined") {
+			if (name === [] || typeof name === "undefined") {
 				alert('주문 대상을 입력해 주세요.')
 				return false;
 			}
@@ -32,7 +54,7 @@ include_once APPPATH . 'views/_common/top.php';
 				dataType: 'json',
 				url: '/order/start',
 				data: {
-					'name': name,
+					'invite': invite,
 					'time': time,
 					'comment': comment,
 					'option': option,
@@ -135,9 +157,30 @@ include_once APPPATH . 'views/_common/top.php';
 			<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 				 data-bs-parent="#accordionExample">
 				<div class="accordion-body">
-					<form name="insert" method="post" class="row g-3">
+					<div name="insert" class="row g-1">
 						<div class="col">
-							<input type="text" id="name" class="form-control form-control-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" placeholder="ex)페이먼트개발파트" title="주문 대상">
+							<div class="form-check form-check-inline ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="초대 그룹" style="padding-left: 0.1em; font-size: medium">
+								<div class="row row-cols-2">
+									<div class="col">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="checkbox" value="all" id="all" name="team" checked="checked">
+											<label class="form-check-label" for="all">
+												전체
+											</label>
+										</div>
+									</div>
+								<?php for ($i = 0; $i < count($data['team']); $i++) : ?>
+									<div class="col">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input team" type="checkbox" value="<?= $data['team'][$i] ?>" id="checked<?= $i ?>" name="team">
+											<label class="form-check-label" for="checked<?= $i ?>">
+												<?= isset(explode('_', $data['team'][$i])[1]) ? explode('_', $data['team'][$i])[1] : $data['team'][$i] ?>
+											</label>
+										</div>
+									</div>
+								<?php endfor ?>
+								</div>
+							</div>
 						</div>
 						<div class="col">
 							<input type="text" id="comment" class="form-control form-control-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" placeholder="ex)11시까지 주문해주세요." title="코멘트">
@@ -164,16 +207,17 @@ include_once APPPATH . 'views/_common/top.php';
 									data-bs-placement="top" title="저장"><i class="bi bi-check-lg"></i>
 							</button>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 		<table class="table table-bordered table-hover table-sm" style="margin-top: 20px; font-size: medium;">
 			<thead>
+
 			<tr>
-				<th>주문번호</th>
-				<th>주문대상</th>
+				<th class="col-md-1">주문번호</th>
+				<th class="col-md-5">주문대상</th>
 				<th>코멘트</th>
 				<th>유효기간</th>
 				<th>출력</th>
@@ -189,7 +233,7 @@ include_once APPPATH . 'views/_common/top.php';
 					<tr>
 						<td><a href="/order?ordnum=<?= $item['ordnum'] ?>" class="link-success"><?= $item['ordnum'] ?></a>
 							<input type="hidden" name="ordnum" value="<?= $item['ordnum'] ?>"</td>
-						<td class="edit" data-type="name"><?= $item['member_name'] ?></td>
+						<td class="edit" data-type="name"><?= $item['invite'] ?></td>
 						<td class="edit" data-type="comment"><?= $item['comment'] ?></td>
 						<td class="edit" data-type="time"><?= $item['start'] . ' ~ ' . $item['end'] ?></td>
 						<td>

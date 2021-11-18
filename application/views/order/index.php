@@ -383,7 +383,7 @@ if (!empty($data['order'])) {
 	<body>
 	<div class="container bd-content">
 		<div class="bd-callout bd-callout-warning" style="text-align: center;">
-			<h5><?= '주문대상 : ' . $data['buyer']['member_name'] ?></h5>
+			<p><?= '주문 대상 : ' . $data['buyer']['invite'] ?></p>
 			<p><?= $data['buyer']['comment'] ?></p>
 			<div class="alert alert-success" role="alert">
 				<h5><strong><span class="" id="sample02">0시 00분 00초</span></strong></h5>
