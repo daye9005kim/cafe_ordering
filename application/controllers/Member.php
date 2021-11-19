@@ -36,8 +36,9 @@ class Member extends MY_Controller
 			$str = '생성된 주문이 없습니다. 관리자에게 문의하세요.';
 			$buyer = array(array(
 				'ordnum' => '',
-				'member_name' => '',
+				'invite' => '',
 				'comment' => '',
+				'creator' => '',
 				'start' => '',
 				'end' => ''
 			));

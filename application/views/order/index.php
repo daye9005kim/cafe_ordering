@@ -271,7 +271,7 @@ if (!empty($data['order'])) {
 												$('<th/>').text('메뉴'),
 												$('<th/>').text('사이즈'),
 												$('<th/>').text('수량'),
-												$('<th/>').text('재주문')
+												$('<th/>',{"class": "col-md-1"}).text('재주문')
 										)
 								), $('<tbody/>'));
 
@@ -394,7 +394,7 @@ if (!empty($data['order'])) {
 		<br>
 		<div class="image" style="text-align: center; margin-bottom: 10px">
 			<a id="drink_view" href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank">
-			<img src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png" id="thumbnail" class="ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="스타벅스 홈페이지로 이동"
+			<img src="/static/img/starbucks_logo.png" id="thumbnail" class="ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="스타벅스 홈페이지로 이동"
 			style="margin-bottom: 10px">
 			</a><br>
 			<span id="content" style="margin: 10px"></span>
@@ -448,7 +448,7 @@ if (!empty($data['order'])) {
 		</div>
 		<!-- Modal -->
 		<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="myModalLabel">내 주문 목록</h5>

@@ -14,7 +14,7 @@ class Admin extends MY_Controller
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
 
-		$buyer = $this->Buyer_model->select(array('interval' => 5));
+		$buyer = $this->Buyer_model->select(array('interval' => 30));
 		$team = $this->Member_model->team();
 
 		$admin = $this->config->item('admin');

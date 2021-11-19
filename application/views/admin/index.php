@@ -221,7 +221,7 @@ include_once APPPATH . 'views/_common/top.php';
 				<th>코멘트</th>
 				<th>유효기간</th>
 				<th>출력</th>
-				<th>수정/삭제</th>
+				<th class="col-md-1">수정/삭제</th>
 			</tr>
 			</thead>
 			<tbody>
