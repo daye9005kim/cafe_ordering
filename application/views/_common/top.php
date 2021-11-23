@@ -14,7 +14,7 @@ $user = $this->session->user;
 		<?php endif; ?>
 		<?php if (in_array($user['name'], $admin['member'])) : ?>
 			<button onclick="location.href='/member/get'" class="btn btn-sm btn-success ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="사원목록"><i class="bi bi-people"></i></button>
-			<button onclick="location.href='/admin'" class="btn btn-sm btn-danger ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="관리자">관리자</button>
+			<button onclick="location.href='/admin/index'" class="btn btn-sm btn-danger ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="관리자">관리자</button>
 		<?php endif; ?>
 		<button onclick="location.href='/member/logout'" class="btn btn-sm btn-warning ttip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="로그아웃"><i class="bi bi-door-open-fill"></i></button>
 	</div>

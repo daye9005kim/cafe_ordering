@@ -13,6 +13,41 @@ class Buyer_model extends CI_Model
     {
         parent::__construct();
     }
+	/**
+	 * Total Count
+	 * @param $param
+	 * @return int
+	 */
+	public function total_rows($param = array())
+	{
+		$escape = $this->db->escape($param);
+		$arr = array();
+		if (isset($param['now']) && $param['now'] === true) {
+			$arr[] = 'NOW() between `start` and `end`';
+		}
+		if (isset($param['interval'])) {
+			$arr[] = sprintf('`end` >= DATE_SUB(NOW(), INTERVAL %s DAY)', $escape['interval']);
+		}
+
+		if (isset($param['creator'])) {
+			$arr[] = sprintf('creator = %s', $escape['creator']);
+		}
+		if (isset($param['ordnum'])) {
+			$arr[] = sprintf('ordnum = %s', $escape['ordnum']);
+		}
+
+		$where = '';
+		if (count($arr) > 0) {
+			$where = 'WHERE ' . join(' AND ', $arr);
+		}
+
+		$sql = <<<SQL
+SELECT count(*) as count FROM buyer {$where}
+SQL;
+		$query = $this->db->query($sql);
+		$count = $query->row_array();
+		return $count['count'];
+	}
 
     /**
      * 조회
@@ -40,15 +75,18 @@ class Buyer_model extends CI_Model
         $where = '';
         if (count($arr) > 0) {
             $where = 'WHERE ' . join(' AND ', $arr);
-        } else {
-            return array();
         }
+		$limit = '';
+		if (isset($param['limit']) && isset($param['start'])) {
+			$limit = sprintf('LIMIT %d, %d', $param['start'], $param['limit']);
+		}
 
         $sql = <<<SQL
 SELECT ordnum, invite, start, `end`, comment, `option`, regdate, creator 
 FROM buyer
 {$where}
 ORDER BY regdate DESC
+{$limit}
 SQL;
 //        echo $sql;
         $query = $this->db->query($sql);

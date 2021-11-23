@@ -29,7 +29,7 @@ class Order extends MY_Controller
 
 		if (empty($buyer)) {
 			if ($admin) {
-				return $this->load->view('view', array('status' => 308, 'url' => '/admin', 'data' => '생성된 주문이 없습니다. 관리자에게 문의하세요.'));
+				return $this->load->view('view', array('status' => 308, 'url' => '/admin/index', 'data' => '생성된 주문이 없습니다. 관리자에게 문의하세요.'));
 			}
 
 			return $this->load->view('view', array('status' => 400, 'data' => '생성된 주문이 없습니다. 관리자에게 문의하세요.'));

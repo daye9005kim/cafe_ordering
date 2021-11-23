@@ -9,23 +9,33 @@ class Admin extends MY_Controller
 		parent::__construct();
 	}
 
-	public function index()
+	public function index($page = 0)
 	{
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
-
-		$buyer = $this->Buyer_model->select(array('interval' => 30));
-		$team = $this->Member_model->team();
 
 		$admin = $this->config->item('admin');
 		if (!in_array($SES_USER['name'], $admin['member'])) {
 			return $this->load->view('view', array('status' => 400, 'data' => '당신은 관리자가 아닙니다.'));
 		}
 
+		if (empty($page)) {
+			$page = 0;
+		}
+		$this->load->library('pagination');
+		$param['start'] = $page;
+		$param['limit'] = 10;
+
+		$buyer = $this->Buyer_model->select($param);
+		$config['total_rows'] = $this->Buyer_model->total_rows($param);
+		$this->pagination->initialize($config);
+
+		$team = $this->Member_model->team();
+
 		$return = array(
 			'buyer' => empty($buyer) ? array() : $buyer,
 			'team' => empty($team) ? array() : $team
 		);
-		return $this->load->view('view', array('status' => 200, 'data' => $return));
+		return $this->load->view('view', array('status' => 200, 'data' => $return, 'pagination' => array('total_rows' => $config['total_rows'])));
 	}
 }

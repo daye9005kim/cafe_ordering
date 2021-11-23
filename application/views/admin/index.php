@@ -212,6 +212,9 @@ include_once APPPATH . 'views/_common/top.php';
 			</div>
 		</div>
 	</div>
+	<div style="margin-top: 10px">
+		<p>총 <?= $pagination['total_rows'] ?> 건</p>
+	</div>
 		<table class="table table-bordered table-hover table-sm" style="margin-top: 20px; font-size: medium;">
 			<thead>
 
@@ -253,5 +256,8 @@ include_once APPPATH . 'views/_common/top.php';
 			?>
 			</tbody>
 		</table>
+	<div>
+		<?= $this->pagination->create_links() ?>
+	</div>
 </body>
 
