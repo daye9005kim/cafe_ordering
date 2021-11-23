@@ -14,7 +14,46 @@ class Member_model extends CI_Model
         parent::__construct();
     }
 
-    /**
+	/**
+	 * Total Count
+	 * @param $param
+	 * @return int
+	 */
+	public function total_rows($param = array())
+	{
+		$escape = $this->db->escape($param);
+		$arr = array();
+		if (!empty($param['name'])) {
+			$arr[] = sprintf('name = %s', $escape['name']);
+		}
+		if (!empty($param['pos'])) {
+			$arr[] = sprintf('pos = %s', $escape['pos']);
+		}
+		if (!empty($param['dept'])) {
+			$arr[] = sprintf('dept = %s', $escape['dept']);
+		}
+		if (!empty($param['team'])) {
+			$arr[] = sprintf('team = %s', $escape['team']);
+		}
+		if (!empty($param['part'])) {
+			$arr[] = sprintf('part = %s', $escape['part']);
+		}
+
+		$where = '';
+		if (count($arr) > 0) {
+			$where = 'WHERE ' . join(' AND ', $arr);
+		}
+
+		$sql = <<<SQL
+SELECT count(*) as count FROM member {$where}
+SQL;
+		$query = $this->db->query($sql);
+		$count = $query->row_array();
+		return $count['count'];
+	}
+
+
+		/**
      * 조회
      * @param $param
      * @return array()
@@ -24,19 +63,19 @@ class Member_model extends CI_Model
 
         $escape = $this->db->escape($param);
         $arr = array();
-        if (isset($param['name'])) {
+        if (!empty($param['name'])) {
             $arr[] = sprintf('name = %s', $escape['name']);
         }
-        if (isset($param['pos'])) {
+        if (!empty($param['pos'])) {
             $arr[] = sprintf('pos = %s', $escape['pos']);
         }
-        if (isset($param['dept'])) {
+        if (!empty($param['dept'])) {
             $arr[] = sprintf('dept = %s', $escape['dept']);
         }
-        if (isset($param['team'])) {
+        if (!empty($param['team'])) {
             $arr[] = sprintf('team = %s', $escape['team']);
         }
-        if (isset($param['part'])) {
+        if (!empty($param['part'])) {
             $arr[] = sprintf('part = %s', $escape['part']);
         }
 
@@ -44,10 +83,17 @@ class Member_model extends CI_Model
         if (count($arr) > 0) {
             $where = 'WHERE ' . join(' AND ', $arr);
         }
+
+        $limit = '';
+		if (isset($param['limit']) && isset($param['start'])) {
+			$limit = sprintf('LIMIT %d, %d', $param['start'], $param['limit']);
+		}
+
         $sql = <<<SQL
 SELECT `name`, pos, dept, team, part 
 FROM member
 {$where}
+{$limit}
 SQL;
 //        echo $sql;
         $query = $this->db->query($sql);
@@ -71,6 +117,25 @@ SQL;
 			if (!empty($row['team'])) $team[] = $row['team'];
 		}
 		return $team;
+	}
+
+	/**
+	 * 파트 조회
+	 * @param $param
+	 * @return array()
+	 */
+	public function part()
+	{
+		$sql = <<<SQL
+SELECT distinct(part) FROM member
+SQL;
+//        echo $sql;
+		$query = $this->db->query($sql);
+		$part = array();
+		foreach ($query->result_array() as $row) {
+			if (!empty($row['part'])) $part[] = $row['part'];
+		}
+		return $part;
 	}
 
 

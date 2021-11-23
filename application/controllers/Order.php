@@ -23,7 +23,7 @@ class Order extends MY_Controller
 		if (empty($ordnum)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '주문번호가 없습니다.'));
 		}
-		$buyer = $this->Buyer_model->select(array('now' => true, 'ordnum' => $ordnum));
+		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum));
 		$conf_admin = $this->config->item('admin');
 		$admin = in_array($SES_USER['name'], $conf_admin['member']);
 

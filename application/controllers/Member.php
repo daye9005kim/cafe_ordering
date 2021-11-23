@@ -31,7 +31,7 @@ class Member extends MY_Controller
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
 			if (in_array($SES_USER['name'], $admin['member'])) {
-				return $this->load->view('view', array('status' => 400, 'url' => '/admin','data' => '당신은 관리자. 주문을 생성하세요.'));
+				return $this->load->view('view', array('status' => 400, 'url' => '/admin', 'data' => '당신은 관리자. 주문을 생성하세요.'));
 			}
 			$str = '생성된 주문이 없습니다. 관리자에게 문의하세요.';
 			$buyer = array(array(
@@ -44,9 +44,9 @@ class Member extends MY_Controller
 			));
 		}
 
-		if (!empty($SES_USER['dept'])) {
+//		if (!empty($SES_USER['dept'])) {
 //			return $this->load->view('view', array('status' => 308, 'url' => '/order', 'data' => ''));
-		}
+//		}
 
 		$members = $this->Member_model->select();
 		$list = array();
@@ -91,18 +91,53 @@ class Member extends MY_Controller
 		return $this->load->view('view', array('status' => 308, 'url' => '/member/login', 'data' => ''));
 	}
 
-	public function get()
+	public function get($page = 0)
 	{
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
 
 		$admin = $this->config->item('admin');
 		if (!(in_array($SES_USER['name'], $admin['member']))) {
-			return $this->load->view('json', array('status' => 400, 'data' => '권한이 없습니다.'));
+			return $this->load->view('view', array('status' => 400, 'data' => '권한이 없습니다.'));
 		}
-		$members = $this->Member_model->select();
 
-		return $this->load->view('view', array('status' => 200, 'data' => $members));
+		$name = $this->input->get('name');
+		$team = $this->input->get('team');
+		$pos= $this->input->get('pos');
+		$dept = $this->input->get('dept');
+		$part = $this->input->get('part');
+
+		$param = array();
+		if (!empty($name)) {
+			$param['name'] = $name;
+		}
+		if (!empty($team)) {
+			$param['team'] = $team;
+		}
+		if (!empty($pos)) {
+			$param['pos'] = $pos;
+		}
+		if (!empty($dept)) {
+			$param['dept'] = $dept;
+		}
+		if (!empty($part)) {
+			$param['part'] = $part;
+		}
+
+		if (empty($page)) {
+			$page = 0;
+		}
+		$this->load->library('pagination');
+		$param['start'] = $page;
+		$param['limit'] = $this->pagination->per_page;
+
+		$members = $this->Member_model->select($param);
+		$config['total_rows'] = $this->Member_model->total_rows($param);
+		$this->pagination->initialize($config);
+
+		$team_list = $this->Member_model->team();
+		$part_list = $this->Member_model->part();
+		return $this->load->view('view', array('status' => 200, 'data' => $members, 'pagination' => array('total_rows' => $config['total_rows']), 'team' => $team_list, 'part' => $part_list));
 	}
 	
 	public function insert()
