@@ -23,8 +23,10 @@ class Member extends MY_Controller
 		$buyer = $this->Buyer_model->select(array('now' => true));
 
 		if (count($buyer) > 0) {
-			$team = explode(',', $buyer[0]['invite']);
-			$buyer[0]['invite'] = strToTeam($team);
+			foreach ($buyer as $key => &$val) {
+				$team = explode(',', $val['invite']);
+				$val['invite'] = strToTeam($team);
+			}
 		}
 
 		$str = '해당하는 주문을 선택하세요.';

@@ -77,7 +77,7 @@ SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, o.produ
 FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
 JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
-ORDER BY o.regdate DESC
+ORDER BY o.product_cd DESC
 {$limit}
 SQL;
         //echo $sql;
