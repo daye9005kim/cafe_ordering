@@ -54,15 +54,37 @@ include_once APPPATH . 'views/_common/top.php';
 				});
 			});
 
-			$('#search').click(function () {
+			$('.delete').on('click', function () {
+				var key = $(this).data('name');
+				if (key === '' || typeof key === 'undefined') {
+					alert('대상이 없습니다.');
+					return false;
+				}
 
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '/member/delete',
+					data: {
+						'name': key,
+					},
+					success: function (request) {
+						alert(request);
+						location.reload();
+					},
+					error: function (request, status, error) {
+						alert(JSON.parse(request.responseText));
+						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
+					}
+				});
 			});
 		});
 	</script>
 	<div class="container" style="width: 80%; margin-top: 20px;">
 		<div class="accordion accordion-flush" id="addMember">
 			<div class="accordion-item">
-				<h2 class="accordion-header ttip" data-bs-toggle="tooltip" data-bs-placement="left" title="사원 추가/검색" id="flush-headingOne">
+				<h2 class="accordion-header ttip" data-bs-toggle="tooltip" data-bs-placement="left" title="사원 추가/검색"
+					id="flush-headingOne">
 					<button class="btn btn-outline-primary btn-sm collapsed" type="button" data-bs-toggle="collapse"
 							data-bs-target="#collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
 						<i class="bi bi-person-plus-fill"></i>
@@ -73,11 +95,13 @@ include_once APPPATH . 'views/_common/top.php';
 					<div class="accordion-body">
 						<form name="search" method="get" class="row g-3" action="/member/get">
 							<div class="col-auto">
-								<input type="text" id="name" name="name" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top"
+								<input type="text" id="name" name="name" class="form-control ttip"
+									   data-bs-toggle="tooltip" data-bs-placement="top"
 									   placeholder="이름" title="사원 이름">
 							</div>
 							<div class="col-auto">
-								<select id="pos" name="pos" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="직급">
+								<select id="pos" name="pos" class="form-select ttip" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="직급">
 									<option value="">선택안함</option>
 									<option value="사원">사원</option>
 									<option value="대리">대리</option>
@@ -88,36 +112,41 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="dept" name="dept" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="부서">
+								<select id="dept" name="dept" class="form-select ttip" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="부서">
 									<option value="">선택안함</option>
 									<option value="플랫폼혁신본부">플랫폼혁신본부</option>
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="team" name="team" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="팀">
+								<select id="team" name="team" class="form-select ttip" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="팀">
 									<option value="">선택안함</option>
 									<?php foreach ($team as $value) : ?>
-									<option value="<?=$value?>"><?=$value?></option>
+										<option value="<?= $value ?>"><?= $value ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="part" name="part" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="파트">
+								<select id="part" name="part" class="form-select ttip" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="파트">
 									<option value="">선택안함</option>
 									<?php foreach ($part as $value) : ?>
-										<option value="<?=$value?>"><?=$value?></option>
+										<option value="<?= $value ?>"><?= $value ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 							<div class="col-auto">
-								<button id="insert" class="btn btn-primary ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="추가">
-									<i class="bi bi-plus-lg"></i>
+								<button id="search" class="btn btn-warning ttip" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="검색">
+									<i class="bi bi-search"></i>
 								</button>
 							</div>
 							<div class="col-auto">
-								<button id="search" class="btn btn-warning ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="검색">
-									<i class="bi bi-search"></i>
-								</button>
+								<a id="insert" class="btn btn-primary ttip" data-bs-toggle="tooltip"
+								   data-bs-placement="top" title="추가">
+									<i class="bi bi-plus-lg"></i>
+								</a>
 							</div>
 						</form>
 					</div>
@@ -136,7 +165,7 @@ include_once APPPATH . 'views/_common/top.php';
 					<th>부서</th>
 					<th>팀</th>
 					<th>파트</th>
-<!--					<th>수정/삭제</th>-->
+					<th>삭제</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -149,10 +178,11 @@ include_once APPPATH . 'views/_common/top.php';
 							<td><?= $item['dept'] ?></td>
 							<td><?= $item['team'] ?></td>
 							<td><?= $item['part'] ?></td>
-<!--							<td>-->
-<!--								<a class="btn btn-sm alert-warning btn-xs"><i class="bi bi-pencil"></i></a>-->
-<!--								<a class="btn btn-sm alert-danger btn-xs"><i class="bi bi-trash"></i></a>-->
-<!--							</td>-->
+							<td>
+								<!--								<a class="btn btn-sm alert-warning btn-xs"><i class="bi bi-pencil"></i></a>-->
+								<a class="btn btn-sm alert-danger btn-xs delete" data-name="<?= $item['name'] ?>"><i
+											class="bi bi-trash"></i></a>
+							</td>
 						</tr>
 						<?php
 					}
@@ -161,7 +191,7 @@ include_once APPPATH . 'views/_common/top.php';
 			</table>
 		</div>
 		<div>
-		<?= $this->pagination->create_links() ?>
+			<?= $this->pagination->create_links() ?>
 		</div>
 	</div>
 

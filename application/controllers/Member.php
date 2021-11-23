@@ -139,7 +139,29 @@ class Member extends MY_Controller
 		$part_list = $this->Member_model->part();
 		return $this->load->view('view', array('status' => 200, 'data' => $members, 'pagination' => array('total_rows' => $config['total_rows']), 'team' => $team_list, 'part' => $part_list));
 	}
-	
+
+	public function delete()
+	{
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		$admin = $this->config->item('admin');
+		if (!(in_array($SES_USER['name'], $admin['member']))) {
+			return $this->load->view('json', array('status' => 400, 'data' => '권한이 없습니다.'));
+		}
+
+		$name = $this->input->post('name');
+
+		if (empty($name)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '이름이 없습니다.'));
+		}
+
+		if ($this->Member_model->delete(array('name' => $name))) {
+			return $this->load->view('json', array('status' => 200, 'data' => '삭제 하였습니다.'));
+		}
+		return $this->load->view('json', array('status' => 400, 'data' => '삭제 실패하였습니다.'));
+
+	}
 	public function insert()
 	{
 		$SES_KEY = $this->input->post('KEY');
