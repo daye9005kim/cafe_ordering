@@ -173,7 +173,7 @@ include_once APPPATH . 'views/_common/top.php';
 				if (!empty($data)) {
 					foreach ($data as $item) { ?>
 						<tr>
-							<td><?= $item['name'] ?></a>
+							<td><?= $item['name'] ?></td>
 							<td><?= $item['pos'] ?></td>
 							<td><?= $item['dept'] ?></td>
 							<td><?= $item['team'] ?></td>
