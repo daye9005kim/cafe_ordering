@@ -20,6 +20,19 @@ include_once APPPATH . 'views/_common/header.php';
 			});
 		});
 
+		function setCookie(name, value, addtime) {
+			var expired = new Date();
+			expired.setTime(expired.getTime() + addtime);
+			document.cookie = name + "=" + encodeURIComponent(value) + "; path=/; expires=" + expired.toUTCString() + ";";
+		}
+
+		function getCookie(name) {
+			let matches = document.cookie.match(new RegExp(
+					"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+			));
+			return matches ? decodeURIComponent(matches[1]) : undefined;
+		}
+
 		let loginok = function loginok(name = '') {
 			var ordnum = $("input[name='order_list']:checked").val();
 
@@ -34,6 +47,12 @@ include_once APPPATH . 'views/_common/header.php';
 			if (jQuery.inArray(name, MEMBERS) < 0) {
 				alert('제이슨그룹 사원이 아닙니다.');
 				return $("#name").focus();
+			}
+
+			if ($("#saveid").is(":checked")) {
+				setCookie('saveid', name, 1000 * 3600 * 24 * 30 * 6);
+			} else {
+				setCookie("saveid", name, -1);
 			}
 
 			$.ajax({
@@ -71,6 +90,13 @@ include_once APPPATH . 'views/_common/header.php';
 				var name = $("#name").val();
 				loginok(name);
 			});
+
+			var cookieName = getCookie('saveid');
+			if (cookieName !== undefined) {
+				$("#name").val(cookieName);
+				$("#saveid").prop("checked", true);
+			}
+
 		})
 	</script>
 	<style>
@@ -119,6 +145,12 @@ include_once APPPATH . 'views/_common/header.php';
 				<div class="input-group mb-3">
 					<input type="text" id="name" name="name" class="form-control enter" placeholder="이름을 입력해주세요.">
 					<button type="button" class="btn btn-primary" id="order">로그인</button>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="" id="saveid">
+					<label class="form-check-label" for="saveid">
+						<span style="font-size: small">ID저장</span>
+					</label>
 				</div>
 			</div>
 			<hr class="colorgraph" style="height: 10px">
