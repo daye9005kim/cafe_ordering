@@ -60,7 +60,7 @@ include_once APPPATH . 'views/_common/top.php';
 					'option': option,
 				},
 				success: function (request) {
-					alert(request);
+					alert(request.replace("\\n", "\n"));
 					location.reload();
 				},
 				error: function (request, status, error) {

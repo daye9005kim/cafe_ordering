@@ -286,11 +286,11 @@ class Order extends MY_Controller
 		$msg = '';
 		if (date("Ymd", filemtime($file_name_drink)) < $period) {
 			$this->Starbucks_model->fetch();
-			$msg .= ' drinks updated';
+			$msg .= '\n drinks updated';
 		}
 		if (date("Ymd", filemtime($file_name_mmbr)) < $period) {
 			$this->Member_model->fetch();
-			$msg .= ' members updated';
+			$msg .= '\n members updated';
 		}
 
 		$this->Buyer_model->insert(array(
@@ -303,7 +303,7 @@ class Order extends MY_Controller
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
 		));
 
-		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $msg . ' 업데이트일: ' . $period));
+		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $msg . '\n 업데이트일: ' . $period));
 	}
 
 	/**
