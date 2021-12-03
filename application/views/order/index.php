@@ -319,6 +319,8 @@ if (!empty($data['order'])) {
 							);
 						}
 						$('.modal-body').prepend(table.prepend(list));
+						$('.modal-body').append($('<span />'),
+						$('<i />', {"class": "bi bi-snow2", "style": "font-size:small"}).text('주문 이력은 최근 10개까지 노출됩니다.'));
 					},
 					error: function (request, status, error) {
 						$('#guide').append(

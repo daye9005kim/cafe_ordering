@@ -27,6 +27,16 @@ include_once APPPATH . 'views/_common/top.php';
 			invite_check();
 		});
 
+		$(".team+label").on("click", function() {
+			var all = $("#all");
+			$("input.team:disabled").each(function () {
+				$(this).prop('disabled', false);
+			});
+			if (all.length > 0){
+				all.prop('checked', false);
+			}
+		});
+
 		$('#create').click(function () {
 			var invite = [];
 			$('input[type=checkbox]:checked').each(function () {
@@ -157,13 +167,13 @@ include_once APPPATH . 'views/_common/top.php';
 			<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 				 data-bs-parent="#accordionExample">
 				<div class="accordion-body">
-					<div name="insert" class="row g-1">
+					<div class="row g-1">
 						<div class="col">
-							<div class="form-check form-check-inline ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="초대 그룹" style="padding-left: 0.1em; font-size: medium">
+							<div class="form-check ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="초대 그룹" style="padding-left: 0.1em; font-size: medium">
 								<div class="row row-cols-2">
 									<div class="col">
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" value="all" id="all" name="team" checked="checked">
+											<input class="form-check-input" type="checkbox" value="all" id="all" name="team" checked>
 											<label class="form-check-label" for="all">
 												전체
 											</label>
@@ -245,7 +255,7 @@ include_once APPPATH . 'views/_common/top.php';
 						</td>
 						<td>
 							<a data-ordnum="<?= $item['ordnum'] ?>"
-							   class="btn btn-outline-warning btn-sm btn-edit"><i class="bi bi-pencil"></i></a>
+							   class="btn btn-warning btn-sm btn-edit"><i class="bi bi-pencil"></i></a>
 							<a data-ordnum="<?= $item['ordnum'] ?>" class="btn btn-outline-danger btn-sm delete"><i
 										class="bi bi-trash"></i></a>
 						</td>

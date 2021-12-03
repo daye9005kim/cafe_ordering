@@ -16,3 +16,14 @@ function strToTeam($param) {
 	}
 	return $str_team;
 }
+
+function masking($name) {
+	if (empty($name)) {
+		return 'empty param';
+	}
+
+	$pattern = '/^(.)(.)(.+)?$/u';
+	$replace = '${1}땡${3}';
+
+	return preg_replace($pattern,$replace, $name);
+}

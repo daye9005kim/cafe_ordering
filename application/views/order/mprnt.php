@@ -28,7 +28,7 @@ HTML;
 	<div class="container" id="orderTable">
 		<div class="clearfix">
 			<div class="float-start">
-				<span class="btn alert-secondary btn-sm">주문번호 <?= $data['ordnum'] ?></span>
+				<a href="/order?ordnum=<?= $data['ordnum'] ?>" class="btn alert-secondary btn-sm">주문번호 <?= $data['ordnum'] ?></a>
 			</div>
 			<div class="float-end">
 				<button id="printing" class="btn btn-outline-secondary btn-sm ttip" aria-label="Print" data-bs-toggle="tooltip"

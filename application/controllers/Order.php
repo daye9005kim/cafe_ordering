@@ -87,7 +87,6 @@ class Order extends MY_Controller
 	{
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
-		$ordnum = $this->input->get_post('ordnum');
 
 		if (empty($SES_USER)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
@@ -95,7 +94,13 @@ class Order extends MY_Controller
 
 		$order = $this->Order_model->select(array('member_name' => $SES_USER['name']));
 
-		return $this->load->view('json', array('status' => 200, 'data' => array('order' => $order)));
+		$return = array();
+		foreach ($order as $value) {
+			$return[$value['num']] = $value;
+		}
+		krsort($return);
+
+		return $this->load->view('json', array('status' => 200, 'data' => array('order' => array_values($return))));
 	}
 
 
@@ -159,7 +164,7 @@ class Order extends MY_Controller
 				);
 			}
 			$arr[$item['product_nm']][$item['product_size']]['cnt'] = $arr[$item['product_nm']][$item['product_size']]['cnt'] + $cnt;
-			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($item['comment']) ? $item['name'] . ' : ' . $item['comment'] : $item['name'];
+			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($item['comment']) ? $item['name'] . ' : ' . $item['comment'] : masking($item['name']);
 		}
 
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum)));
