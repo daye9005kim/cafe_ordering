@@ -28,6 +28,7 @@ class Order_model extends CI_Model
         $escape = $this->db->escape($param);
         $arr = array();
 		$limit = '';
+		$orderby = '';
 
         if (isset($param['num'])) {
             $arr[] = sprintf('o.num = %s', $escape['num']);
@@ -40,6 +41,7 @@ class Order_model extends CI_Model
         }
         if (isset($param['member_name'])) {
             $arr[] = sprintf('o.member_name = %s', $escape['member_name']);
+			$orderby = 'o.num DESC,';
             $limit = 'LIMIT 10';
         }
         if (isset($param['product_cd'])) {
@@ -77,7 +79,7 @@ SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, o.produ
 FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
 JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
-ORDER BY o.product_cd DESC
+ORDER BY {$orderby} o.product_cd DESC
 {$limit}
 SQL;
         //echo $sql;
