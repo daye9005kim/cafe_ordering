@@ -23,7 +23,7 @@ function masking($name) {
 	}
 
 	$pattern = '/^(.)(.)(.+)?$/u';
-	$replace = '${1}땡${3}';
+	$replace = '${1}⭐${3}';
 
 	return preg_replace($pattern,$replace, $name);
 }

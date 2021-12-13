@@ -147,7 +147,7 @@ class Order extends MY_Controller
 		$ordnum = $this->input->get('ordnum');
 
 		if (empty($SES_USER)) {
-			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
+			return $this->load->view('view', array('status' => 400, 'data' => '로그인 해주세요.'));
 		}
 
 		$order = $this->Order_model->select(array('ordnum' => $ordnum));
@@ -164,7 +164,7 @@ class Order extends MY_Controller
 				);
 			}
 			$arr[$item['product_nm']][$item['product_size']]['cnt'] = $arr[$item['product_nm']][$item['product_size']]['cnt'] + $cnt;
-			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($item['comment']) ? $item['name'] . ' : ' . $item['comment'] : masking($item['name']);
+			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($item['comment']) ? masking($item['name']) . ' : ' . $item['comment'] : masking($item['name']);
 		}
 
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum)));
@@ -250,7 +250,7 @@ class Order extends MY_Controller
 	public function start()
 	{
 		$invite = $this->input->post('invite');
-		$time = $this->input->post('time');
+		$end_time = $this->input->post('end_time');
 		$comment = $this->input->post('comment');
 		$option = $this->input->post('option');
 
@@ -265,11 +265,23 @@ class Order extends MY_Controller
 		if (empty($invite)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '초대 그룹을 입력해주세요.'));
 		}
-		if (empty($time)) {
-			return $this->load->view('json', array('status' => 400, 'data' => '시간을 입력해주세요.'));
+		if (empty($end_time)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '종료시간을 입력해주세요.'));
 		}
 		if (empty($comment)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '코멘트를 입력해주세요.'));
+		}
+
+
+		if (!preg_match('/\d+:\d+/', $end_time)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '시간 형식이 맞지 않습니다.'));
+		}
+
+		$start_time =  date('Y-m-d H:i:s');
+		$end_time = date('Y-m-d ') . $end_time . ':00';
+
+		if ($start_time > $end_time) {
+			return $this->load->view('json', array('status' => 400, 'data' => '시작 시간이 종료 시간보다 큽니다.'));
 		}
 
 //		$buyer = $this->Buyer_model->select(array('now' => true));
@@ -301,8 +313,8 @@ class Order extends MY_Controller
 		$this->Buyer_model->insert(array(
 			'ordnum' => uniqid(),
 			'invite' => join(',', $invite),
-			'start' => date('Y-m-d H:i:s'),
-			'end' => date('Y-m-d H:i:s', strtotime('+' . $time . ' minutes')),
+			'start' => $start_time,
+			'end' => $end_time,
 			'comment' => $comment,
 			'creator' => $SES_USER['name'],
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기

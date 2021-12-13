@@ -42,7 +42,7 @@ include_once APPPATH . 'views/_common/top.php';
 			$('input[type=checkbox]:checked').each(function () {
 				invite.push($(this).val());
 			});
-			var time = $('#time').val();
+			var end_time = $('#end_time').val();
 			var comment = $('#comment').val();
 			var option = $('#option').val();
 
@@ -50,8 +50,8 @@ include_once APPPATH . 'views/_common/top.php';
 				alert('주문 대상을 입력해 주세요.')
 				return false;
 			}
-			if (time === '' || typeof time === "undefined") {
-				alert('주문 오픈 시간을 입력해 주세요.')
+			if (end_time === '' || typeof end_time === "undefined") {
+				alert('주문 종료 시간을 입력해 주세요.')
 				return false;
 			}
 			if (comment === '' || typeof comment === "undefined") {
@@ -65,7 +65,7 @@ include_once APPPATH . 'views/_common/top.php';
 				url: '/order/start',
 				data: {
 					'invite': invite,
-					'time': time,
+					'end_time': end_time,
 					'comment': comment,
 					'option': option,
 				},
@@ -196,15 +196,7 @@ include_once APPPATH . 'views/_common/top.php';
 							<input type="text" id="comment" class="form-control form-control-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" placeholder="ex)11시까지 주문해주세요." title="코멘트">
 						</div>
 						<div class="col-auto">
-							<select id="time" class="form-select form-select-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="주문 오픈 시간">
-								<option value="10">10분</option>
-								<option value="20">20분</option>
-								<option value="30">30분</option>
-								<option value="45">45분</option>
-								<option value="60">1시간</option>
-								<option value="120">2시간</option>
-								<option value="180">3시간</option>
-							</select>
+							<input type="time" id="end_time" class="form-control form-control-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="주문 종료 시간">
 						</div>
 						<div class="col-auto">
 							<select id="option" class="form-select form-select-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="주문서에 코멘트 입력란을 추가합니다.">
