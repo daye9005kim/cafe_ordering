@@ -1,7 +1,3 @@
-<IfModule mod_env.c>
-    SetEnv CI_ENV development
-</IfModule>
-
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
