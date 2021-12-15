@@ -28,11 +28,11 @@ function masking($name)
 		$replace = '${1}⭐${3}';
 
 	} elseif (preg_match('/^(.)(.)(.)(\D)+$/u', $name)) {
-		$pattern = '/^(.)(.)(.)?(\D)?$/u';
+		$pattern = '/^(.)(.)(.)(\D)+$/u';
 		$replace = '${1}⭐⭐${4}';
 
 	} elseif (preg_match('/^(.)(.)(.)(\d)$/u', $name)) {
-		$pattern = '/^(.)(.)(.)(\d)?$/u';
+		$pattern = '/^(.)(.)(.)(\d)$/u';
 		$replace = '${1}⭐${3}${4}';
 	} else {
 		return $name;
