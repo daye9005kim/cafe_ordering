@@ -1,7 +1,8 @@
 <?php if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-function strToTeam($param) {
+function strToTeam($param)
+{
 	$arr_team = array();
 	$str_team = '';
 	foreach ($param as $value) {
@@ -17,13 +18,24 @@ function strToTeam($param) {
 	return $str_team;
 }
 
-function masking($name) {
+function masking($name)
+{
 	if (empty($name)) {
-		return 'empty param';
+		return '';
 	}
+	if (preg_match('/^(.)(.)(\D)?$/u', $name)) {
+		$pattern = '/^(.)(.)(\D)?/u';
+		$replace = '${1}⭐${3}';
 
-	$pattern = '/^(.)(.)(.+)?$/u';
-	$replace = '${1}⭐${3}';
+	} elseif (preg_match('/^(.)(.)(.)(\D)+$/u', $name)) {
+		$pattern = '/^(.)(.)(.)?(\D)?$/u';
+		$replace = '${1}⭐⭐${4}';
 
-	return preg_replace($pattern,$replace, $name);
+	} elseif (preg_match('/^(.)(.)(.)(\d)$/u', $name)) {
+		$pattern = '/^(.)(.)(.)(\d)?$/u';
+		$replace = '${1}⭐${3}${4}';
+	} else {
+		return $name;
+	}
+	return preg_replace($pattern, $replace, $name);
 }
