@@ -388,7 +388,7 @@ if (!empty($data['order'])) {
 			<p><?= '주문 대상 : ' . $data['buyer']['invite'] ?></p>
 			<p><?= $data['buyer']['comment'] ?></p>
 			<div class="alert alert-success" role="alert">
-				<h5><strong><span class="" id="sample02">0시 00분 00초</span></strong></h5>
+				<h5><strong><span id="sample02">0시 00분 00초</span></strong></h5>
 			</div>
 		</div>
 	</div>

@@ -29,13 +29,13 @@ class Member extends MY_Controller
 			}
 		}
 
-		$str = '해당하는 주문을 선택하세요.';
+		$msg = '';
 		if (empty($buyer)) {
 			$admin = $this->config->item('admin');
 			if (in_array($SES_USER['name'], $admin['member'])) {
 				return $this->load->view('view', array('status' => 400, 'url' => '/admin/index', 'data' => '당신은 관리자. 주문을 생성하세요.'));
 			}
-			$str = '생성된 주문이 없습니다. 관리자에게 문의하세요.';
+			$msg = '생성된 주문이 없습니다. 관리자에게 문의하세요.';
 			$buyer = array(array(
 				'ordnum' => '',
 				'invite' => '',
@@ -55,7 +55,7 @@ class Member extends MY_Controller
 		foreach ($members as $value) {
 			$list[] = $value['name'];
 		}
-		return $this->load->view('view', array('status' => 200, 'data' => array('member' => $list, 'order_list' => $buyer, 'str' => $str)));
+		return $this->load->view('view', array('status' => 200, 'data' => array('member' => $list, 'order_list' => $buyer, 'msg' => $msg)));
 	}
 
 

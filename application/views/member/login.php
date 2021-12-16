@@ -113,12 +113,15 @@ include_once APPPATH . 'views/_common/header.php';
 		}
 	</style>
 	<body>
-	<!--		<div class="position-absolute top-50 start-50 translate-middle">-->
-	<div class="container" style="max-width: 600px; margin-top: 20px;">
+	<div class="container">
+		<div class="position-absolute top-50 start-50 translate-middle" style="max-width: 600px; width: 100%;">
 			<div class="mb-3">
 				<div style="margin: 10px;">
-					<p class="form-label" style="font-size: medium;"><?= $data['str'] ?></p>
 					<hr class="colorgraph">
+					<div class="ratio ratio-21x9">
+						<img src="/static/img/l_facebook_cover_photo_1.png" alt="logo">
+					</div>
+					<p class="form-label" style="font-size: medium;"><?= $data['msg'] ?></p>
 					<ul class="list-group">
 						<?php
 						$str_checked = count($data['order_list']) === 1 ? 'checked' : '';
@@ -154,8 +157,8 @@ include_once APPPATH . 'views/_common/header.php';
 				</div>
 			</div>
 			<hr class="colorgraph" style="height: 10px">
+		</div>
 	</div>
-	<!--		</div>-->
 	</body>
 
 <?php
