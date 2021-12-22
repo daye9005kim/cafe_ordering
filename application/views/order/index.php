@@ -264,13 +264,14 @@ if (!empty($data['order'])) {
 					},
 					success: function (request) {
 						var list = [];
-						var table = $('<table />', {"class": "table table-sm table-bordered"}).prepend(
+						var table = $('<table />', {"class": "table table-sm table-bordered", "style": "font-size: 15px;"}).prepend(
 								$('<thead/>').prepend(
 										$('<tr/>').prepend(
 												$('<th/>').text('주문일'),
 												$('<th/>').text('메뉴'),
 												$('<th/>').text('사이즈'),
 												$('<th/>').text('수량'),
+												$('<th/>').text('코멘트'),
 												$('<th/>',{"class": "col-md-1"}).text('재주문')
 										)
 								), $('<tbody/>'));
@@ -280,10 +281,12 @@ if (!empty($data['order'])) {
 							style = '';
 							button = $('<td/>').prepend($('<button />', {
 								"class": "btn btn-success btn-sm",
+								"style" : "font-size: small;",
 								"data-code": request.order[i].product_cd,
 								"data-name": request.order[i].product_nm,
 								"data-size": request.order[i].product_size,
 								"data-cnt": request.order[i].product_cnt,
+								"data-comment": request.order[i].comment,
 								"data-dismiss": "modal",
 							}).text('입력').click(function () {
 								$('#code').val($(this).attr('data-code'));
@@ -315,6 +318,7 @@ if (!empty($data['order'])) {
 											$('<td />').text(request.order[i].product_nm),
 											$('<td />').text(request.order[i].product_size),
 											$('<td />').text(request.order[i].product_cnt + '개'),
+											$('<td />').text(request.order[i].comment),
 											button)
 							);
 						}
@@ -342,11 +346,9 @@ if (!empty($data['order'])) {
 				if (menu_nm === '' && menu_code === '') {
 					return alert('메뉴를 입력해 주세요.');
 				}
-
 				if (size === '') {
 					return alert('사이즈를 입력해 주세요.');
 				}
-
 				if (cnt === '') {
 					return alert('수량을 입력해 주세요.');
 				}
@@ -356,7 +358,6 @@ if (!empty($data['order'])) {
 				if ( typeof comment !== 'undefined' && comment.length > 0) {
 					str += '\n' + comment;
 				}
-
 				if (!confirm(str)) {
 					return 0;
 				}
