@@ -352,6 +352,11 @@ if (!empty($data['order'])) {
 				}
 
 				var str = '주문 하시겠습니까? \n' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
+
+				if ( typeof comment !== 'undefined' && comment.length > 0) {
+					str += '\n' + comment;
+				}
+
 				if (!confirm(str)) {
 					return 0;
 				}
