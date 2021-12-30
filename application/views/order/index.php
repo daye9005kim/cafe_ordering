@@ -435,7 +435,7 @@ if (!empty($data['order'])) {
 			if ($data['buyer']['option'] === '1') {
 				?>
 				<div class="col-auto">
-					<input type="text" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top" id="comment" placeholder="comment" maxlength='20' title="옵션 추가">
+					<input type="text" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top" id="comment" placeholder="comment" maxlength='50' title="옵션 추가">
 				</div>
 				<?php
 			}
