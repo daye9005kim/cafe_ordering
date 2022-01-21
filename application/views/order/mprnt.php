@@ -16,7 +16,8 @@ HTML;
 HTML;
 		foreach ($i['comment'] as $cmt) {
 			if (!empty($cmt)) {
-				$list .= mb_strlen($cmt) > 5 ? '<p><span>' . $cmt . '</span></p>' : '<span>' . $cmt . ' </span>';
+				$str = '<span>' . $cmt . '</span>';
+				$list .= mb_strlen($cmt) > 5 ? '<p>' . $str . '</p>' : $str;
 			}
 		}
 		$list .= '</td>';

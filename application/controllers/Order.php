@@ -164,7 +164,7 @@ class Order extends MY_Controller
 				);
 			}
 			$arr[$item['product_nm']][$item['product_size']]['cnt'] = $arr[$item['product_nm']][$item['product_size']]['cnt'] + $cnt;
-			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($item['comment']) ? masking($item['name']) . ' : ' . $item['comment'] : masking($item['name']);
+			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($item['comment']) ? masking($item['name']) . ' : ' . $item['comment'] : masking($item['name']);
 		}
 
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum)));
