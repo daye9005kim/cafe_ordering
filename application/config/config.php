@@ -527,3 +527,9 @@ $config['proxy_ips'] = '';
 //admin
 $config['admin']['member'] = array('김다예', '장하영', '송다혜');
 $config['admin']['drinkCacheFile'] = '/tmp/drink.log';
+$config['cafe']['01'] = array('name' => '공차', 'file_name' => '/tmp/drink_gongcha.log');
+$config['cafe']['02'] = array('name' => '파스쿠치', 'file_name' => '/tmp/drink_pascucci.log');
+$config['cafe']['03'] = array('name' => '백다방', 'file_name' => '/tmp/drink_paikdabang.log');
+$config['cafe']['04'] = array('name' => '스타벅스', 'file_name' => '/tmp/drink.log');
+
+

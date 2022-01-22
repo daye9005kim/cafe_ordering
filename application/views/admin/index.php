@@ -45,6 +45,8 @@ include_once APPPATH . 'views/_common/top.php';
 			var end_time = $('#end_time').val();
 			var comment = $('#comment').val();
 			var option = $('#option').val();
+			var cafe = $('#cafe').val();
+			var cafeName = $('#cafe option:checked').text();
 
 			if (name === [] || typeof name === "undefined") {
 				alert('주문 대상을 입력해 주세요.')
@@ -59,6 +61,10 @@ include_once APPPATH . 'views/_common/top.php';
 				return false;
 			}
 
+			if (!confirm(cafeName + " 카페로 생성하시겠습니까?")) {
+				return false;
+			}
+
 			$.ajax({
 				type: 'post',
 				dataType: 'json',
@@ -68,6 +74,7 @@ include_once APPPATH . 'views/_common/top.php';
 					'end_time': end_time,
 					'comment': comment,
 					'option': option,
+					'cafe': cafe,
 				},
 				success: function (request) {
 					alert(request.replace("\\n", "\n"));
@@ -191,6 +198,14 @@ include_once APPPATH . 'views/_common/top.php';
 								<?php endfor ?>
 								</div>
 							</div>
+						</div>
+						<div class="col-auto">
+							<select id="cafe" class="form-select form-select-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="카페명">
+								<option value="01">공차</option>
+								<option value="02">파스쿠치</option>
+								<option value="03">백다방</option>
+								<option value="04">스타벅스</option>
+							</select>
 						</div>
 						<div class="col">
 							<input type="text" id="comment" class="form-control form-control-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" placeholder="ex)11시까지 주문해주세요." title="코멘트">

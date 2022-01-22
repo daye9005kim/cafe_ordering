@@ -253,6 +253,7 @@ class Order extends MY_Controller
 		$end_time = $this->input->post('end_time');
 		$comment = $this->input->post('comment');
 		$option = $this->input->post('option');
+		$cafe = $this->input->post('cafe');
 
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -264,6 +265,9 @@ class Order extends MY_Controller
 		}
 		if (empty($invite)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '초대 그룹을 입력해주세요.'));
+		}
+		if (empty($cafe)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '카페를 입력해주세요.'));
 		}
 		if (empty($end_time)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '종료시간을 입력해주세요.'));
@@ -289,7 +293,8 @@ class Order extends MY_Controller
 //			return $this->load->view('json', array('status' => 400, 'data' => '생성된 주문이 존재합니다. 아직 주문이 완료되지 않았습니다.'));
 //		}
 
-		$file_name_drink = '/tmp/drink.log';
+		$config = $this->config->item('cafe');
+		$file_name_drink = $config[$cafe]['file_name'];
 		$file_name_mmbr = '/tmp/member.log';
 		$period = date("Ymd", strtotime('now'));
 
@@ -302,7 +307,7 @@ class Order extends MY_Controller
 
 		$msg = '';
 		if (date("Ymd", filemtime($file_name_drink)) < $period) {
-			$this->Starbucks_model->fetch();
+			$this->Starbucks_model->fetch($cafe);
 			$msg .= '\n drinks updated';
 		}
 		if (date("Ymd", filemtime($file_name_mmbr)) < $period) {
@@ -310,15 +315,18 @@ class Order extends MY_Controller
 			$msg .= '\n members updated';
 		}
 
-		$this->Buyer_model->insert(array(
+		$param = array(
 			'ordnum' => uniqid(),
 			'invite' => join(',', $invite),
+			'cafe' => $cafe,
 			'start' => $start_time,
 			'end' => $end_time,
 			'comment' => $comment,
 			'creator' => $SES_USER['name'],
 			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
-		));
+		);
+
+		$this->Buyer_model->insert($param);
 
 		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $msg . '\n 업데이트일: ' . $period));
 	}

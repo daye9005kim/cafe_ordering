@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `buyer` (
    `end` datetime NOT NULL,
    `comment` text NOT NULL,
    `option` char(1) NOT NULL DEFAULT '0',
+   `cafe` char(2) NOT NULL DEFAULT '01',
    `creator` varchar(50) DEFAULT NULL,
    `regdate` datetime NOT NULL,
    PRIMARY KEY (`ordnum`)
