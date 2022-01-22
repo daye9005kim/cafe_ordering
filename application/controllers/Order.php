@@ -20,8 +20,12 @@ class Order extends MY_Controller
 		}
 
 		$ordnum = $this->input->get('ordnum');
+		$cafe = $this->input->get('cafe');
 		if (empty($ordnum)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '주문번호가 없습니다.'));
+		}
+		if (empty($cafe) || !in_array($cafe, array('01', '02', '03', '04'))) {
+			return $this->load->view('view', array('status' => 400, 'data' => '카페가 없습니다.'));
 		}
 		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum));
 		$conf_admin = $this->config->item('admin');
@@ -43,7 +47,7 @@ class Order extends MY_Controller
 			}
 		}
 
-		$menu = $this->Starbucks_model->select(array());
+		$menu = $this->Starbucks_model->select(array('cafe' => $cafe));
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
 		$buyer[0]['invite'] = strToTeam($team);
 

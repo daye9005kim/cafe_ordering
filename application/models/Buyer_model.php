@@ -71,6 +71,9 @@ SQL;
         if (isset($param['ordnum'])) {
             $arr[] = sprintf('ordnum = %s', $escape['ordnum']);
         }
+        if (isset($param['cafe'])) {
+            $arr[] = sprintf('cafe = %s', $escape['cafe']);
+        }
 
         $where = '';
         if (count($arr) > 0) {
@@ -82,7 +85,7 @@ SQL;
 		}
 
         $sql = <<<SQL
-SELECT ordnum, invite, start, `end`, comment, `option`, regdate, creator 
+SELECT ordnum, cafe, invite, start, `end`, comment, `option`, regdate, creator 
 FROM buyer
 {$where}
 ORDER BY regdate DESC
@@ -101,6 +104,9 @@ SQL;
     public function insert($param)
     {
         if (empty($param['ordnum'])) {
+            return false;
+        }
+        if (empty($param['cafe'])) {
             return false;
         }
         if (empty($param['invite'])) {
@@ -126,6 +132,7 @@ SQL;
         $sql = <<<SQL
 INSERT INTO buyer SET 
 ordnum = {$escape['ordnum']},
+cafe = {$escape['cafe']},
 invite = {$escape['invite']},
 start = {$escape['start']},
 `end` = {$escape['end']},

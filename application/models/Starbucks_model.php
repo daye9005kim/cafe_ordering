@@ -33,9 +33,11 @@ class Starbucks_model extends CI_Model
         if (isset($param['cate_cd'])) {
             $arr[] = sprintf('cate_cd = %s', $escape['cate_cd']);
         }
-
         if (isset($param['content'])) {
             $arr[] = sprintf('content like %s', $escape['content']);
+        }
+        if (isset($param['cafe'])) {
+            $arr[] = sprintf('cafe = %s', $escape['cafe']);
         }
 
         $where = '';
@@ -43,7 +45,7 @@ class Starbucks_model extends CI_Model
             $where = 'WHERE ' . join(' AND ', $arr);
         }
         $sql = <<<SQL
-SELECT product_cd, product_nm, product_img, cate_nm, cate_cd, content, caffeine, regdate 
+SELECT cafe, product_cd, product_nm, product_img, cate_nm, cate_cd, content, caffeine, regdate 
 FROM drink
 {$where}
 SQL;
