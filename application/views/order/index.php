@@ -126,7 +126,11 @@ if (!empty($data['order'])) {
 								},
 								success: function (request) {
 									$("#thumbnail").attr("src", request.menu.product_img);
-									$("#content").text(request.menu.content);
+									var content = request.menu.content;
+									if (request.menu.content === '') {
+										content = request.menu.product_cd;
+									}
+									$("#content").text(content);
 									$("#drink_view").attr("href", "https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd)
 								},
 								error: function (request, status, error) {
@@ -234,6 +238,7 @@ if (!empty($data['order'])) {
 
 		$(document).ready(function () {
 			var ordnum = '<?= $data['buyer']['ordnum'] ?>';
+			var cafe = '<?= $data['buyer']['cafe'] ?>';
 			$("#menu_nm").val('<?=isset($data['order']['product_nm']) ? $data['order']['product_nm'] : ''?>');
 			$("#code").val('<?=isset($data['order']['product_cd']) ? $data['order']['product_cd'] : ''?>');
 			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : 'tall'?>');
@@ -247,6 +252,20 @@ if (!empty($data['order'])) {
 			$("#print").click(function () {
 				window.location.href = "/order/mprnt?ordnum=" + ordnum;
 			});
+
+			if (cafe === '01') {
+				$("#drink_view").prop("href", "https://www.gong-cha.co.kr/brand/menu/product.php?c=001");
+				$("#thumbnail").prop("src", "/static/img/gongcha.jpg");
+			} else if (cafe === '02'){
+				$("#drink_view").prop("href", "https://www.caffe-pascucci.co.kr/product/productList.asp?typeCode=00100010");
+				$("#thumbnail").prop("src", "/static/img/pascucci.png");
+			} else if (cafe === '03'){
+				$("#drink_view").prop("href", "https://paikdabang.com/menu/menu_drink/");
+				$("#thumbnail").prop("src", "/static/img/paiks.png");
+			} else {
+				$("#drink_view").prop("href", "https://www.starbucks.co.kr/menu/drink_list.do");
+				$("#thumbnail").prop("src", "/static/img/starbucks_logo.png");
+			}
 
 			$('#myModal').on('shown.bs.modal', function () {
 				var ord_date;
@@ -401,8 +420,8 @@ if (!empty($data['order'])) {
 	<div class="container" style="max-width: 1000px; margin-top: 20px;">
 		<br>
 		<div class="image" style="text-align: center; margin-bottom: 10px">
-			<a id="drink_view" href="https://www.starbucks.co.kr/menu/drink_list.do" target="_blank">
-			<img src="/static/img/starbucks_logo.png" id="thumbnail" class="ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="스타벅스 홈페이지로 이동"
+			<a id="drink_view" href="#" target="_blank">
+			<img src="/static/img/logo.png" id="thumbnail" class="ttip" data-bs-toggle="tooltip" data-bs-placement="right" title="홈페이지로 이동"
 			style="margin-bottom: 10px">
 			</a><br>
 			<span id="content" style="margin: 10px"></span>

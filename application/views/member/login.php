@@ -34,7 +34,9 @@ include_once APPPATH . 'views/_common/header.php';
 		}
 
 		let loginok = function loginok(name = '') {
-			var ordnum = $("input[name='order_list']:checked").val();
+			var input = $("input[name='order_list']:checked")
+			var ordnum = input.val();
+			var cafe = input.data("cafe");
 
 			if ($('.orderList').length > 0 && typeof ordnum == 'undefined') {
 				alert('주문서를 선택해주세요.');
@@ -64,7 +66,7 @@ include_once APPPATH . 'views/_common/header.php';
 				},
 				success: function (request) {
 					if (request.name === name) {
-						window.location.href = "/order?ordnum=" + ordnum;
+						window.location.href = "/order?ordnum=" + ordnum + "&cafe=" + cafe;
 					} else {
 						alert(request.name + ' 계정을 로그아웃 하십시오.');
 						history.back();
@@ -133,7 +135,7 @@ include_once APPPATH . 'views/_common/header.php';
 								<div class="form-check">
 									<input type="radio" name="order_list" class="form-check-input orderList"
 										   id="<?= $item['ordnum'] ?>" <?= $str_checked ?>
-										   value="<?= $item['ordnum'] ?>">
+										   value="<?= $item['ordnum'] ?>" data-cafe="<?= $item['cafe'] ?>">
 									<label class="form-check-label"
 										   for="<?= $item['ordnum'] ?>"><?= $order_list ?></label>
 								</div>
