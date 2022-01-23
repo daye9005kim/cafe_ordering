@@ -66,6 +66,9 @@ class Order_model extends CI_Model
         if (isset($param['part'])) {
             $arr[] = sprintf('m.part = %s', $escape['part']);
         }
+        if (isset($param['cafe'])) {
+            $arr[] = sprintf('s.cafe = %s', $escape['cafe']);
+        }
 
         $where = '';
         if (count($arr) > 0) {
@@ -75,8 +78,11 @@ class Order_model extends CI_Model
         }
 
         $sql = <<<SQL
-SELECT o.num, o.ordnum, o.status, m.name, m.pos, m.dept, m.team, m.part, o.product_cd, s.product_nm, o.product_size, o.product_cnt, o.comment, o.regdate 
-FROM `order` AS o INNER JOIN member as m ON o.member_name = m.name
+SELECT o.num, o.ordnum, o.status, o.product_cd, o.product_size, o.product_cnt, o.comment, o.regdate,
+       m.name, m.pos, m.dept, m.team, m.part, 
+       s.product_nm, s.cafe 
+FROM `order` AS o 
+INNER JOIN member as m ON o.member_name = m.name
 JOIN drink AS s ON o.product_cd = s.product_cd
 {$where}
 ORDER BY {$orderby} o.product_cd DESC

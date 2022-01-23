@@ -27,7 +27,7 @@ class Order extends MY_Controller
 		if (empty($cafe) || !in_array($cafe, array('01', '02', '03', '04'))) {
 			return $this->load->view('view', array('status' => 400, 'data' => '카페가 없습니다.'));
 		}
-		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum));
+		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum, 'cafe' => $cafe));
 		$conf_admin = $this->config->item('admin');
 		$admin = in_array($SES_USER['name'], $conf_admin['member']);
 
@@ -91,12 +91,16 @@ class Order extends MY_Controller
 	{
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
+		$cafe = $this->input->post('cafe');
 
 		if (empty($SES_USER)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '로그인 해주세요.'));
 		}
+		if (empty($cafe)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '카페가 없습니다.'));
+		}
 
-		$order = $this->Order_model->select(array('member_name' => $SES_USER['name']));
+		$order = $this->Order_model->select(array('member_name' => $SES_USER['name'], 'cafe' => $cafe));
 
 		$return = array();
 		foreach ($order as $value) {
@@ -198,6 +202,9 @@ class Order extends MY_Controller
 		if (empty($code)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '메뉴를 입력해주세요.'));
 		}
+		if (empty($size)) {
+			return $this->load->view('json', array('status' => 400, 'data' => '사이즈를 입력해주세요.'));
+		}
 		if (intval($cnt) > 5) {
 			return $this->load->view('json', array('status' => 400, 'data' => '최대 5개까지 선택 가능합니다.'));
 		}
@@ -225,7 +232,7 @@ class Order extends MY_Controller
 			'status' => '1',
 			'member_name' => $SES_USER['name'],
 			'product_cd' => $code,
-			'product_size' => empty($size) ? 'tall' : $size,
+			'product_size' => $size,
 			'product_cnt' => empty($cnt) ? 1 : intval($cnt),
 			'comment' => $comment
 		);

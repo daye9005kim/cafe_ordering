@@ -171,9 +171,10 @@ SQL;
 				$title = $pro_list->find('span.txt');
 
 				foreach ($pro_list->find('img') as $i => $image) {
+					$name = str_replace('<br>', '', $title[$i]->innertext);
 					$menu[] = array(
-						'product_cd' => $title[$i]->plaintext,
-						'product_nm' => $title[$i]->plaintext,
+						'product_cd' => $name,
+						'product_nm' => $name,
 						'product_img' => 'http://www.gong-cha.co.kr' . $image->src,
 						'cate_nm' => '',
 						'cate_cd' => '',
@@ -251,15 +252,18 @@ SQL;
 			$menu_list = $menu_list[0];
 
 			$title = $menu_list->find('p.menu_tit');
+			$content = $menu_list->find('p.txt');
 
 			foreach ($menu_list->find('img') as $i => $image) {
+				$name = str_replace('&#8217;', '', $title[$i]->plaintext);
+
 				$menu[] = array(
-					'product_cd' => $title[$i]->plaintext,
-					'product_nm' => $title[$i]->plaintext,
+					'product_cd' => $name,
+					'product_nm' => $name,
 					'product_img' => $image->src,
 					'cate_nm' => '',
 					'cate_cd' => '',
-					'content' => '',
+					'content' => $content[$i]->plaintext,
 					'caffeine' => '',
 					'cafe' => '03',
 				);

@@ -241,9 +241,13 @@ if (!empty($data['order'])) {
 			var cafe = '<?= $data['buyer']['cafe'] ?>';
 			$("#menu_nm").val('<?=isset($data['order']['product_nm']) ? $data['order']['product_nm'] : ''?>');
 			$("#code").val('<?=isset($data['order']['product_cd']) ? $data['order']['product_cd'] : ''?>');
-			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : 'tall'?>');
+			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : ''?>');
 			$("#cnt").val('<?=isset($data['order']['product_cnt']) ? $data['order']['product_cnt'] : '1'?>');
 			$("#comment").val('<?=isset($data['order']['comment']) ? $data['order']['comment'] : ''?>');
+
+			if ($("#size").val() === null) {
+				$("#size option:eq(0)").prop("selected", true);
+			}
 
 			$("#logout").click(function () {
 				window.location.href = "/member/logout";
@@ -279,7 +283,8 @@ if (!empty($data['order'])) {
 					dataType: 'json',
 					url: '/order/get',
 					data: {
-						'ordnum': ordnum
+						'ordnum': ordnum,
+						'cafe': cafe
 					},
 					success: function (request) {
 						var list = [];
@@ -355,6 +360,12 @@ if (!empty($data['order'])) {
 
 			});
 
+			$("#hot").change(function () {
+				if ($("#hot").val() === 'HOT') {
+					alert('뜨거운 메뉴가 있는 음료인지 확인하세요.(사진에 음료 2잔)');
+				}
+			});
+
 			$("#order").click(function () {
 				var menu_code = $("#code").val();
 				var menu_nm = $("#menu_nm").val();
@@ -370,6 +381,13 @@ if (!empty($data['order'])) {
 				}
 				if (cnt === '') {
 					return alert('수량을 입력해 주세요.');
+				}
+
+				if (cafe === '01') {
+					var hot = $("#hot").val();
+					var sweet = '당도:' + $("#sweet").val();
+					ice = '얼음:regular';
+					comment = hot + '/' + sweet + '/' + ice;
 				}
 
 				var str = '주문 하시겠습니까? \n' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
@@ -436,12 +454,42 @@ if (!empty($data['order'])) {
 			</div>
 			<div class="col-auto">
 				<select id="size" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="사이즈">
-					<option value="tall">Tall</option>
-					<option value="grande">Grande</option>
-					<option value="venti">Venti</option>
+					<?php if ($data['buyer']['cafe'] === '01') : ?>
+						<option value="regular">Regular</option>
+						<option value="jumbo">Jumbo</option>
+					<?php elseif ($data['buyer']['cafe'] === '02') : ?>
+						<option value="regular">Regular</option>
+						<option value="large">Large</option>
+					<?php elseif ($data['buyer']['cafe'] === '03') : ?>
+						<option value="regular">Regular</option>
+						<option value="large">빽사이즈</option>
+					<?php elseif ($data['buyer']['cafe'] === '04') : ?>
+						<option value="tall">Tall</option>
+						<option value="grande">Grande</option>
+						<option value="venti">Venti</option>
+
+					<?php endif; ?>
+				</select>
+			</div>
+			<?php if ($data['buyer']['cafe'] === '01') : ?>
+			<div class="col-auto">
+				<select id="hot" class="form-select ttip" title="HOT/ICED" data-bs-toggle="tooltip" data-bs-placement="top">
+					<option value="ICED">ICED</option>
+					<option value="HOT">HOT</option>
 				</select>
 			</div>
 			<div class="col-auto">
+				<select id="sweet" class="form-select ttip" title="당도" data-bs-toggle="tooltip" data-bs-placement="top">
+					<option value="0">0%</option>
+					<option value="30">30%</option>
+					<option value="50" selected>50%</option>
+					<option value="70">70%</option>
+					<option value="100">100%</option>
+				</select>
+			</div>
+			<?php endif; ?>
+
+			<div class="col-auto" style="display: none;">
 				<select id="cnt" class="form-select ttip" title="수량" data-bs-toggle="tooltip" data-bs-placement="top">
 					<option value="1">1개</option>
 					<!--<option value="2">2개</option>-->
@@ -450,15 +498,11 @@ if (!empty($data['order'])) {
 					<!--<option value="5">5개</option>-->
 				</select>
 			</div>
-			<?php
-			if ($data['buyer']['option'] === '1') {
-				?>
+			<?php if ($data['buyer']['option'] === '1') : ?>
 				<div class="col-auto">
 					<input type="text" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top" id="comment" placeholder="comment" maxlength='50' title="옵션 추가">
 				</div>
-				<?php
-			}
-			?>
+				<?php endif; ?>
 
 			<div class="col-auto">
 				<button id="order" class="btn btn-outline-success position-relative">주문하기
