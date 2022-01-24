@@ -173,7 +173,7 @@ class Order extends MY_Controller
 				}
 				$comment = $hot . ' / 당도:' . $item['sweet'] . ' / ' . $item['comment'];
 			}
-			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($item['comment']) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
+			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($comment) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
 		}
 
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum, 'size' => $config[$order[0]['cafe']]['size'])));
