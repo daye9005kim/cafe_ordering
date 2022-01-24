@@ -1,30 +1,6 @@
 <?php
 include_once APPPATH . 'views/_common/header.php';
 include_once APPPATH . 'views/_common/top.php';
-
-$list = '';
-$comment = '';
-foreach ($data['order'] as $key => $val) {
-	$list .= <<<HTML
-<tr><td>{$key}</td>
-HTML;
-
-	$t_cnt = 0;
-	foreach ($val as $k => $i) {
-		$list .= <<<HTML
-<td>{$i['cnt']}<br>
-HTML;
-		foreach ($i['comment'] as $cmt) {
-			if (!empty($cmt)) {
-				$str = '<span>' . $cmt . '</span>';
-				$list .= mb_strlen($cmt) > 5 ? '<p>' . $str . '</p>' : $str;
-			}
-		}
-		$list .= '</td>';
-		$t_cnt += $i['cnt'];
-	}
-	$list .= '</tr>';
-}
 ?>
 	<div class="container" id="orderTable">
 		<div class="clearfix">
@@ -49,7 +25,23 @@ HTML;
 			</tr>
 			</thead>
 			<tbody>
-			<?= $list ?>
+			<?php foreach ($data['order'] as $key => $val) : ?>
+			<tr><td><?= $key ?></td>
+				<?php foreach ($val as $k => $i) : ?>
+				<td><?= $i['cnt'] ?><br>
+					<?php foreach ($i['comment'] as $cmt) {
+							if (!empty($cmt)) {
+								if (mb_strlen($cmt) > 5) { ?>
+								<p><span><?= $cmt ?> </span></p>
+							<?php } else { ?>
+								<span><?= $cmt ?> </span>
+							<?php }
+							 }
+						} ?>
+					</td>
+				<?php endforeach; ?>
+				</tr>
+			<?php endforeach; ?>
 			<tr class="info">
 				<td style="text-align: center">총</td>
 				<td colspan="3" style="text-align: center"><?= $data['total'] ?> 개</td>
