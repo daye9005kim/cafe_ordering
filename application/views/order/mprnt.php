@@ -43,9 +43,9 @@ HTML;
 			<thead>
 			<tr>
 				<th>메뉴</th>
-				<th>Tall</th>
-				<th>Grande</th>
-				<th>Venti</th>
+				<?php foreach ($data['size'] as $size => $arr) : ?>
+					<th><?= $size ?></th>
+				<?php endforeach; ?>
 			</tr>
 			</thead>
 			<tbody>

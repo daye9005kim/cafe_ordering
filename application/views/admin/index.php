@@ -252,7 +252,7 @@ $config = $this->config->item('cafe');
 				foreach ($data['buyer'] as $key => $item) {
 					?>
 					<tr>
-						<td><a href="/order?ordnum=<?= $item['ordnum'] ?>&cafe=<?= $item['cafe'] ?>" class="link-success"><?= $item['ordnum'] ?></a>
+						<td><a href="/order?ordnum=<?= $item['ordnum'] ?>" class="link-success"><?= $item['ordnum'] ?></a>
 							<input type="hidden" name="ordnum" value="<?= $item['ordnum'] ?>"</td>
 						<td data-type="cafe"><?= $config[$item['cafe']]['name'] ?></td>
 						<td class="edit" data-type="name"><?= $item['invite'] ?></td>

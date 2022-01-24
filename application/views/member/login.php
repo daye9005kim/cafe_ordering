@@ -66,7 +66,7 @@ include_once APPPATH . 'views/_common/header.php';
 				},
 				success: function (request) {
 					if (request.name === name) {
-						window.location.href = "/order?ordnum=" + ordnum + "&cafe=" + cafe;
+						window.location.href = "/order?ordnum=" + ordnum;
 					} else {
 						alert(request.name + ' 계정을 로그아웃 하십시오.');
 						history.back();

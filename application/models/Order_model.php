@@ -78,7 +78,7 @@ class Order_model extends CI_Model
         }
 
         $sql = <<<SQL
-SELECT o.num, o.ordnum, o.status, o.product_cd, o.product_size, o.product_cnt, o.comment, o.regdate,
+SELECT o.num, o.ordnum, o.status, o.product_cd, o.product_size, o.product_cnt, o.hot, o.ice, o.sweet, o.comment, o.regdate,
        m.name, m.pos, m.dept, m.team, m.part, 
        s.product_nm, s.cafe 
 FROM `order` AS o 

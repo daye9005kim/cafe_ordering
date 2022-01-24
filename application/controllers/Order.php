@@ -20,14 +20,10 @@ class Order extends MY_Controller
 		}
 
 		$ordnum = $this->input->get('ordnum');
-		$cafe = $this->input->get('cafe');
 		if (empty($ordnum)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '주문번호가 없습니다.'));
 		}
-		if (empty($cafe) || !in_array($cafe, array('01', '02', '03', '04'))) {
-			return $this->load->view('view', array('status' => 400, 'data' => '카페가 없습니다.'));
-		}
-		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum, 'cafe' => $cafe));
+		$buyer = $this->Buyer_model->select(array('ordnum' => $ordnum));
 		$conf_admin = $this->config->item('admin');
 		$admin = in_array($SES_USER['name'], $conf_admin['member']);
 
@@ -47,7 +43,7 @@ class Order extends MY_Controller
 			}
 		}
 
-		$menu = $this->Starbucks_model->select(array('cafe' => $cafe));
+		$menu = $this->Starbucks_model->select(array('cafe' => $buyer[0]['cafe']));
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
 		$buyer[0]['invite'] = strToTeam($team);
 
@@ -161,21 +157,26 @@ class Order extends MY_Controller
 		$order = $this->Order_model->select(array('ordnum' => $ordnum));
 		$arr = array();
 		$total = 0;
+		$config = $this->config->item('cafe');
 		foreach ($order as $item) {
 			$total += $item['product_cnt'];
 			$cnt = $item['product_cnt'];
 			if (!isset($arr[$item['product_nm']][$item['product_size']])) {
-				$arr[$item['product_nm']] = array(
-					'tall' => array('cnt' => 0, 'comment' => array()),
-					'grande' => array('cnt' => 0, 'comment' => array()),
-					'venti' => array('cnt' => 0, 'comment' => array())
-				);
+				$arr[$item['product_nm']] = $config[$order[0]['cafe']]['size'];
 			}
 			$arr[$item['product_nm']][$item['product_size']]['cnt'] = $arr[$item['product_nm']][$item['product_size']]['cnt'] + $cnt;
-			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($item['comment']) ? masking($item['name']) . ' : ' . $item['comment'] : masking($item['name']);
+			$comment = $item['comment'];
+			if ($order[0]['cafe'] === '01') {
+				$hot = 'HOT';
+				if ($item['hot'] === '0') {
+					$hot = 'ICED:' . $config[$order[0]['cafe']]['ice'][$item['ice']];
+				}
+				$comment = $hot . ' / 당도:' . $item['sweet'] . ' / ' . $item['comment'];
+			}
+			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($item['comment']) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
 		}
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum)));
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum, 'size' => $config[$order[0]['cafe']]['size'])));
 	}
 
 	/**

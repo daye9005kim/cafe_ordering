@@ -411,12 +411,13 @@ if (!empty($data['order'])) {
 				if (cafe === '01') {
 					hot = $("#hot").val();
 					sweet = $("#sweet").val();
-					sweet_txt = $("#sweet option:selected").text();
+					var sweet_txt = $("#sweet option:selected").text();
+					var ice_txt = '';
 					if (hot === '0') {
 						ice = $("#ice").val();
-						ice_txt = $("#ice option:selected").text();
+						ice_txt = ':' + $("#ice option:selected").text();
 					}
-					cstm = (hot === '0' ? 'ICED' : 'HOT') + ':' + ice_txt + ' / 당도:' + sweet_txt;
+					cstm = (hot === '0' ? 'ICED' : 'HOT') + ice_txt + ' / 당도:' + sweet_txt;
 				}
 
 				var str = '주문 하시겠습니까? \n' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
