@@ -187,6 +187,9 @@ class Order extends MY_Controller
 		$code = $this->input->post('menu_code');
 		$size = $this->input->post('size');
 		$cnt = $this->input->post('cnt');
+		$hot = $this->input->post('hot');
+		$ice = $this->input->post('ice');
+		$sweet = $this->input->post('sweet');
 		$comment = $this->input->post('comment');
 		$ordnum = $this->input->post('ordnum');
 
@@ -207,6 +210,15 @@ class Order extends MY_Controller
 		}
 		if (intval($cnt) > 5) {
 			return $this->load->view('json', array('status' => 400, 'data' => '최대 5개까지 선택 가능합니다.'));
+		}
+		if (empty($hot)) {
+			$hot = '0'; //0 ice, 1 hot
+		}
+		if (empty($ice)) {
+			$ice = 'R'; //L less, R regular, F full
+		}
+		if (empty($sweet)) {
+			$sweet = 50;
 		}
 
 		//다중 중복 주문 체크
@@ -234,6 +246,9 @@ class Order extends MY_Controller
 			'product_cd' => $code,
 			'product_size' => $size,
 			'product_cnt' => empty($cnt) ? 1 : intval($cnt),
+			'hot' => $hot,
+			'ice' => $ice,
+			'sweet' => intval($sweet),
 			'comment' => $comment
 		);
 

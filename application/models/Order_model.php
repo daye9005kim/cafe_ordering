@@ -115,6 +115,15 @@ SQL;
 		if (empty($param['product_size'])) {
 			return false;
 		}
+		if (empty($param['hot'])) {
+			$param['hot'] = '0';
+		}
+		if (empty($param['ice'])) {
+			$param['ice'] = 'R';
+		}
+		if (empty($param['sweet'])) {
+			$param['sweet'] = 0;
+		}
 		if (empty($param['comment'])) {
 			$param['comment'] = '';
 		}
@@ -126,7 +135,6 @@ SQL;
 		$arr[] = sprintf('ordnum = %s', $escape['ordnum']);
 		$arr[] = sprintf('member_name = %s', $escape['member_name']);
 
-		$where = '';
 		if (count($arr) > 0) {
 			$where = 'WHERE ' . join(' AND ', $arr);
 		} else {
@@ -136,11 +144,14 @@ SQL;
 
 		$sql = <<<SQL
 UPDATE `order` SET 
-status = {$escape['status']}, 
-product_cd = {$escape['product_cd']}, 
-product_cnt = {$escape['product_cnt']}, 
-product_size = {$escape['product_size']}, 
-comment = {$escape['comment']},    
+status = {$escape['status']},
+product_cd = {$escape['product_cd']},
+product_cnt = {$escape['product_cnt']},
+product_size = {$escape['product_size']},
+hot = {$escape['hot']},
+ice = {$escape['ice']},
+sweet = {$escape['sweet']},
+comment = {$escape['comment']},
 regdate = now()
 {$where}
 SQL;
@@ -175,6 +186,15 @@ SQL;
         if (empty($param['product_size'])) {
             return false;
         }
+		if (empty($param['hot'])) {
+			$param['hot'] = '0';
+		}
+		if (empty($param['ice'])) {
+			$param['ice'] = 'R';
+		}
+		if (empty($param['sweet'])) {
+			$param['sweet'] = 0;
+		}
         if (empty($param['comment'])) {
             $param['comment'] = '';
         }
@@ -182,14 +202,17 @@ SQL;
         $escape = $this->db->escape($param);
         $sql = <<<SQL
 INSERT INTO `order` SET 
-ordnum = {$escape['ordnum']}, 
-status = {$escape['status']}, 
-member_name = {$escape['member_name']}, 
-product_cd = {$escape['product_cd']}, 
-product_cnt = {$escape['product_cnt']}, 
-product_size = {$escape['product_size']}, 
-comment = {$escape['comment']},    
-regdate = now()     
+ordnum = {$escape['ordnum']},
+status = {$escape['status']},
+member_name = {$escape['member_name']},
+product_cd = {$escape['product_cd']},
+product_cnt = {$escape['product_cnt']},
+product_size = {$escape['product_size']},
+hot = {$escape['hot']},
+ice = {$escape['ice']},
+sweet = {$escape['sweet']},
+comment = {$escape['comment']},
+regdate = now()
 SQL;
         $this->db->query($sql);
         if ($this->db->affected_rows()) {

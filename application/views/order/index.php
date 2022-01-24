@@ -245,6 +245,12 @@ if (!empty($data['order'])) {
 			$("#cnt").val('<?=isset($data['order']['product_cnt']) ? $data['order']['product_cnt'] : '1'?>');
 			$("#comment").val('<?=isset($data['order']['comment']) ? $data['order']['comment'] : ''?>');
 
+			if (cafe === '01') {
+				$("#hot").val('<?=isset($data['order']['hot']) ? $data['order']['hot'] : '0'?>');
+				$("#ice").val('<?=isset($data['order']['ice']) ? $data['order']['ice'] : 'R'?>');
+				$("#sweet").val('<?=isset($data['order']['sweet']) ? $data['order']['sweet'] : '50'?>');
+			}
+
 			if ($("#size").val() === null) {
 				$("#size option:eq(0)").prop("selected", true);
 			}
@@ -310,6 +316,9 @@ if (!empty($data['order'])) {
 								"data-name": request.order[i].product_nm,
 								"data-size": request.order[i].product_size,
 								"data-cnt": request.order[i].product_cnt,
+								"data-hot": request.order[i].product_hot,
+								"data-ice": request.order[i].product_ice,
+								"data-sweet": request.order[i].product_sweet,
 								"data-comment": request.order[i].comment,
 								"data-dismiss": "modal",
 							}).text('입력').click(function () {
@@ -317,6 +326,11 @@ if (!empty($data['order'])) {
 								$('#menu_nm').val($(this).attr('data-name'));
 								$('#size').val($(this).attr('data-size'));
 								$('#cnt').val($(this).attr('data-cnt'));
+								if (request.order[i].cafe === '01') {
+									$('#hot').val($(this).attr('data-hot'));
+									$('#ice').val($(this).attr('data-ice'));
+									$('#sweet').val($(this).attr('data-sweet'));
+								}
 
 								alert('주문이 입력 되었습니다. 주문하기를 다시 눌러주세요.');
 								$('#myModal').modal("hide"); //닫기
@@ -359,10 +373,17 @@ if (!empty($data['order'])) {
 				});
 
 			});
+			if ($("#hot").val() === '0') {
+				$("#ice").show();
+			}
 
 			$("#hot").change(function () {
-				if ($("#hot").val() === 'HOT') {
+				if ($("#hot").val() === '1') {
 					alert('뜨거운 메뉴가 있는 음료인지 확인하세요.(사진에 음료 2잔)');
+					$("#ice").hide();
+				}
+				if ($("#hot").val() === '0') {
+					$("#ice").show();
 				}
 			});
 
@@ -372,6 +393,10 @@ if (!empty($data['order'])) {
 				var size = $("#size").val();
 				var cnt = $("#cnt").val();
 				var comment = $("#comment").val();
+				var cstm = '';
+				var hot  = '0';
+				var sweet  = 0;
+				var ice  = 'R';
 
 				if (menu_nm === '' && menu_code === '') {
 					return alert('메뉴를 입력해 주세요.');
@@ -384,14 +409,21 @@ if (!empty($data['order'])) {
 				}
 
 				if (cafe === '01') {
-					var hot = $("#hot").val();
-					var sweet = '당도:' + $("#sweet").val();
-					ice = '얼음:regular';
-					comment = hot + '/' + sweet + '/' + ice;
+					hot = $("#hot").val();
+					sweet = $("#sweet").val();
+					sweet_txt = $("#sweet option:selected").text();
+					if (hot === '0') {
+						ice = $("#ice").val();
+						ice_txt = $("#ice option:selected").text();
+					}
+					cstm = (hot === '0' ? 'ICED' : 'HOT') + ':' + ice_txt + ' / 당도:' + sweet_txt;
 				}
 
 				var str = '주문 하시겠습니까? \n' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
 
+				if (cstm.length > 0) {
+					str += '\n' + cstm;
+				}
 				if ( typeof comment !== 'undefined' && comment.length > 0) {
 					str += '\n' + comment;
 				}
@@ -408,6 +440,9 @@ if (!empty($data['order'])) {
 						'menu_nm': menu_nm,
 						'size': size,
 						'cnt': cnt,
+						'hot': hot,
+						'ice': ice,
+						'sweet': sweet,
 						'comment': comment,
 						'ordnum': ordnum
 					},
@@ -435,7 +470,7 @@ if (!empty($data['order'])) {
 			</div>
 		</div>
 	</div>
-	<div class="container" style="max-width: 1000px; margin-top: 20px;">
+	<div class="container" style="margin-top: 20px;">
 		<br>
 		<div class="image" style="text-align: center; margin-bottom: 10px">
 			<a id="drink_view" href="#" target="_blank">
@@ -444,7 +479,7 @@ if (!empty($data['order'])) {
 			</a><br>
 			<span id="content" style="margin: 10px"></span>
 		</div>
-		<div class="row g-<?=$data['buyer']['option'] === '1' ? '1' : '3'?> 1" style="text-align: center">
+		<div class="row g-2 justify-content-md-center">
 			<div class="col-auto">
 				<input type="hidden" id="code">
 				<select id="combobox">
@@ -461,8 +496,7 @@ if (!empty($data['order'])) {
 						<option value="regular">Regular</option>
 						<option value="large">Large</option>
 					<?php elseif ($data['buyer']['cafe'] === '03') : ?>
-						<option value="regular">Regular</option>
-						<option value="large">빽사이즈</option>
+						<option value="regular">사이즈는 메뉴에서(빽사이즈)</option>
 					<?php elseif ($data['buyer']['cafe'] === '04') : ?>
 						<option value="tall">Tall</option>
 						<option value="grande">Grande</option>
@@ -474,15 +508,22 @@ if (!empty($data['order'])) {
 			<?php if ($data['buyer']['cafe'] === '01') : ?>
 			<div class="col-auto">
 				<select id="hot" class="form-select ttip" title="HOT/ICED" data-bs-toggle="tooltip" data-bs-placement="top">
-					<option value="ICED">ICED</option>
-					<option value="HOT">HOT</option>
+					<option value="0">ICED</option>
+					<option value="1">HOT</option>
+				</select>
+			</div>
+			<div class="col-auto">
+				<select id="ice" class="form-select ttip" style="display: none;" title="얼음량" data-bs-toggle="tooltip" data-bs-placement="top">
+					<option value="L">Less</option>
+					<option value="R">Regular</option>
+					<option value="F">Full</option>
 				</select>
 			</div>
 			<div class="col-auto">
 				<select id="sweet" class="form-select ttip" title="당도" data-bs-toggle="tooltip" data-bs-placement="top">
 					<option value="0">0%</option>
 					<option value="30">30%</option>
-					<option value="50" selected>50%</option>
+					<option value="50">50%</option>
 					<option value="70">70%</option>
 					<option value="100">100%</option>
 				</select>
@@ -503,19 +544,31 @@ if (!empty($data['order'])) {
 					<input type="text" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top" id="comment" placeholder="comment" maxlength='50' title="옵션 추가">
 				</div>
 				<?php endif; ?>
+		</div>
 
-			<div class="col-auto">
-				<button id="order" class="btn btn-outline-success position-relative">주문하기
-					<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle blinkEle" style="display: none;"></span>
-				</button>
-				<button type="button" id="myorder" class="btn btn-warning ttip" data-bs-toggle="modal" data-bs-target="#myModal" title="내 주문 기록">
-					<span><i class="bi bi-cart4"></i></span>
-				</button>
-				<button id="print" class="btn btn-secondary ttip" aria-label="Print" data-bs-toggle="tooltip" data-bs-placement="top" title="주문서 출력">
-					<span><i class="bi bi-printer"></i></span>
-				</button>
+		<div class="order_area" style="margin-top: 20px;">
+			<div class="row g-2 justify-content-md-center">
+				<div class="col-auto">
+					<button id="order" class="btn btn-outline-success position-relative"><strong>주문하기</strong>
+						<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle blinkEle"
+							  style="display: none;"></span>
+					</button>
+				</div>
+				<div class="col-auto">
+					<button type="button" id="myorder" class="btn btn-warning ttip" data-bs-toggle="modal"
+							data-bs-target="#myModal" title="내 주문 기록">
+						<span><i class="bi bi-cart4"></i></span>
+					</button>
+				</div>
+				<div class="col-auto">
+					<button id="print" class="btn btn-secondary ttip" aria-label="Print" data-bs-toggle="tooltip"
+							data-bs-placement="top" title="주문서 출력">
+						<span><i class="bi bi-printer"></i></span>
+					</button>
+				</div>
 			</div>
-			<p class="text-danger" style="margin: 10px 0 10px;">다시 주문하시면 주문이 수정됩니다.</p>
+			<p class="text-danger" style="margin: 10px 0 10px; text-align: center;">다시 주문하시면 주문이 수정됩니다.</p>
+		</div>
 		</div>
 		<!-- Modal -->
 		<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

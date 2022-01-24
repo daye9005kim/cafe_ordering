@@ -209,6 +209,13 @@ SQL;
 //        echo $sql;
 		$this->db->query($sql);
 		if ($this->db->affected_rows()) {
+			$sql = <<<SQL
+DELETE FROM `order` WHERE {$where}
+SQL;
+			$this->db->query($sql);
+			if ($this->db->affected_rows()) {
+				return true;
+			}
 			return true;
 		}
 		return false;
