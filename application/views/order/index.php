@@ -374,16 +374,16 @@ if (!empty($data['order'])) {
 
 			});
 			if ($("#hot").val() === '0') {
-				$("#ice").show();
+				$(".ice").show();
 			}
 
 			$("#hot").change(function () {
 				if ($("#hot").val() === '1') {
 					alert('뜨거운 메뉴가 있는 음료인지 확인하세요.(사진에 음료 2잔)');
-					$("#ice").hide();
+					$(".ice").hide();
 				}
 				if ($("#hot").val() === '0') {
-					$("#ice").show();
+					$(".ice").show();
 				}
 			});
 
@@ -513,8 +513,8 @@ if (!empty($data['order'])) {
 					<option value="1">HOT</option>
 				</select>
 			</div>
-			<div class="col-auto">
-				<select id="ice" class="form-select ttip" style="display: none;" title="얼음량" data-bs-toggle="tooltip" data-bs-placement="top">
+			<div class="col-auto ice" style="display: none;">
+				<select id="ice" class="form-select ttip" title="얼음량" data-bs-toggle="tooltip" data-bs-placement="top">
 					<option value="L">Less</option>
 					<option value="R">Regular</option>
 					<option value="F">Full</option>
