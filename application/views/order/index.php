@@ -157,7 +157,7 @@ if (!empty($data['order'])) {
 							.tooltip()
 							.appendTo(this.wrapper)
 							.removeClass("ui-corner-all")
-							.addClass("custom-combobox-toggle text-right btn btn-success")
+							.addClass("custom-combobox-toggle text-right btn btn-outline-success")
 							.on("mousedown", function () {
 								wasOpen = input.autocomplete("widget").is(":visible");
 							})
@@ -541,7 +541,7 @@ if (!empty($data['order'])) {
 				</select>
 			</div>
 			<?php if ($data['buyer']['option'] === '1') : ?>
-				<div class="col-auto">
+				<div class="col-4">
 					<input type="text" class="form-control ttip" data-bs-toggle="tooltip" data-bs-placement="top" id="comment" placeholder="comment" maxlength='50' title="옵션 추가">
 				</div>
 				<?php endif; ?>
@@ -550,7 +550,7 @@ if (!empty($data['order'])) {
 		<div class="order_area" style="margin-top: 20px;">
 			<div class="row g-2 justify-content-md-center">
 				<div class="col-auto">
-					<button id="order" class="btn btn-outline-success position-relative"><strong>주문하기</strong>
+					<button id="order" class="btn btn-success position-relative"><strong>주문하기</strong>
 						<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle blinkEle"
 							  style="display: none;"></span>
 					</button>
@@ -568,7 +568,7 @@ if (!empty($data['order'])) {
 					</button>
 				</div>
 			</div>
-			<p class="text-danger" style="margin: 10px 0 10px; text-align: center;">다시 주문하시면 주문이 수정됩니다.</p>
+			<p class="text-danger" style="margin: 10px 0 10px; text-align: center;"><strong>다시 주문하시면 주문이 수정됩니다.</strong></p>
 		</div>
 		</div>
 		<!-- Modal -->
