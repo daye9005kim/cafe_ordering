@@ -121,7 +121,7 @@ include_once APPPATH . 'views/_common/header.php';
 				<div style="margin: 10px;">
 					<hr class="colorgraph">
 					<div class="ratio ratio-21x9">
-						<img src="/static/img/l_facebook_cover_photo_1.png" alt="logo">
+						<img src="/static/img/<?= (ENVIRONMENT === 'development') ? 'y' : 'l' ?>_facebook_cover_photo_1.png" alt="logo">
 					</div>
 					<p class="form-label" style="font-size: medium;"><?= $data['msg'] ?></p>
 					<ul class="list-group">

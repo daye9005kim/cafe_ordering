@@ -26,17 +26,13 @@ include_once APPPATH . 'views/_common/top.php';
 			</thead>
 			<tbody>
 			<?php foreach ($data['order'] as $key => $val) : ?>
-			<tr><td><?= $key ?></td>
+				<tr><td><?= $key ?></td>
 				<?php foreach ($val as $k => $i) : ?>
-				<td><?= $i['cnt'] ?><br>
-					<?php foreach ($i['comment'] as $cmt) {
-							if (!empty($cmt)) {
-								if (mb_strlen($cmt) > 5) { ?>
-								<p><span><?= $cmt ?> </span></p>
-							<?php } else { ?>
-								<span><?= $cmt ?> </span>
+					<td><?= $i['cnt'] ?><br>
+						<?php foreach ($i['comment'] as $cmt) {
+							if (!empty($cmt)) { ?>
+							<span><?= $cmt ?> </span><?= mb_strlen($cmt) > 5 ? '<br>' : '' ?>
 							<?php }
-							 }
 						} ?>
 					</td>
 				<?php endforeach; ?>
