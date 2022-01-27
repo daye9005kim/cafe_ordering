@@ -171,7 +171,11 @@ class Order extends MY_Controller
 				if ($item['hot'] === '0') {
 					$hot = 'ICED:' . $config[$order[0]['cafe']]['ice'][$item['ice']];
 				}
-				$comment = $hot . ' / 당도:' . $item['sweet'] . ' / ' . $item['comment'];
+				$temp = array($hot, '당도:' . $item['sweet']);
+				if (!empty($item['comment'])) {
+					$temp[] = $item['comment'];
+				}
+				$comment = join('/', $temp);
 			}
 			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($comment) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
 		}
