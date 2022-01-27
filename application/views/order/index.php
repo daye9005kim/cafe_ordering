@@ -557,7 +557,7 @@ if (!empty($data['order'])) {
 				</div>
 				<div class="col-auto">
 					<button type="button" id="myorder" class="btn btn-warning ttip" data-bs-toggle="modal"
-							data-bs-target="#myModal" title="내 주문 기록">
+							data-bs-target="#myModal" title="최근 주문 메뉴">
 						<span><i class="bi bi-cart4"></i></span>
 					</button>
 				</div>
