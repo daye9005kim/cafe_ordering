@@ -222,9 +222,6 @@ class Order extends MY_Controller
 		if (empty($ice)) {
 			$ice = 'R'; //L less, R regular, F full
 		}
-		if (empty($sweet)) {
-			$sweet = 50;
-		}
 
 		//다중 중복 주문 체크
 		$dupl = $this->Order_model->check(array('ordnum' => $ordnum, 'member_name' => $SES_USER['name']));
