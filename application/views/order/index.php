@@ -138,7 +138,7 @@ if (!empty($data['order'])) {
 								error: function (request, status, error) {
 									console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
 								}
-							});
+							});//ㅅㄷㄴㅅ
 
 
 						},
