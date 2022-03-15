@@ -318,9 +318,9 @@ if (!empty($data['order'])) {
 								"data-name": request.order[i].product_nm,
 								"data-size": request.order[i].product_size,
 								"data-cnt": request.order[i].product_cnt,
-								"data-hot": request.order[i].product_hot,
-								"data-ice": request.order[i].product_ice,
-								"data-sweet": request.order[i].product_sweet,
+								"data-hot": request.order[i].hot,
+								"data-ice": request.order[i].ice,
+								"data-sweet": request.order[i].sweet,
 								"data-comment": request.order[i].comment,
 								"data-dismiss": "modal",
 							}).text('입력').click(function () {
