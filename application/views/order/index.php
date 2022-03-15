@@ -131,7 +131,9 @@ if (!empty($data['order'])) {
 										content = request.menu.product_cd;
 									}
 									$("#content").text(content);
-									$("#drink_view").attr("href", "https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd)
+									if (cafe === '04') {
+										$("#drink_view").attr("href", "https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd)
+									}
 								},
 								error: function (request, status, error) {
 									console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -491,7 +493,7 @@ if (!empty($data['order'])) {
 			<div class="col-auto">
 				<select id="size" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="사이즈">
 					<?php if ($data['buyer']['cafe'] === '01') : ?>
-						<option value="regular">Regular</option>
+						<option value="large">Large</option>
 						<option value="jumbo">Jumbo</option>
 					<?php elseif ($data['buyer']['cafe'] === '02') : ?>
 						<option value="regular">Regular</option>

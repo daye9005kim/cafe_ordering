@@ -532,7 +532,7 @@ $config['cafe']['01'] = array('name' => '공차',	'file_name' => '/tmp/drink_gon
 	'R' => 'Regular',
 	'F' => 'Full',
 ), 'size' => array(
-		'regular' => array('cnt' => 0, 'comment' => array()),
+		'large' => array('cnt' => 0, 'comment' => array()),
 		'jumbo' => array('cnt' => 0, 'comment' => array()),
 	)
 );
