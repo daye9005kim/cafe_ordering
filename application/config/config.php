@@ -551,5 +551,10 @@ $config['cafe']['04'] = array('name' => '스타벅스', 'file_name' => '/tmp/dri
 	'venti' => array('cnt' => 0, 'comment' => array())
 	)
 );
+$config['cafe']['05'] = array('name' => '폴바셋', 'file_name' => '/tmp/drink_paulbassett.log', 'size' => array(
+	'standard' => array('cnt' => 0, 'comment' => array()),
+	'grand' => array('cnt' => 0, 'comment' => array()),
+	)
+);
 
 

@@ -205,6 +205,7 @@ $config = $this->config->item('cafe');
 								<option value="02">파스쿠치</option>
 								<option value="03">백다방</option>
 								<option value="04">스타벅스</option>
+								<option value="05">폴바셋</option>
 							</select>
 						</div>
 						<div class="col">

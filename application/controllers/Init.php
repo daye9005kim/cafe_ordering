@@ -26,7 +26,14 @@ class Init extends MY_Controller
 	 */
 	public function drink()
 	{
-		$file_name = '/tmp/drink.log';
+		$cafe = $this->input->get('cafe');
+
+		$config = $this->config->item('cafe');
+		if (!array_key_exists($cafe, $config)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '카페 셋팅이 안 되어있습니다.'));
+		}
+
+		$file_name = $config[$cafe]['file_name'];
 		$period = strtotime('-1 hour');
 
 		if (!is_file($file_name)) {
@@ -37,7 +44,7 @@ class Init extends MY_Controller
 			return $this->load->view('json', array('status' => 400, 'data' => '업데이트한지 1시간 미만임.'));
 		}
 
-		$drink = $this->Starbucks_model->fetch();
+		$drink = $this->Starbucks_model->fetch($cafe);
 		return $this->load->view('json', array('status' => 200, 'data' => array('drink' => $drink)));
 	}
 

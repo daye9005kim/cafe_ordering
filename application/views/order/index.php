@@ -49,6 +49,7 @@ if (!empty($data['order'])) {
 
 	</style>
 	<script>
+		var CAFE = '<?= $data['buyer']['cafe'] ?>';
 		const countDownTimer = function (id, data) {
 			var _vDate = new Date(data); // 전달 받은 일자
 			var _second = 1000;
@@ -128,11 +129,14 @@ if (!empty($data['order'])) {
 									$("#thumbnail").attr("src", request.menu.product_img);
 									var content = request.menu.content;
 									if (request.menu.content === '') {
-										content = request.menu.product_cd;
+										content = request.menu.product_nm;
 									}
 									$("#content").text(content);
-									if (cafe === '04') {
+									if (CAFE === '04') {
 										$("#drink_view").attr("href", "https://www.starbucks.co.kr/menu/drink_view.do?product_cd=" + request.menu.product_cd)
+									}
+									if (CAFE === '05') {
+										$("#drink_view").attr("href", "https://www.baristapaulbassett.co.kr/menu/View.pb?cid1=" + request.menu.cate_cd + "&dpid=" + request.menu.product_cd)
 									}
 								},
 								error: function (request, status, error) {
@@ -240,14 +244,14 @@ if (!empty($data['order'])) {
 
 		$(document).ready(function () {
 			var ordnum = '<?= $data['buyer']['ordnum'] ?>';
-			var cafe = '<?= $data['buyer']['cafe'] ?>';
+
 			$("#menu_nm").val('<?=isset($data['order']['product_nm']) ? $data['order']['product_nm'] : ''?>');
 			$("#code").val('<?=isset($data['order']['product_cd']) ? $data['order']['product_cd'] : ''?>');
 			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : ''?>');
 			$("#cnt").val('<?=isset($data['order']['product_cnt']) ? $data['order']['product_cnt'] : '1'?>');
 			$("#comment").val('<?=isset($data['order']['comment']) ? $data['order']['comment'] : ''?>');
 
-			if (cafe === '01') {
+			if (CAFE === '01') {
 				$("#hot").val('<?=isset($data['order']['hot']) ? $data['order']['hot'] : '0'?>');
 				$("#ice").val('<?=isset($data['order']['ice']) ? $data['order']['ice'] : 'R'?>');
 				$("#sweet").val('<?=isset($data['order']['sweet']) ? $data['order']['sweet'] : '50'?>');
@@ -265,18 +269,21 @@ if (!empty($data['order'])) {
 				window.location.href = "/order/mprnt?ordnum=" + ordnum;
 			});
 
-			if (cafe === '01') {
+			if (CAFE === '01') {
 				$("#drink_view").prop("href", "https://www.gong-cha.co.kr/brand/menu/product.php?c=001");
 				$("#thumbnail").prop("src", "/static/img/gongcha.jpg");
-			} else if (cafe === '02'){
+			} else if (CAFE === '02'){
 				$("#drink_view").prop("href", "https://www.caffe-pascucci.co.kr/product/productList.asp?typeCode=00100010");
 				$("#thumbnail").prop("src", "/static/img/pascucci.png");
-			} else if (cafe === '03'){
+			} else if (CAFE === '03'){
 				$("#drink_view").prop("href", "https://paikdabang.com/menu/menu_drink/");
 				$("#thumbnail").prop("src", "/static/img/paiks.png");
-			} else {
+			} else if (CAFE === '04') {
 				$("#drink_view").prop("href", "https://www.starbucks.co.kr/menu/drink_list.do");
 				$("#thumbnail").prop("src", "/static/img/starbucks_logo.png");
+			} else if (CAFE === '05') {
+				$("#drink_view").prop("href", "https://www.baristapaulbassett.co.kr/menu/List.pb?cid1=A");
+				$("#thumbnail").prop("src", "/static/img/paulbassett.jpg");
 			}
 
 			$('#myModal').on('shown.bs.modal', function () {
@@ -292,7 +299,7 @@ if (!empty($data['order'])) {
 					url: '/order/get',
 					data: {
 						'ordnum': ordnum,
-						'cafe': cafe
+						'cafe': CAFE
 					},
 					success: function (request) {
 						var list = [];
@@ -410,7 +417,7 @@ if (!empty($data['order'])) {
 					return alert('수량을 입력해 주세요.');
 				}
 
-				if (cafe === '01') {
+				if (CAFE === '01') {
 					hot = $("#hot").val();
 					sweet = $("#sweet").val();
 					var sweet_txt = $("#sweet option:selected").text();
@@ -504,7 +511,9 @@ if (!empty($data['order'])) {
 						<option value="tall">Tall</option>
 						<option value="grande">Grande</option>
 						<option value="venti">Venti</option>
-
+					<?php elseif ($data['buyer']['cafe'] === '05') : ?>
+						<option value="standard">Standard</option>
+						<option value="grand">Grand</option>
 					<?php endif; ?>
 				</select>
 			</div>

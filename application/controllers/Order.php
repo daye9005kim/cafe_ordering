@@ -71,7 +71,9 @@ class Order extends MY_Controller
 
 		$info = array(
 			"product_cd" => $menu[0]['product_cd'],
+			"product_nm" => $menu[0]['product_nm'],
 			"product_img" => $menu[0]['product_img'],
+			"cate_cd" => $menu[0]['cate_cd'],
 			"content" => $menu[0]['content']
 		);
 
@@ -327,10 +329,10 @@ class Order extends MY_Controller
 		$period = date("Ymd", strtotime('now'));
 
 		if (!is_file($file_name_drink)) {
-			return $this->load->view('view', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
 		}
 		if (!is_file($file_name_mmbr)) {
-			return $this->load->view('view', array('status' => 400, 'data' => '사원 데이터를 생성하십시오.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '사원 데이터를 생성하십시오.'));
 		}
 
 		$msg = '';

@@ -86,8 +86,10 @@ SQL;
 			$menu = $this->pascucci();
 		} elseif ($cafe === '03') {
 			$menu = $this->paikdabang();
-		} else {
+		} elseif ($cafe === '04') {
 			$menu = $this->starbucks();
+		} elseif ($cafe === '05') {
+			$menu = $this->paulbassett();
 		}
 
         foreach ($menu as $val) {
@@ -272,7 +274,49 @@ SQL;
 		return $menu;
 	}
 
+	/**
+	 * paulbassett로부터 drink테이블에 값 넣기
+	 * @return array
+	 */
+	private function paulbassett()
+	{
+		$menu = array();
+		$this->load->library('Simple_html_dom');
+		$urls = array(
+			'A' => 'https://www.baristapaulbassett.co.kr/menu/List.pb?cid1=A',
+			'B' => 'https://www.baristapaulbassett.co.kr/menu/List.pb?cid1=B',
+		);
 
+
+		foreach ($urls as $key => $url) {
+
+			$html = file_get_html($url);
+
+			$menu_list = $html->find('ul.listStyleB');
+			$menu_list = $menu_list[0];
+
+			$title = $menu_list->find('div.txtArea');
+			$product_list = $menu_list->find('a');
+
+			foreach ($menu_list->find('img') as $i => $image) {
+				$name = trim(preg_replace('/[A-z]/', '',  $title[$i]->plaintext));
+				preg_match("/\'.*\'/", $product_list[$i]->onclick, $match);
+				$product_cd = str_replace("'", '', $match[0]);
+
+				$menu[] = array(
+					'product_cd' => $product_cd,
+					'product_nm' => $name,
+					'product_img' => 'https://www.baristapaulbassett.co.kr' . $image->src,
+					'cate_nm' => '',
+					'cate_cd' => $key,
+					'content' => '',
+					'caffeine' => '',
+					'cafe' => '05',
+				);
+			}
+		}
+		return $menu;
+	}
 
     /**
      * 테이블 생성
