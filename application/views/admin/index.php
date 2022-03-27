@@ -201,11 +201,9 @@ $config = $this->config->item('cafe');
 						</div>
 						<div class="col-auto">
 							<select id="cafe" class="form-select form-select-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="카페명">
-								<option value="01">공차</option>
-								<option value="02">파스쿠치</option>
-								<option value="03">백다방</option>
-								<option value="04">스타벅스</option>
-								<option value="05">폴바셋</option>
+								<?php foreach ($config as $cafe_cd => $item) : ?>
+								<option value="<?= $cafe_cd ?>"><?=$item['name']?></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="col">
