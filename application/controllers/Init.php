@@ -26,6 +26,14 @@ class Init extends MY_Controller
 	 */
 	public function drink()
 	{
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+
+		$admin = $this->config->item('admin');
+		if (!in_array($SES_USER['name'], $admin['member'])) {
+			return $this->load->view('view', array('status' => 400, 'data' => '당신은 관리자가 아닙니다.'));
+		}
+
 		$cafe = $this->input->get('cafe');
 
 		$config = $this->config->item('cafe');

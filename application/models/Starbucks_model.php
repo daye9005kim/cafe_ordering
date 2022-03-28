@@ -144,6 +144,7 @@ SQL;
 				);
 			}
 		}
+		putlog('starbucks', var_export($menu, true));
 		return $menu;
 	}
 
@@ -187,6 +188,7 @@ SQL;
 				}
 			}
 		}
+		putlog('gongcha', var_export($menu, true));
 		return $menu;
 	}
 	/**
@@ -229,6 +231,7 @@ SQL;
 				);
 			}
 		}
+		putlog('pascucci', var_export($menu, true));
 		return $menu;
 	}
 
@@ -271,6 +274,7 @@ SQL;
 				);
 			}
 		}
+		putlog('paikdabang', var_export($menu, true));
 		return $menu;
 	}
 
@@ -301,7 +305,7 @@ SQL;
 			foreach ($menu_list->find('img') as $i => $image) {
 				$name = trim(preg_replace('/[A-z]/', '',  $title[$i]->plaintext));
 				preg_match("/\'.*\'/", $product_list[$i]->onclick, $match);
-				$product_cd = str_replace("'", '', $match[0]);
+				$product_cd = trim($match[0], "'");
 
 				$menu[] = array(
 					'product_cd' => $product_cd,
@@ -315,8 +319,14 @@ SQL;
 				);
 			}
 		}
+		putlog('paulbassett', var_export($menu, true));
 		return $menu;
 	}
+	//todo:: 투썸
+	//https://mo.twosome.co.kr/mn/menuInfoListAjax.json?pageNum=1&grtCd=1&midCd=01
+	//https://mo.twosome.co.kr/mn/menuInfoListAjax.json?pageNum=1&grtCd=1&midCd=02
+	//https://mo.twosome.co.kr/mn/menuInfoListAjax.json?pageNum=1&grtCd=1&midCd=03
+	//https://mo.twosome.co.kr/mn/menuInfoListAjax.json?pageNum=2&grtCd=1&midCd=03
 
     /**
      * 테이블 생성
