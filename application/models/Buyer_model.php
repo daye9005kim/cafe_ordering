@@ -237,8 +237,8 @@ SQL;
 		$escape = $this->db->escape($param);
 
 		$arr = array();
-		if (!empty($param['name'])) {
-			$arr[] = sprintf('`invite` = %s', $escape['name']);
+		if (!empty($param['invite'])) {
+			$arr[] = sprintf('`invite` = %s', $escape['invite']);
 		}
 		if (!empty($param['start'])) {
 			$arr[] = sprintf('`start` = %s', $escape['start']);
@@ -264,6 +264,7 @@ UPDATE buyer SET
 {$update}
 WHERE ordnum = {$escape['ordnum']}
 SQL;
+//		echo $sql;
 		$this->db->query($sql);
 		if ($this->db->affected_rows()) {
 			return true;

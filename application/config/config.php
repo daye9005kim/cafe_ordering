@@ -556,5 +556,10 @@ $config['cafe']['05'] = array('name' => '폴바셋', 'file_name' => '/tmp/drink_
 	'grand' => array('cnt' => 0, 'comment' => array()),
 	)
 );
+$config['cafe']['06'] = array('name' => '투썸플레이스', 'file_name' => '/tmp/drink_twosome.log', 'size' => array(
+	'regular' => array('cnt' => 0, 'comment' => array()),
+	'large' => array('cnt' => 0, 'comment' => array()),
+	)
+);
 
 

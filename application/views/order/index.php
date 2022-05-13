@@ -2,10 +2,12 @@
 include_once APPPATH . 'views/_common/header.php';
 include_once APPPATH . 'views/_common/top.php';
 $option = '';
+$prdct_img = array();
 foreach ($data['menu'] as $key => $val) {
 	$option .= <<<HTML
 <option value="{$val['product_cd']}">{$val['product_nm']}</option>\n
 HTML;
+	$prdct_img[$val['product_nm']] = $val['product_img'];
 }
 $order = 0;
 if (!empty($data['order'])) {
@@ -50,6 +52,8 @@ if (!empty($data['order'])) {
 	</style>
 	<script>
 		var CAFE = '<?= $data['buyer']['cafe'] ?>';
+		var PRDCT_IMG = JSON.parse('<?= json_encode($prdct_img) ?>');
+
 		const countDownTimer = function (id, data) {
 			var _vDate = new Date(data); // 전달 받은 일자
 			var _second = 1000;
@@ -138,6 +142,10 @@ if (!empty($data['order'])) {
 									if (CAFE === '05') {
 										$("#drink_view").attr("href", "https://www.baristapaulbassett.co.kr/menu/View.pb?cid1=" + request.menu.cate_cd + "&dpid=" + request.menu.product_cd)
 									}
+									if (CAFE === '06') {
+										$("#drink_view").removeAttr("target").attr("onclick", "$('#detail').trigger('click')");
+										$("#detail").trigger('click');
+									}
 								},
 								error: function (request, status, error) {
 									console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -194,6 +202,11 @@ if (!empty($data['order'])) {
 							};
 						}
 					}));
+
+					$('li').each(function () {
+						var name = $(this).children('div').text();
+						$(this).prepend($('<img />', {"src": PRDCT_IMG[name], "loading": "lazy", "height":"100", "width":"100"}));
+					});
 				},
 
 				_removeIfInvalid: function (event, ui) {
@@ -269,6 +282,7 @@ if (!empty($data['order'])) {
 				window.location.href = "/order/mprnt?ordnum=" + ordnum;
 			});
 
+			//기본 썸네일
 			if (CAFE === '01') {
 				$("#drink_view").prop("href", "https://www.gong-cha.co.kr/brand/menu/product.php?c=001");
 				$("#thumbnail").prop("src", "/static/img/gongcha.jpg");
@@ -284,14 +298,36 @@ if (!empty($data['order'])) {
 			} else if (CAFE === '05') {
 				$("#drink_view").prop("href", "https://www.baristapaulbassett.co.kr/menu/List.pb?cid1=A");
 				$("#thumbnail").prop("src", "/static/img/paulbassett.jpg");
+			} else if (CAFE === '06') {
+				$("#drink_view").removeAttr("target").attr("onclick", "$('#detail').trigger('click')");
+				$("#thumbnail").prop("src", "/static/img/twosome.png");
 			}
 
-			$('#myModal').on('shown.bs.modal', function () {
+			//주문한 메뉴가 있으면 썸네일 변경
+			if ($("#menu_nm").val().length > 1) {
+				$("#thumbnail").prop("src", PRDCT_IMG[$("#menu_nm").val()]);
+			}
+
+			$('#detail').on('click', function () {
+				$('#myModalLabel').text('메뉴 상세');
+				$('.modal-dialog').attr('style', 'width: 380px; height:800px');
+				var p_code = String($('#code').val());
+				var url = 'https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=' + p_code;
+				if (p_code.length < 1) {
+					url = 'https://mo.twosome.co.kr/mn/menuInfoList.do?grtCd=1';
+				}
+				$('.modal-body').html('<iframe id="output-frame-id" src="' + url + '" style="width: 350px; height:700px"></iframe>');
+			});
+
+			$('#myorder').on('click', function () {
 				var ord_date;
 				var style;
 				var button;
 
-				$('.modal-body').html('');
+				$('.modal-dialog').addClass('modal-lg');
+				$('#myModalLabel').text('내 주문 목록');
+				$('.modal-footer').html('<span id="guide">입력 선택 후 다시 주문하시면 주문이 수정됩니다.</span>\n' +
+				  '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>');
 
 				$.ajax({
 					type: 'post',
@@ -331,14 +367,19 @@ if (!empty($data['order'])) {
 								"data-comment": request.order[i].comment,
 								"data-dismiss": "modal",
 							}).text('입력').click(function () {
-								$('#code').val($(this).attr('data-code'));
-								$('#menu_nm').val($(this).attr('data-name'));
-								$('#size').val($(this).attr('data-size'));
-								$('#cnt').val($(this).attr('data-cnt'));
+								$('#code').val($(this).data('code'));
+								$('#menu_nm').val($(this).data('name'));
+								$('#size').val($(this).data('size'));
+								$('#cnt').val($(this).data('cnt'));
+								$('#comment').val($(this).data('comment'));
+								$("#thumbnail").prop("src", PRDCT_IMG[$(this).data('name')]);
 								if (request.order[i].cafe === '01') {
-									$('#hot').val($(this).attr('data-hot'));
-									$('#ice').val($(this).attr('data-ice'));
-									$('#sweet').val($(this).attr('data-sweet'));
+									$('#hot').val($(this).data('hot'));
+									$('#ice').val($(this).data('ice'));
+									$('#sweet').val($(this).data('sweet'));
+								}
+								if (request.order[i].cafe === '06') {
+									$('#hot').val($(this).data('hot'));
 								}
 
 								alert('주문이 입력 되었습니다. 주문하기를 다시 눌러주세요.');
@@ -380,15 +421,23 @@ if (!empty($data['order'])) {
 						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
 					}
 				});
-
 			});
+
+
+			$('#myModal').on('hidden.bs.modal', function () {
+				$('#myModalLabel').text('');
+				$('.modal-body').html('');
+				$('.modal-footer').html('');
+				$('.modal-dialog').removeAttr("style");
+			});
+
 			if ($("#hot").val() === '0') {
 				$(".ice").show();
 			}
 
 			$("#hot").change(function () {
 				if ($("#hot").val() === '1') {
-					alert('뜨거운 메뉴가 있는 음료인지 확인하세요.(사진에 음료 2잔)');
+					alert('뜨거운 메뉴가 있는 음료인지 확인하세요. 메뉴 상세 참고');
 					$(".ice").hide();
 				}
 				if ($("#hot").val() === '0') {
@@ -430,6 +479,11 @@ if (!empty($data['order'])) {
 				}
 
 				var str = '주문 하시겠습니까? \n' + menu_nm + ' / ' + size + ' / ' + cnt + '개'
+
+				if (CAFE === '06') {
+					hot = $("#hot").val();
+					str += ' / ' + (hot === '0' ? 'ICED' : 'HOT');
+				}
 
 				if (cstm.length > 0) {
 					str += '\n' + cstm;
@@ -502,7 +556,7 @@ if (!empty($data['order'])) {
 					<?php if ($data['buyer']['cafe'] === '01') : ?>
 						<option value="large">Large</option>
 						<option value="jumbo">Jumbo</option>
-					<?php elseif ($data['buyer']['cafe'] === '02') : ?>
+					<?php elseif ($data['buyer']['cafe'] === '02' || $data['buyer']['cafe'] === '06') : ?>
 						<option value="regular">Regular</option>
 						<option value="large">Large</option>
 					<?php elseif ($data['buyer']['cafe'] === '03') : ?>
@@ -538,6 +592,13 @@ if (!empty($data['order'])) {
 					<option value="50">50%</option>
 					<option value="70">70%</option>
 					<option value="100">100%</option>
+				</select>
+			</div>
+			<?php elseif ($data['buyer']['cafe'] === '06') : ?>
+			<div class="col-auto">
+				<select id="hot" class="form-select ttip" title="HOT/ICED" data-bs-toggle="tooltip" data-bs-placement="top">
+					<option value="0">ICED</option>
+					<option value="1">HOT</option>
 				</select>
 			</div>
 			<?php endif; ?>
@@ -578,24 +639,26 @@ if (!empty($data['order'])) {
 						<span><i class="bi bi-printer"></i></span>
 					</button>
 				</div>
+				<div class="col-auto">
+					<button type="button" id="detail" class="btn btn-warning ttip" data-bs-toggle="modal"
+							data-bs-target="#myModal" title="메뉴 상세" hidden>
+						<span>상세</span>
+					</button>
+				</div>
 			</div>
 			<p class="text-danger" style="margin: 10px 0 10px; text-align: center;"><strong>다시 주문하시면 주문이 수정됩니다.</strong></p>
 		</div>
-		</div>
+	</div>
 		<!-- Modal -->
-		<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="myModalLabel">내 주문 목록</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body"></div>
-					<div class="modal-footer">
-						<span id="guide">입력 선택 후 다시 주문하시면 주문이 수정됩니다.</span>
-						<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
-					</div>
+	<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myModalLabel"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
+				<div class="modal-body"></div>
+				<div class="modal-footer"></div>
 			</div>
 		</div>
 	</div>
@@ -603,3 +666,5 @@ if (!empty($data['order'])) {
 
 <?php
 include_once APPPATH . 'views/_common/footer.php';
+//https://www.baristapaulbassett.co.kr/menu/View.pb?cid1=A&cid2=&dpid=PB179549
+	//https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=10300044
