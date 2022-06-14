@@ -48,6 +48,10 @@ if (!empty($data['order'])) {
 			width: 150px;
 			height: 150px;
 		}
+		.tiger_img {
+			width: 202px !important;
+			height: 150px !important;
+		}
 
 	</style>
 	<script>
@@ -127,7 +131,8 @@ if (!empty($data['order'])) {
 								dataType: 'json',
 								url: '/order/menu',
 								data: {
-									'code': ui.item.code
+									'code': ui.item.code,
+									'cafe': CAFE,
 								},
 								success: function (request) {
 									$("#thumbnail").attr("src", request.menu.product_img);
@@ -145,6 +150,9 @@ if (!empty($data['order'])) {
 									if (CAFE === '06') {
 										$("#drink_view").removeAttr("target").attr("onclick", "$('#detail').trigger('click')");
 										$("#detail").trigger('click');
+									}
+									if (CAFE === '07') {
+										$("#thumbnail").addClass("tiger_img");
 									}
 								},
 								error: function (request, status, error) {
@@ -205,7 +213,13 @@ if (!empty($data['order'])) {
 
 					$('li').each(function () {
 						var name = $(this).children('div').text();
-						$(this).prepend($('<img />', {"src": PRDCT_IMG[name], "loading": "lazy", "height":"100", "width":"100"}));
+						var height = "100";
+						var width = "100";
+						if (CAFE === "07") {
+							height = 80;
+							width = 100;
+						}
+						$(this).prepend($('<img />', {"src": PRDCT_IMG[name], "loading": "lazy", "height":height, "width":width}));
 					});
 				},
 
@@ -301,11 +315,17 @@ if (!empty($data['order'])) {
 			} else if (CAFE === '06') {
 				$("#drink_view").removeAttr("target").attr("onclick", "$('#detail').trigger('click')");
 				$("#thumbnail").prop("src", "/static/img/twosome.png");
+			} else if (CAFE === '07') {
+				$("#drink_view").prop("href", "http://www.tigersugarkr.com/bbs/board.php?bo_table=all_menu");
+				$("#thumbnail").prop("src", "/static/img/tigersugar.jpg");
 			}
 
 			//주문한 메뉴가 있으면 썸네일 변경
 			if ($("#menu_nm").val().length > 1) {
 				$("#thumbnail").prop("src", PRDCT_IMG[$("#menu_nm").val()]);
+				if (CAFE === '07') {
+					$("#thumbnail").addClass("tiger_img");
+				}
 			}
 
 			$('#detail').on('click', function () {
@@ -568,6 +588,8 @@ if (!empty($data['order'])) {
 					<?php elseif ($data['buyer']['cafe'] === '05') : ?>
 						<option value="standard">Standard</option>
 						<option value="grand">Grand</option>
+					<?php elseif ($data['buyer']['cafe'] === '07') : ?>
+						<option value="regular">Regular</option>
 					<?php endif; ?>
 				</select>
 			</div>

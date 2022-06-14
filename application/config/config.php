@@ -561,5 +561,9 @@ $config['cafe']['06'] = array('name' => '투썸플레이스', 'file_name' => '/t
 	'large' => array('cnt' => 0, 'comment' => array()),
 	)
 );
+$config['cafe']['07'] = array('name' => '타이거슈가', 'file_name' => '/tmp/drink_tigersugar.log', 'size' => array(
+	'regular' => array('cnt' => 0, 'comment' => array()),
+	)
+);
 
 

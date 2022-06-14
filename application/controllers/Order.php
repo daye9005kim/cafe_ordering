@@ -66,8 +66,13 @@ class Order extends MY_Controller
 	public function menu()
 	{
 		$code = $this->input->post('code');
+		$cafe = $this->input->post('cafe');
 
-		$menu = $this->Starbucks_model->select(array('product_cd' => $code));
+		if (empty($cafe)) {
+			return $this->load->view('json', array('status' => 400, 'data' => 'cafe가 없습니다.'));
+		}
+
+		$menu = $this->Starbucks_model->select(array('product_cd' => $code, 'cafe' => $cafe));
 
 		$info = array(
 			"product_cd" => $menu[0]['product_cd'],
@@ -160,6 +165,9 @@ class Order extends MY_Controller
 		$arr = array();
 		$total = 0;
 		$config = $this->config->item('cafe');
+		if (empty($order)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '주문해주세요.'));
+		}
 		foreach ($order as $item) {
 			$total += $item['product_cnt'];
 			$cnt = $item['product_cnt'];
@@ -217,6 +225,9 @@ class Order extends MY_Controller
 		}
 		if (intval($cnt) > 5) {
 			return $this->load->view('json', array('status' => 400, 'data' => '최대 5개까지 선택 가능합니다.'));
+		}
+		if (intval($cnt) > 1) {
+			$cnt = 1;
 		}
 		if (empty($hot)) {
 			$hot = '0'; //0 ice, 1 hot

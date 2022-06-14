@@ -93,6 +93,8 @@ SQL;
 			$menu = $this->paulbassett();
 		} elseif ($cafe === '06') {
 			$menu = $this->twosome();
+		} elseif ($cafe === '07') {
+			$menu = $this->tigersugar();
 		}
 
 		foreach ($menu as $val) {
@@ -380,6 +382,67 @@ SQL;
 		putlog('paulbassett', var_export($menu, true));
 		return $menu;
 	}
+	/**
+	 * tigersugar로부터 drink테이블에 값 넣기
+	 * @return array
+	 */
+	private function tigersugar()
+	{
+		$menu = array();
+		$this->load->library('Simple_html_dom');
+		$url = 'http://www.tigersugarkr.com/bbs/board.php?bo_table=all_menu';
+
+		$html = file_get_html($url);
+
+		$menu_list = $html->find('li.cb');
+		$menu_list = $menu_list[0];
+
+		$name = array();
+		foreach ($menu_list->find('div.title1') as $title) {
+			$nm = $title->find('h4')[0]->plaintext;
+			$text = $title->find('em.category')[0]->plaintext;
+
+			$ice = '';
+			$hot = '';
+			if (strpos($text, 'ICED') !== false) {
+				$ice = '(ICED)';
+			}
+			if (strpos($text, 'HOT') !== false) {
+				$hot = '(HOT)';
+			}
+			if (!empty($ice) && !empty($hot)) {
+				$name[] = array($nm . $ice, $nm . $hot);
+			} else if (!empty($ice) && empty($hot)) {
+				$name[] = array($nm . $ice);
+			} else if (empty($ice) && !empty($hot)) {
+				$name[] = array($nm . $hot);
+			} else {
+				$name[] = array($nm);
+			}
+
+		}
+
+		foreach ($menu_list->find('div.innerConti') as $i => $content) {
+
+			$src = str_replace("http://www.tigersugarkr.com/data/file/all_menu/", "", $content->find('img')[0]->src);
+
+			foreach ($name[$i] as $prdct_nm) {
+				$menu[] = array(
+					'product_cd' => $prdct_nm,
+					'product_nm' => $prdct_nm,
+					'product_img' => '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/07/' . $src,
+					'cate_nm' => '',
+					'cate_cd' => '',
+					'content' => $content->find('p')[0]->plaintext,
+					'caffeine' => '',
+					'cafe' => '07',
+				);
+			}
+
+		}
+		putlog('tigersugar', var_export($menu, true));
+		return $menu;
+	}
 
 	/**
 	 * 테이블 생성
@@ -467,7 +530,7 @@ SQL;
 
 		$escape = $this->db->escape($param);
 		$sql = <<<SQL
-INSERT INTO drink SET 
+INSERT IGNORE INTO drink SET 
 product_cd = {$escape['product_cd']},  
 product_nm = {$escape['product_nm']},  
 product_img = {$escape['product_img']}, 
