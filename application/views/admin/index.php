@@ -1,7 +1,6 @@
 <?php
 include_once APPPATH . 'views/_common/header.php';
 include_once APPPATH . 'views/_common/top.php';
-//print_r($data);
 $config = $this->config->item('cafe');
 ?>
 <body>
