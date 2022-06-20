@@ -246,7 +246,6 @@ $config = $this->config->item('cafe');
 			</thead>
 			<tbody>
 			<?php
-			//$item['ordnum'], $item['member_name'], $item['comment'], $item['regdate'], $item['start'], $item['end']
 			if (!empty($data['buyer'])) {
 				foreach ($data['buyer'] as $key => $item) {
 					?>
