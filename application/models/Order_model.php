@@ -125,7 +125,7 @@ SQL;
 			$param['sweet'] = 0;
 		}
 		if (empty($param['comment'])) {
-			$param['comment'] = '';
+			$param['comment'] = null;
 		}
 
 		$escape = $this->db->escape($param);
@@ -196,7 +196,7 @@ SQL;
 			$param['sweet'] = 0;
 		}
         if (empty($param['comment'])) {
-            $param['comment'] = '';
+            $param['comment'] = null;
         }
 
         $escape = $this->db->escape($param);
