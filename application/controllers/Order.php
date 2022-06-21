@@ -233,7 +233,7 @@ class Order extends MY_Controller
 			$hot = '0'; //0 ice, 1 hot
 		}
 		if (empty($ice)) {
-			$ice = 'R'; //L less, R regular, F full
+			$ice = 'Regular'; //L less, R regular, F full
 		}
 
 		//다중 중복 주문 체크

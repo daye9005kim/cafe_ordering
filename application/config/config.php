@@ -525,12 +525,12 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 //admin
-$config['admin']['member'] = array('김다예', '장하영', '송다혜', '이종은');
+$config['admin']['member'] = array('김다예');
 $config['admin']['drinkCacheFile'] = '/tmp/drink.log';
 $config['cafe']['01'] = array('name' => '공차',	'file_name' => '/tmp/drink_gongcha.log', 'ice' => array(
-	'L' => 'less',
-	'R' => 'Regular',
-	'F' => 'Full',
+	'Less' => 'Less',
+	'Regular' => 'Regular',
+	'Full' => 'Full',
 ), 'size' => array(
 		'large' => array('cnt' => 0, 'comment' => array()),
 		'jumbo' => array('cnt' => 0, 'comment' => array()),

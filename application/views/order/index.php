@@ -280,7 +280,7 @@ if (!empty($data['order'])) {
 
 			if (CAFE === '01') {
 				$("#hot").val('<?=isset($data['order']['hot']) ? $data['order']['hot'] : '0'?>');
-				$("#ice").val('<?=isset($data['order']['ice']) ? $data['order']['ice'] : 'R'?>');
+				$("#ice").val('<?=isset($data['order']['ice']) ? $data['order']['ice'] : 'Regular'?>');
 				$("#sweet").val('<?=isset($data['order']['sweet']) ? $data['order']['sweet'] : '50'?>');
 			}
 
@@ -474,7 +474,7 @@ if (!empty($data['order'])) {
 				var cstm = '';
 				var hot  = '0';
 				var sweet  = 0;
-				var ice  = 'R';
+				var ice  = 'Regular';
 
 				if (menu_nm === '' && menu_code === '') {
 					return alert('메뉴를 입력해 주세요.');
@@ -602,9 +602,9 @@ if (!empty($data['order'])) {
 			</div>
 			<div class="col-auto ice" style="display: none;">
 				<select id="ice" class="form-select ttip" title="얼음량" data-bs-toggle="tooltip" data-bs-placement="top">
-					<option value="L">Less</option>
-					<option value="R">Regular</option>
-					<option value="F">Full</option>
+					<option value="Less">Less</option>
+					<option value="Regular">Regular</option>
+					<option value="Full">Full</option>
 				</select>
 			</div>
 			<div class="col-auto">

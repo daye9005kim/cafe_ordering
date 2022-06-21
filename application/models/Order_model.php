@@ -119,7 +119,7 @@ SQL;
 			$param['hot'] = '0';
 		}
 		if (empty($param['ice'])) {
-			$param['ice'] = 'R';
+			$param['ice'] = 'Regular';
 		}
 		if (empty($param['sweet'])) {
 			$param['sweet'] = 0;
@@ -135,11 +135,7 @@ SQL;
 		$arr[] = sprintf('ordnum = %s', $escape['ordnum']);
 		$arr[] = sprintf('member_name = %s', $escape['member_name']);
 
-		if (count($arr) > 0) {
-			$where = 'WHERE ' . join(' AND ', $arr);
-		} else {
-			return false;
-		}
+		$where = 'WHERE ' . join(' AND ', $arr);
 
 
 		$sql = <<<SQL
@@ -190,7 +186,7 @@ SQL;
 			$param['hot'] = '0';
 		}
 		if (empty($param['ice'])) {
-			$param['ice'] = 'R';
+			$param['ice'] = 'Regular';
 		}
 		if (empty($param['sweet'])) {
 			$param['sweet'] = 0;
