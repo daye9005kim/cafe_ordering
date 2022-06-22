@@ -333,7 +333,7 @@ class Order extends MY_Controller
 		$config = $this->config->item('cafe');
 		$file_name_drink = $config[$cafe]['file_name'];
 		$file_name_mmbr = '/tmp/member.log';
-		$period = strtotime('now');
+		$period = strtotime('-1 hour');
 
 		if (!is_file($file_name_drink)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
@@ -345,11 +345,11 @@ class Order extends MY_Controller
 		$msg = '';
 		if (filemtime($file_name_drink) < $period) {
 			$this->Drink_model->fetch($cafe);
-			$msg .= '\n drinks updated';
+			$msg .= 'drinks updated';
 		}
 		if (filemtime($file_name_mmbr) < $period) {
 			$this->Member_model->fetch();
-			$msg .= '\n members updated';
+			$msg .= '/members updated';
 		}
 
 		$param = array(
@@ -365,7 +365,7 @@ class Order extends MY_Controller
 
 		$this->Buyer_model->insert($param);
 
-		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $msg . '\n 업데이트일: ' . $period));
+		return $this->load->view('json', array('status' => 200, 'data' => '주문이 생성 되었습니다. ' . $msg));
 	}
 
 	/**
