@@ -83,3 +83,11 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+defined('GONGCHA')             OR define('GONGCHA', '01'); // 공차
+defined('PASCUCCI')            OR define('PASCUCCI', '02'); // 파스쿠치
+defined('PAIKDABANG')          OR define('PAIKDABANG', '03'); // 백다방
+defined('STARBUCKS')           OR define('STARBUCKS', '04'); // 스타벅스
+defined('PAULBASSETT')         OR define('PAULBASSETT', '05'); // 폴바셋
+defined('TWOSOME')             OR define('TWOSOME', '06'); // 투썸플레이스
+defined('TIGERSUGAR')          OR define('TIGERSUGAR', '07'); // 타이거슈가

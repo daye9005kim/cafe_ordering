@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Order extends MY_Controller
 {
 
-	//todo:: 페이징,
 	public function __construct()
 	{
 		parent::__construct();
@@ -172,15 +171,12 @@ class Order extends MY_Controller
 			$total += $item['product_cnt'];
 			$cnt = $item['product_cnt'];
 			if (!isset($arr[$item['product_nm']][$item['product_size']])) {
-				$arr[$item['product_nm']] = $config[$order[0]['cafe']]['size'];
+				$arr[$item['product_nm']] = $config[$item['cafe']]['size'];
 			}
 			$arr[$item['product_nm']][$item['product_size']]['cnt'] = $arr[$item['product_nm']][$item['product_size']]['cnt'] + $cnt;
 			$comment = $item['comment'];
-			if ($order[0]['cafe'] === '01') {
-				$hot = 'HOT';
-				if ($item['hot'] === '0') {
-					$hot = 'ICED:' . $config[$order[0]['cafe']]['ice'][$item['ice']];
-				}
+			if ($item['cafe'] === GONGCHA) {
+				$hot = $item['hot'] === '1' ? 'HOT' : 'ICED:' . $item['ice'];
 				$temp = array($hot, '당도:' . $item['sweet']);
 				if (!empty($item['comment'])) {
 					$temp[] = $item['comment'];
@@ -337,7 +333,7 @@ class Order extends MY_Controller
 		$config = $this->config->item('cafe');
 		$file_name_drink = $config[$cafe]['file_name'];
 		$file_name_mmbr = '/tmp/member.log';
-		$period = date("Ymd", strtotime('now'));
+		$period = strtotime('now');
 
 		if (!is_file($file_name_drink)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '음료 데이터를 생성하십시오.'));
@@ -347,11 +343,11 @@ class Order extends MY_Controller
 		}
 
 		$msg = '';
-		if (date("Ymd", filemtime($file_name_drink)) < $period) {
+		if (filemtime($file_name_drink) < $period) {
 			$this->Starbucks_model->fetch($cafe);
 			$msg .= '\n drinks updated';
 		}
-		if (date("Ymd", filemtime($file_name_mmbr)) < $period) {
+		if (filemtime($file_name_mmbr) < $period) {
 			$this->Member_model->fetch();
 			$msg .= '\n members updated';
 		}
@@ -406,10 +402,10 @@ class Order extends MY_Controller
 		}
 
 		if (!preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/', $start)) {
-			return $this->load->view('json', array('status' => 400, 'data' => '날짜 형식이 맞지  없습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '날짜 형식을 확인해주세요.'));
 		}
 		if (!preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/', $end)) {
-			return $this->load->view('json', array('status' => 400, 'data' => '날짜 형식이 맞지  없습니다.'));
+			return $this->load->view('json', array('status' => 400, 'data' => '날짜 형식을 확인해주세요.'));
 		}
 
 		$admin = $this->config->item('admin');
