@@ -573,27 +573,27 @@ if (!empty($data['order'])) {
 			</div>
 			<div class="col-auto">
 				<select id="size" class="form-select ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="사이즈">
-					<?php if ($data['buyer']['cafe'] === '01') : ?>
+					<?php if ($data['buyer']['cafe'] === GONGCHA) : ?>
 						<option value="large">Large</option>
 						<option value="jumbo">Jumbo</option>
-					<?php elseif ($data['buyer']['cafe'] === '02' || $data['buyer']['cafe'] === '06') : ?>
+					<?php elseif ($data['buyer']['cafe'] === PASCUCCI || $data['buyer']['cafe'] === TWOSOME) : ?>
 						<option value="regular">Regular</option>
 						<option value="large">Large</option>
-					<?php elseif ($data['buyer']['cafe'] === '03') : ?>
+					<?php elseif ($data['buyer']['cafe'] === PAIKDABANG) : ?>
 						<option value="regular">사이즈는 메뉴에서(빽사이즈)</option>
-					<?php elseif ($data['buyer']['cafe'] === '04') : ?>
+					<?php elseif ($data['buyer']['cafe'] === STARBUCKS) : ?>
 						<option value="tall">Tall</option>
 						<option value="grande">Grande</option>
 						<option value="venti">Venti</option>
-					<?php elseif ($data['buyer']['cafe'] === '05') : ?>
+					<?php elseif ($data['buyer']['cafe'] === PAULBASSETT) : ?>
 						<option value="standard">Standard</option>
 						<option value="grand">Grand</option>
-					<?php elseif ($data['buyer']['cafe'] === '07') : ?>
+					<?php elseif ($data['buyer']['cafe'] === TIGERSUGAR) : ?>
 						<option value="regular">Regular</option>
 					<?php endif; ?>
 				</select>
 			</div>
-			<?php if ($data['buyer']['cafe'] === '01') : ?>
+			<?php if ($data['buyer']['cafe'] === GONGCHA) : ?>
 			<div class="col-auto">
 				<select id="hot" class="form-select ttip" title="HOT/ICED" data-bs-toggle="tooltip" data-bs-placement="top">
 					<option value="0">ICED</option>
@@ -616,7 +616,7 @@ if (!empty($data['order'])) {
 					<option value="100">100%</option>
 				</select>
 			</div>
-			<?php elseif ($data['buyer']['cafe'] === '06') : ?>
+			<?php elseif ($data['buyer']['cafe'] === TWOSOME) : ?>
 			<div class="col-auto">
 				<select id="hot" class="form-select ttip" title="HOT/ICED" data-bs-toggle="tooltip" data-bs-placement="top">
 					<option value="0">ICED</option>

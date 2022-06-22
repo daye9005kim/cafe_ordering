@@ -70,12 +70,10 @@ class Order_model extends CI_Model
             $arr[] = sprintf('s.cafe = %s', $escape['cafe']);
         }
 
-        $where = '';
-        if (count($arr) > 0) {
-            $where = 'WHERE ' . join(' AND ', $arr);
-        } else {
+        if (count($arr) < 1) {
             return array();
         }
+		$where = 'WHERE ' . join(' AND ', $arr);
 
         $sql = <<<SQL
 SELECT o.num, o.ordnum, o.status, o.product_cd, o.product_size, o.product_cnt, o.hot, o.ice, o.sweet, o.comment, o.regdate,
