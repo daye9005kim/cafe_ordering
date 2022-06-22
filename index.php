@@ -55,6 +55,7 @@
  */
 	(include_once '.CI_ENV.php') || die('not found .CI_ENV.php');
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('MEMBERS_URL', isset($_SERVER['MEMBERS_URL']) ? $_SERVER['MEMBERS_URL'] : '');
 
 /*
  *---------------------------------------------------------------

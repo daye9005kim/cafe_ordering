@@ -175,7 +175,7 @@ SQL;
 		//삭제
 		$this->table_delete();
 
-		$contents = file_get_contents('http://test.jasongroup.co.kr/main/jasonCafe.html', false, stream_context_create(array('http' => array(
+		$contents = file_get_contents($_SERVER['MEMBERS_URL'], false, stream_context_create(array('http' => array(
 			'method' => 'POST',
 			'header' => 'Content-Type: application/x-www-form-urlencoded',
 			'content' => array()
