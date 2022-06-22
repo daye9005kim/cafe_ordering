@@ -42,7 +42,7 @@ class Order extends MY_Controller
 			}
 		}
 
-		$menu = $this->Starbucks_model->select(array('cafe' => $buyer[0]['cafe']));
+		$menu = $this->Drink_model->select(array('cafe' => $buyer[0]['cafe']));
 		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
 		$buyer[0]['invite'] = strToTeam($team);
 
@@ -71,7 +71,7 @@ class Order extends MY_Controller
 			return $this->load->view('json', array('status' => 400, 'data' => 'cafe가 없습니다.'));
 		}
 
-		$menu = $this->Starbucks_model->select(array('product_cd' => $code, 'cafe' => $cafe));
+		$menu = $this->Drink_model->select(array('product_cd' => $code, 'cafe' => $cafe));
 
 		$info = array(
 			"product_cd" => $menu[0]['product_cd'],
@@ -238,7 +238,7 @@ class Order extends MY_Controller
 			return $this->load->view('json', array('status' => 400, 'data' => '중복하여 주문할 수 없습니다.'));
 		}
 
-		$menu = $this->Starbucks_model->select(array('product_cd' => $code));
+		$menu = $this->Drink_model->select(array('product_cd' => $code));
 
 		if (empty($menu)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '일치하는 메뉴가 없습니다.'));
@@ -344,7 +344,7 @@ class Order extends MY_Controller
 
 		$msg = '';
 		if (filemtime($file_name_drink) < $period) {
-			$this->Starbucks_model->fetch($cafe);
+			$this->Drink_model->fetch($cafe);
 			$msg .= '\n drinks updated';
 		}
 		if (filemtime($file_name_mmbr) < $period) {

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * 스타벅스 모델
- * Class Starbucks_model
+ * 카페 음료 모델
+ * Class Drink_model
  */
-class Starbucks_model extends CI_Model
+class Drink_model extends CI_Model
 {
 	/**
-	 * Starbucks_model constructor.
+	 * Drink_model constructor.
 	 */
 	public function __construct()
 	{

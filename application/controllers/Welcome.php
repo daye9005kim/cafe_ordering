@@ -15,7 +15,7 @@ class Welcome extends MY_Controller
 //        print_r($this->Buyer_model->insert(array('ordnum' => uniqid(), 'member_name' => '김민철', 'start' => date('Y-m-d H:i:s'), 'end' => date('Y-m-d H:i:s', strtotime('6 hours')), 'comment'=>'쏩니다.')));
 //        print_r($this->Buyer_model->select(array( 'member_name' => '김민철', 'now' => true)));
 
-		//print_r($this->Starbucks_model->select(array('product_cd' => '110563', 'cate_cd' => 'W0000003', 'content' => '물')));
+		//print_r($this->Drink_model->select(array('product_cd' => '110563', 'cate_cd' => 'W0000003', 'content' => '물')));
 		//print_r($this->Member_model->select(array('dept' => '플랫폼혁신본부', 'team' => 'R&D센터_인프라팀', 'part' => '데이터운영파트', 'pos' => '대리', 'name' => '강전구')));
 		return $this->load->view('view', array('status' => 200, 'data' => array()));
 	}
