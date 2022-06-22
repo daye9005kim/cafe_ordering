@@ -183,7 +183,10 @@ class Order extends MY_Controller
 				}
 				$comment = join('/', $temp);
 			}
-			$arr[$item['product_nm']][$item['product_size']]['comment'][$item['name']] = !empty($comment) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
+			if ($item['cafe'] === TWOSOME) {
+				$comment .= $item['hot'] === '1' ? 'HOT' : 'ICED';
+			}
+			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($comment) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
 		}
 
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum, 'size' => $config[$order[0]['cafe']]['size'])));
