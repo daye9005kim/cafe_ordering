@@ -73,56 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['superglue4'] = array(
-	//'dsn'	=> 'mysql:host=localhost;dbname=superglue4',
-	'hostname' => 'localhost',
-	'username' => 'superglue4',
-	'password' => '01044424479',
-	'database' => 'superglue4',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
-
-$db['jasoncafe'] = array(
-	//'dsn'	=> 'mysql:host=localhost;dbname=superglue4',
-	'hostname' => 'localhost',
-	'username' => 'jasoncafe',
-	'password' => 'jasoncafe#12#',
-	'database' => 'jasoncafe',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
-
 $db['dayecafe'] = array(
-	//'dsn'	=> 'mysql:host=localhost;dbname=superglue4',
-	'hostname' => 'localhost',
-	'username' => 'dayekim',
-	'password' => 'wpdltms1!@',
-	'database' => 'cafe',
+	'hostname' => ENV_DB_HOST,
+	'username' => ENV_DB_USERNAME,
+	'password' => ENV_DB_PASSWORD,
+	'database' => ENV_DB_DATABASE,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
