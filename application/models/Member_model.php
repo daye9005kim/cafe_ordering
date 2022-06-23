@@ -203,7 +203,6 @@ CREATE TABLE `member` (
   `dept` VARCHAR(50) NOT NULL,
   `team` VARCHAR(50) NULL DEFAULT '',
   `part` VARCHAR(50) NULL DEFAULT '',
-  `admin` VARCHAR(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`),
   INDEX `dept` (`dept` ASC),
   INDEX `team` (`team` ASC)
