@@ -27,6 +27,17 @@ class Admin extends MY_Controller
 		$param['limit'] = 20;
 		
 		$buyer = $this->Buyer_model->select($param);
+		foreach ($buyer as &$item) {
+			//팀명 보정
+			$arr_teams = explode(',', $item['invite']);
+			$join_teams = array();
+			foreach ($arr_teams as $value) {
+				$expld = explode('_', $value);
+				$join_teams[] = isset($expld[1]) ? $expld[1] : $expld[0];
+			}
+			$item['invite'] = join(',', $join_teams);
+		}
+		unset($item);
 		$config['total_rows'] = $this->Buyer_model->total_rows($param);
 		$this->pagination->initialize($config);
 

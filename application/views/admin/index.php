@@ -235,8 +235,8 @@ $config = $this->config->item('cafe');
 
 			<tr>
 				<th class="col-md-1">주문번호</th>
-				<th class="col-md-1">카페</th>
 				<th class="col-md-5">주문대상</th>
+				<th class="col-md-1">카페</th>
 				<th>코멘트</th>
 				<th>유효기간</th>
 				<th>출력</th>
@@ -251,8 +251,8 @@ $config = $this->config->item('cafe');
 					<tr>
 						<td><a href="/order?ordnum=<?= $item['ordnum'] ?>" class="link-success"><?= $item['ordnum'] ?></a>
 							<input type="hidden" name="ordnum" value="<?= $item['ordnum'] ?>"</td>
-						<td data-type="cafe"><?= $config[$item['cafe']]['name'] ?></td>
 						<td class="edit" data-type="name"><?= $item['invite'] ?></td>
+						<td data-type="cafe"><?= $config[$item['cafe']]['name'] ?></td>
 						<td class="edit" data-type="comment"><?= $item['comment'] ?></td>
 						<td class="edit" data-type="time"><?= $item['start'] . ' ~ ' . $item['end'] ?></td>
 						<td>
