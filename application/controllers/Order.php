@@ -192,6 +192,34 @@ class Order extends MY_Controller
 		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum, 'size' => $config[$order[0]['cafe']]['size'])));
 	}
 
+
+	/**
+	 * 회원별 주문서 쿼리로
+	 * @return object|string
+	 */
+	public function orderprint()
+	{
+		$SES_KEY = $this->input->post('KEY');
+		$SES_USER = $this->session->userdata($SES_KEY);
+		$ordnum = $this->input->get('ordnum');
+
+		if (empty($SES_USER)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '로그인 해주세요.'));
+		}
+
+		$order = $this->Order_model->order_print(array('ordnum' => $ordnum));
+
+		if (empty($order)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '주문해주세요.'));
+		}
+
+		$config = $this->config->item('cafe');
+		$cafe = current($order);
+
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order, 'total' => $order['total'], 'ordnum' => $ordnum, 'size' => $config[$cafe['cafe']]['size'])));
+	}
+
+
 	/**
 	 * 주문하기
 	 * @return object|string

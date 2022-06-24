@@ -258,6 +258,8 @@ $config = $this->config->item('cafe');
 						<td>
 							<a href="/order/mprnt?ordnum=<?= $item['ordnum'] ?>" class="btn btn-secondary btn-sm"><i
 										class="bi bi-printer"></i></a>
+							<a href="/order/orderprint?ordnum=<?= $item['ordnum'] ?>" class="btn btn-info btn-sm"><i
+										class="bi bi-printer"></i></a>
 						</td>
 						<td>
 							<a data-ordnum="<?= $item['ordnum'] ?>"

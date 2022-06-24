@@ -272,12 +272,10 @@ SQL;
 			$arr[] = sprintf('o.member_name = %s', $escape['member_name']);
 		}
 
-		$where = '';
-		if (count($arr) > 0) {
-			$where = 'AND ' . join(' AND ', $arr);
-		} else {
+		if (count($arr) < 1) {
 			return 0;
 		}
+		$where = 'AND ' . join(' AND ', $arr);
 
 		$sql = <<<SQL
 SELECT o.ordnum,o.member_name FROM `order`AS o 
@@ -288,6 +286,66 @@ SQL;
 		//echo $sql;
 		$query = $this->db->query($sql);
 		return  $query->num_rows();
+	}
+
+	/**
+	 * 주문서 출력하기
+	 * @return array
+	 */
+	function order_print($param) {
+		if (empty($param['ordnum'])) {
+			return array();
+		}
+		$escape = $this->db->escape($param);
+
+		$sql = <<<SQL
+SELECT 
+    o.product_cd, s.product_nm, o.product_size,
+    CASE 
+		WHEN s.cafe = '01' THEN GROUP_CONCAT(concat_ws('-', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', concat('ICED:', o.ice)), CONCAT('당도:',o.sweet), o.comment) SEPARATOR '||')
+		WHEN s.cafe = '06' THEN GROUP_CONCAT(concat_ws(' : ', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', 'ICED'), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
+        ELSE GROUP_CONCAT(concat_ws(' : ', MASK_NAME(m.name), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
+    END as comments,
+    sum(o.product_cnt) as cnt,
+    s.cafe
+FROM `order` AS o
+JOIN member AS m ON o.member_name = m.name
+JOIN drink AS s ON o.product_cd = s.product_cd
+WHERE
+    o.ordnum = {$escape['ordnum']}
+GROUP BY o.product_cd, o.product_size
+ORDER BY o.product_cd DESC
+SQL;
+
+		$query = $this->db->query($sql);
+
+		$return = array();
+		$size = array();
+		$total = 0;
+
+		$config = $this->config->item('cafe');
+
+		foreach ($query->result_array() as $row) {
+			$total += (int)$row['cnt'];
+			$comments = explode('||', $row['comments']);
+
+			if (!isset($size[$row['product_cd']][$row['product_size']])) {
+				$size[$row['product_cd']] = $config[$row['cafe']]['size'];
+			}
+			$size[$row['product_cd']][$row['product_size']]['cnt'] = $row['cnt'];
+			$size[$row['product_cd']][$row['product_size']]['comment'] = $comments;
+
+			$return[$row['product_cd']] = array(
+			'menu' => $row['product_nm'],
+			'size' => $size[$row['product_cd']],
+			'cafe' => $row['cafe'],
+			);
+		}
+		unset($size);
+		if ($total > 0) {
+			$return['total'] = $total;
+		}
+		return $return;
 	}
 
 }
