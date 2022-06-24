@@ -24,8 +24,8 @@ class Admin extends MY_Controller
 		}
 		$this->load->library('pagination');
 		$param['start'] = $page;
-		$param['limit'] = 10;
-
+		$param['limit'] = 20;
+		
 		$buyer = $this->Buyer_model->select($param);
 		$config['total_rows'] = $this->Buyer_model->total_rows($param);
 		$this->pagination->initialize($config);
