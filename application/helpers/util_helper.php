@@ -73,3 +73,19 @@ TEXT;
 		chmod($filename, 0777);
 	}
 }
+
+/**
+ * 이미지 파일명 가져오기
+ * @param $src
+ * @return mixed|string
+ *
+ */
+function get_imgName($src) {
+	if (empty($src)) {
+		return '';
+	}
+	$exp = explode('/', $src);
+	$name = end($exp);
+
+	return empty($name) ? '' : $name;
+}

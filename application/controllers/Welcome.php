@@ -20,9 +20,9 @@ class Welcome extends MY_Controller
 		return $this->load->view('view', array('status' => 200, 'data' => array()));
 	}
 
-	public function img($cafe = '07', $img = '')
+	public function img($cafe = '', $img = '')
 	{
-		if (!in_array($cafe, array_keys($this->config->item('cafe')))){
+		if (empty($cafe) || !in_array($cafe, array_keys($this->config->item('cafe')))){
 			die('잘못된 접근입니다.');
 		}
 		if (empty($img)) {
@@ -30,8 +30,23 @@ class Welcome extends MY_Controller
 		}
 
 		$url = '';
+		if ($cafe === '01') {
+			$url = "/workspace/menu_img/gongcha/";
+		}
+		if ($cafe === '03') {
+			$url = "/workspace/menu_img/paikdabang/";
+		}
+		if ($cafe === '04') {
+			$url = "/workspace/menu_img/starbucks/";
+		}
+		if ($cafe === '05') {
+			$url = "/workspace/menu_img/paulbassett/";
+		}
+		if ($cafe === '06') {
+			$url = "/workspace/menu_img/twosome/";
+		}
 		if ($cafe === '07') {
-			$url = "http://www.tigersugarkr.com/data/file/all_menu/";
+			$url = "/workspace/menu_img/tigersugar/";
 		}
 
 		if (empty($url)) {

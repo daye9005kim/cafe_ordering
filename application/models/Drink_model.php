@@ -136,11 +136,15 @@ SQL;
 				if (strpos($drink['product_NM'], '피지오') !== false) {
 					continue;
 				}
+				$url = $drink['img_UPLOAD_PATH'] . $drink['file_PATH'];
+				if (!copy($url, '/workspace/menu_img/starbucks/' . $drink['product_CD'] . '.jpg')) {
+					putlog('starbucks', var_export($url, true));
+				}
 
 				$menu[] = array(
 					'product_cd' => $drink['product_CD'],
 					'product_nm' => $drink['product_NM'],
-					'product_img' => $drink['img_UPLOAD_PATH'] . $drink['file_PATH'],
+					'product_img' => '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/04/' . $drink['product_CD'] . '.jpg',
 					'cate_nm' => $drink['cate_NAME'],
 					'cate_cd' => $cate_code,
 					'content' => $drink['content'],
@@ -191,11 +195,19 @@ SQL;
 					if (empty($drink['MENU_CD'])) {
 						continue;
 					}
+					$file_name = get_imgName($drink['MENU_IMG']);
+					if (empty($file_name)) {
+						continue;
+					}
+					$url = 'https://mo.twosome.co.kr' . $drink['MENU_IMG'];
+					if (!copy($url, '/workspace/menu_img/twosome/' . $file_name)) {
+						putlog('twosome', var_export($drink['MENU_IMG'], true));
+					}
 
 					$menu[$drink['MENU_CD']] = array(
 						'product_cd' => $drink['MENU_CD'],
 						'product_nm' => $drink['MENU_NM'],
-						'product_img' => 'https://mo.twosome.co.kr' . explode('?', $drink['MENU_IMG_01'])[0],
+						'product_img' =>  '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/06/' . $file_name,
 						'cate_nm' => $drink['MID_NM'],
 						'cate_cd' => $drink['MID_CD'],
 						'content' => $drink['MENU_NM'],
@@ -235,10 +247,19 @@ SQL;
 
 				foreach ($pro_list->find('img') as $i => $image) {
 					$name = str_replace('<br>', '', $title[$i]->innertext);
+					$file_name = get_imgName($image->src);
+					if (empty($file_name)) {
+						continue;
+					}
+					$url = 'http://www.gong-cha.co.kr' . $image->src;
+					if (!copy($url, '/workspace/menu_img/gongcha/' . $file_name)) {
+						putlog('gongcha', var_export($url, true));
+					}
+
 					$menu[] = array(
 						'product_cd' => $name,
 						'product_nm' => $name,
-						'product_img' => 'http://www.gong-cha.co.kr' . $image->src,
+						'product_img' =>  '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/01/' . $file_name,
 						'cate_nm' => '',
 						'cate_cd' => '',
 						'content' => '',
@@ -310,7 +331,7 @@ SQL;
 			'http://paikdabang.com/menu/menu_ccino',
 		);
 
-		foreach ($urls as $url) {
+		foreach ($urls as $j => $url) {
 
 			$html = file_get_html($url);
 
@@ -322,11 +343,15 @@ SQL;
 
 			foreach ($menu_list->find('img') as $i => $image) {
 				$name = str_replace('&#8217;', '', $title[$i]->plaintext);
+				$f_name = $j . $i;
+				if (!copy($image->src, '/workspace/menu_img/paikdabang/' . $f_name . '.png')) {
+					putlog('paikdabang', var_export($image->src, true));
+				}
 
 				$menu[] = array(
 					'product_cd' => $name,
 					'product_nm' => $name,
-					'product_img' => $image->src,
+					'product_img' =>  '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/03/' . $f_name . '.png',
 					'cate_nm' => '',
 					'cate_cd' => '',
 					'content' => $content[$i]->plaintext,
@@ -367,10 +392,16 @@ SQL;
 				preg_match("/\'.*\'/", $product_list[$i]->onclick, $match);
 				$product_cd = trim($match[0], "'");
 
+				$exp = explode('.', $image->src);
+				$url = 'https://www.baristapaulbassett.co.kr' . $image->src;
+				if (!copy($url, '/workspace/menu_img/paulbassett/' . $product_cd . '.' . $exp[1])) {
+					putlog('paulbassett', var_export($url, true));
+				}
+
 				$menu[] = array(
 					'product_cd' => $product_cd,
 					'product_nm' => $name,
-					'product_img' => 'https://www.baristapaulbassett.co.kr' . $image->src,
+					'product_img' =>  '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/05/' . $product_cd . '.' . $exp[1],
 					'cate_nm' => '',
 					'cate_cd' => $key,
 					'content' => '',
@@ -424,13 +455,18 @@ SQL;
 
 		foreach ($menu_list->find('div.innerConti') as $i => $content) {
 
-			$src = str_replace("http://www.tigersugarkr.com/data/file/all_menu/", "", $content->find('img')[0]->src);
+			$url = $content->find('img')[0]->src;
 
-			foreach ($name[$i] as $prdct_nm) {
+			foreach ($name[$i] as $j => $prdct_nm) {
+				$f_name = $i . $j;
+				if (!copy($url, '/workspace/menu_img/tigersugar/' . $f_name . '.png')) {
+					putlog('tigersugar', var_export($url, true));
+				}
+
 				$menu[] = array(
 					'product_cd' => $prdct_nm,
 					'product_nm' => $prdct_nm,
-					'product_img' => '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/07/' . $src,
+					'product_img' => '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/07/' . $f_name . '.png',
 					'cate_nm' => '',
 					'cate_cd' => '',
 					'content' => $content->find('p')[0]->plaintext,
