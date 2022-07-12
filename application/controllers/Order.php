@@ -161,6 +161,9 @@ class Order extends MY_Controller
 		}
 
 		$cafe =  $this->Order_model->get_cafe(array('ordnum' => $ordnum));
+		if (empty($cafe)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '카페 코드가 없습니다.'));
+		}
 		$order = $this->Order_model->select(array('ordnum' => $ordnum, 'cafe' => $cafe));
 		$arr = array();
 		$total = 0;
@@ -191,7 +194,7 @@ class Order extends MY_Controller
 			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($comment) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
 		}
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum, 'size' => $config[$order[0]['cafe']]['size'])));
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $arr, 'total' => $total, 'ordnum' => $ordnum, 'size' => $config[$cafe]['size'])));
 	}
 
 
@@ -208,17 +211,19 @@ class Order extends MY_Controller
 		if (empty($SES_USER)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '로그인 해주세요.'));
 		}
-
-		$order = $this->Order_model->order_print(array('ordnum' => $ordnum));
+		$cafe =  $this->Order_model->get_cafe(array('ordnum' => $ordnum));
+		if (empty($cafe)) {
+			return $this->load->view('view', array('status' => 400, 'data' => '카페 코드가 없습니다.'));
+		}
+		$order = $this->Order_model->order_print(array('ordnum' => $ordnum, 'cafe' => $cafe));
 
 		if (empty($order)) {
 			return $this->load->view('view', array('status' => 400, 'data' => '주문해주세요.'));
 		}
 
 		$config = $this->config->item('cafe');
-		$cafe = current($order);
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order, 'total' => $order['total'], 'ordnum' => $ordnum, 'size' => $config[$cafe['cafe']]['size'])));
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order, 'total' => $order['total'], 'ordnum' => $ordnum, 'size' => $config[$cafe]['size'])));
 	}
 
 

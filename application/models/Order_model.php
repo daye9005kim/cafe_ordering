@@ -17,12 +17,12 @@ class Order_model extends CI_Model
 	/**
 	 * 조회
 	 * @param $param
-	 * @return array
+	 * @return string
 	 */
 	public function get_cafe($param)
 	{
 		if (empty($param['ordnum'])) {
-			return array();
+			return '';
 		}
 
 		$escape = $this->db->escape($param);
@@ -335,13 +335,14 @@ SELECT
     s.cafe
 FROM `order` AS o
 JOIN member AS m ON o.member_name = m.name
-JOIN drink AS s ON o.product_cd = s.product_cd
+JOIN drink AS s ON o.product_cd = s.product_cd AND s.cafe = {$escape['cafe']} 
 WHERE
     o.ordnum = {$escape['ordnum']}
 GROUP BY o.product_cd, o.product_size
 ORDER BY o.product_cd DESC
 SQL;
 
+//		echo $sql;
 		$query = $this->db->query($sql);
 
 		$return = array();
@@ -370,9 +371,6 @@ SQL;
 		if ($total > 0) {
 			$return['total'] = $total;
 		}
-		echo "<xmp>";
-		print_r($return);
-		echo "</xmp>";
 		return $return;
 	}
 
