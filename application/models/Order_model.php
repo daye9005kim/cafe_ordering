@@ -14,7 +14,32 @@ class Order_model extends CI_Model
         parent::__construct();
     }
 
-    /**
+	/**
+	 * 조회
+	 * @param $param
+	 * @return array
+	 */
+	public function get_cafe($param)
+	{
+		if (empty($param['ordnum'])) {
+			return array();
+		}
+
+		$escape = $this->db->escape($param);
+
+		$sql = <<<SQL
+SELECT cafe 
+FROM `buyer` 
+WHERE ordnum = {$escape['ordnum']}
+SQL;
+		//echo $sql;
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		return $row['cafe'];
+	}
+
+
+		/**
      * 조회
      * @param $param
      * @return array
@@ -345,6 +370,9 @@ SQL;
 		if ($total > 0) {
 			$return['total'] = $total;
 		}
+		echo "<xmp>";
+		print_r($return);
+		echo "</xmp>";
 		return $return;
 	}
 

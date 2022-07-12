@@ -160,7 +160,8 @@ class Order extends MY_Controller
 			return $this->load->view('view', array('status' => 400, 'data' => '로그인 해주세요.'));
 		}
 
-		$order = $this->Order_model->select(array('ordnum' => $ordnum));
+		$cafe =  $this->Order_model->get_cafe(array('ordnum' => $ordnum));
+		$order = $this->Order_model->select(array('ordnum' => $ordnum, 'cafe' => $cafe));
 		$arr = array();
 		$total = 0;
 		$config = $this->config->item('cafe');
@@ -174,7 +175,7 @@ class Order extends MY_Controller
 				$arr[$item['product_nm']] = $config[$item['cafe']]['size'];
 			}
 			$arr[$item['product_nm']][$item['product_size']]['cnt'] = $arr[$item['product_nm']][$item['product_size']]['cnt'] + $cnt;
-			$comment = $item['comment'];
+
 			if ($item['cafe'] === GONGCHA) {
 				$hot = $item['hot'] === '1' ? 'HOT' : 'ICED:' . $item['ice'];
 				$temp = array($hot, '당도:' . $item['sweet']);
@@ -182,9 +183,10 @@ class Order extends MY_Controller
 					$temp[] = $item['comment'];
 				}
 				$comment = join('/', $temp);
-			}
-			if ($item['cafe'] === TWOSOME) {
-				$comment .= $item['hot'] === '1' ? 'HOT' : 'ICED';
+			} else if ($item['cafe'] === TWOSOME) {
+				$comment = $item['comment'] . $item['hot'] === '1' ? 'HOT' : 'ICED';
+			} else {
+				$comment = $item['comment'];
 			}
 			$arr[$item['product_nm']][$item['product_size']]['comment'][] = !empty($comment) ? masking($item['name']) . ' : ' . $comment : masking($item['name']);
 		}
