@@ -95,12 +95,12 @@ include_once APPPATH . 'views/_common/top.php';
 					<div class="accordion-body">
 						<form name="search" method="get" class="row g-3" action="/member/get">
 							<div class="col-auto">
-								<input type="text" id="name" name="name" class="form-control ttip"
+								<input type="text" id="name" name="name" class="form-control form-control-sm ttip"
 									   data-bs-toggle="tooltip" data-bs-placement="top"
 									   placeholder="이름" title="사원 이름">
 							</div>
 							<div class="col-auto">
-								<select id="pos" name="pos" class="form-select ttip" data-bs-toggle="tooltip"
+								<select id="pos" name="pos" class="form-select form-select-sm ttip" data-bs-toggle="tooltip"
 										data-bs-placement="top" title="직급">
 									<option value="">선택안함</option>
 									<option value="사원">사원</option>
@@ -112,14 +112,14 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="dept" name="dept" class="form-select ttip" data-bs-toggle="tooltip"
+								<select id="dept" name="dept" class="form-select form-select-sm ttip" data-bs-toggle="tooltip"
 										data-bs-placement="top" title="부서">
 									<option value="">선택안함</option>
 									<option value="플랫폼혁신본부">플랫폼혁신본부</option>
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="team" name="team" class="form-select ttip" data-bs-toggle="tooltip"
+								<select id="team" name="team" class="form-select form-select-sm ttip" data-bs-toggle="tooltip"
 										data-bs-placement="top" title="팀">
 									<option value="">선택안함</option>
 									<?php foreach ($team as $value) : ?>
@@ -128,7 +128,7 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<select id="part" name="part" class="form-select ttip" data-bs-toggle="tooltip"
+								<select id="part" name="part" class="form-select form-select-sm ttip" data-bs-toggle="tooltip"
 										data-bs-placement="top" title="파트">
 									<option value="">선택안함</option>
 									<?php foreach ($part as $value) : ?>
@@ -137,13 +137,13 @@ include_once APPPATH . 'views/_common/top.php';
 								</select>
 							</div>
 							<div class="col-auto">
-								<button id="search" class="btn btn-warning ttip" data-bs-toggle="tooltip"
+								<button id="search" class="btn btn-warning btn-sm ttip" data-bs-toggle="tooltip"
 										data-bs-placement="top" title="검색">
 									<i class="bi bi-search"></i>
 								</button>
 							</div>
 							<div class="col-auto">
-								<a id="insert" class="btn btn-primary ttip" data-bs-toggle="tooltip"
+								<a id="insert" class="btn btn-primary btn-sm ttip" data-bs-toggle="tooltip"
 								   data-bs-placement="top" title="추가">
 									<i class="bi bi-plus-lg"></i>
 								</a>
@@ -154,10 +154,10 @@ include_once APPPATH . 'views/_common/top.php';
 			</div>
 		</div>
 		<div style="margin-top: 10px">
-			<p>총 <?= $pagination['total_rows'] ?> 건</p>
+			<p class="font-size">총 <?= $pagination['total_rows'] ?> 건</p>
 		</div>
 		<div>
-			<table class="table table-bordered table-hover table-sm">
+			<table class="table table-bordered table-hover table-sm font-size">
 				<thead>
 				<tr>
 					<th>이름</th>

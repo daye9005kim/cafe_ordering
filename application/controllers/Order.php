@@ -229,6 +229,7 @@ class Order extends MY_Controller
 
 	/**
 	 * 주문하기
+	 * todo:: order table 단독으로
 	 * @return object|string
 	 */
 	public function set()

@@ -228,19 +228,18 @@ $config = $this->config->item('cafe');
 		</div>
 	</div>
 	<div style="margin-top: 10px">
-		<p>총 <?= $pagination['total_rows'] ?> 건</p>
+		<p class="font-size">총 <?= $pagination['total_rows'] ?> 건</p>
 	</div>
-		<table class="table table-bordered table-hover table-sm" style="margin-top: 20px; font-size: medium;">
+		<table class="table table-bordered table-striped table-hover table-sm font-size">
 			<thead>
-
 			<tr>
 				<th class="col-md-1">주문번호</th>
-				<th class="col-md-5">주문대상</th>
+				<th class="col-md-2">주문대상</th>
 				<th class="col-md-1">카페</th>
 				<th>코멘트</th>
 				<th>유효기간</th>
 				<th>출력</th>
-				<th class="col-md-1">수정/삭제</th>
+				<th>수정/삭제</th>
 			</tr>
 			</thead>
 			<tbody>

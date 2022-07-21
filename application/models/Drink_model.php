@@ -201,7 +201,7 @@ SQL;
 					}
 					$url = 'https://mo.twosome.co.kr' . $drink['MENU_IMG'];
 					if (!copy($url, '/workspace/menu_img/twosome/' . $file_name)) {
-						putlog('twosome', var_export($drink['MENU_IMG'], true));
+						putlog('twosome', var_export($url, true));
 					}
 
 					$menu[$drink['MENU_CD']] = array(
@@ -401,7 +401,7 @@ SQL;
 				$menu[] = array(
 					'product_cd' => $product_cd,
 					'product_nm' => $name,
-					'product_img' =>  '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/05/' . $product_cd . '.' . $exp[1],
+					'product_img' => '//' . $_SERVER['HTTP_HOST'] . '/welcome/img/05/' . $product_cd . '.' . $exp[1],
 					'cate_nm' => '',
 					'cate_cd' => $key,
 					'content' => '',

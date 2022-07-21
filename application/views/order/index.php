@@ -359,7 +359,7 @@ if (!empty($data['order'])) {
 					},
 					success: function (request) {
 						var list = [];
-						var table = $('<table />', {"class": "table table-sm table-bordered", "style": "font-size: 15px;"}).prepend(
+						var table = $('<table />', {"class": "table table-sm table-bordered font-size"}).prepend(
 								$('<thead/>').prepend(
 										$('<tr/>').prepend(
 												$('<th/>').text('주문일'),
