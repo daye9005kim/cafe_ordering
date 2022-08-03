@@ -79,6 +79,12 @@ $config = $this->config->item('cafe');
 					alert(request.replace("\\n", "\n"));
 					location.reload();
 				},
+				beforeSend: function () {
+					$('.wrap-loading').show();
+				},
+				complete: function () {
+					$('.wrap-loading').hide();
+				},
 				error: function (request, status, error) {
 					alert(JSON.parse(request.responseText));
 					console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
@@ -225,6 +231,11 @@ $config = $this->config->item('cafe');
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="text-center wrap-loading" style="display: none;">
+		<div class="spinner-border text-success" role="status">
+			<span class="visually-hidden">Loading...</span>
 		</div>
 	</div>
 	<div style="margin-top: 10px">

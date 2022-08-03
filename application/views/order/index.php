@@ -13,6 +13,7 @@ $order = 0;
 if (!empty($data['order'])) {
 	$order = 1;
 }
+
 ?>
 	<style>
 		.custom-combobox-toggle {
@@ -54,7 +55,26 @@ if (!empty($data['order'])) {
 		}
 
 	</style>
+	<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
 	<script>
+		const user = '<?= $user['name'] ?>';
+		const makeLists = function(msg, clss = '') {
+			$('.socket-list').prepend($('<li />', {"class":"list-group-item " + clss}).text(msg));
+		}
+
+		var socket = io("https://ordersocket.run.goorm.io");
+		socket.emit("welcome", user);
+		socket.on("welcome",(msg) => {
+			console.log(msg);
+			makeLists(msg, 'disabled');
+		});
+
+		socket.on("order",(msg) => {
+			console.log(msg);
+			makeLists(msg, 'list-group-item-warning');
+		});
+
+
 		var CAFE = '<?= $data['buyer']['cafe'] ?>';
 		var PRDCT_IMG = JSON.parse('<?= json_encode($prdct_img) ?>');
 
@@ -211,7 +231,7 @@ if (!empty($data['order'])) {
 						}
 					}));
 
-					$('li').each(function () {
+					$('.ui-menu-item').each(function () {
 						var name = $(this).children('div').text();
 						var height = "100";
 						var width = "100";
@@ -515,24 +535,27 @@ if (!empty($data['order'])) {
 					return 0;
 				}
 
+				var data = {
+					'user': user,
+					'menu_code': menu_code,
+					'menu_nm': menu_nm,
+					'size': size,
+					'cnt': cnt,
+					'hot': hot,
+					'ice': ice,
+					'sweet': sweet,
+					'comment': comment,
+					'ordnum': ordnum
+				};
+
 				$.ajax({
 					type: 'post',
 					dataType: 'json',
 					url: '/order/set',
-					data: {
-						'menu_code': menu_code,
-						'menu_nm': menu_nm,
-						'size': size,
-						'cnt': cnt,
-						'hot': hot,
-						'ice': ice,
-						'sweet': sweet,
-						'comment': comment,
-						'ordnum': ordnum
-					},
+					data: data,
 					success: function (request) {
 						$('#myorder').trigger('click');
-
+						socket.emit("order", data);
 					},
 					error: function (request, status, error) {
 						alert(JSON.parse(request.responseText));
@@ -662,6 +685,11 @@ if (!empty($data['order'])) {
 					</button>
 				</div>
 				<div class="col-auto">
+					<button class="btn btn-light ttip" id="btn-chat" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas" data-bs-placement="top" title="실시간 주문 현황">
+						<i class="bi bi-chat-quote"></i>
+					</button>
+				</div>
+				<div class="col-auto">
 					<button type="button" id="detail" class="btn btn-warning ttip" data-bs-toggle="modal"
 							data-bs-target="#myModal" title="메뉴 상세" hidden>
 						<span>상세</span>
@@ -685,6 +713,17 @@ if (!empty($data['order'])) {
 		</div>
 	</div>
 	</body>
+<!-- offcanvas -->
+	<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+		<div class="offcanvas-header">
+			<h5 id="offcanvasLabel">실시간 주문 현황</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<ul class="list-group list-group-flush socket-list">
+			</ul>
+		</div>
+	</div>
 
 <?php
 include_once APPPATH . 'views/_common/footer.php';
