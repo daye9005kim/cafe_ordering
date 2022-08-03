@@ -65,13 +65,14 @@ if (!empty($data['order'])) {
 		var socket = io("https://ordersocket.run.goorm.io");
 		socket.emit("welcome", user);
 		socket.on("welcome",(msg) => {
-			console.log(msg);
 			makeLists(msg, 'disabled');
 		});
 
 		socket.on("order",(msg) => {
-			console.log(msg);
 			makeLists(msg, 'list-group-item-warning');
+		});
+		socket.on("end",(msg) => {
+			makeLists(msg, 'list-group-item-danger');
 		});
 
 
@@ -92,6 +93,7 @@ if (!empty($data['order'])) {
 				if (disDt < 0) {
 					clearInterval(_timer);
 					document.getElementById(id).textContent = '주문 시간이 종료 되었습니다.';
+					socket.emit("end", {"user":user, "msg":"clear"});
 					return;
 				}
 
