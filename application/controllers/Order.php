@@ -242,6 +242,7 @@ class Order extends MY_Controller
 		$sweet = $this->input->post('sweet');
 		$comment = $this->input->post('comment');
 		$ordnum = $this->input->post('ordnum');
+		$menu_nm = $this->input->post('menu_nm');
 
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
@@ -294,6 +295,7 @@ class Order extends MY_Controller
 			'status' => '1',
 			'member_name' => $SES_USER['name'],
 			'product_cd' => $code,
+			'product_nm' => $menu_nm,
 			'product_size' => $size,
 			'product_cnt' => empty($cnt) ? 1 : intval($cnt),
 			'hot' => $hot,

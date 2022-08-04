@@ -132,6 +132,9 @@ SQL;
 		if (empty($param['product_cd'])) {
 			return false;
 		}
+		if (empty($param['product_nm'])) {
+			return false;
+		}
 		if (empty($param['product_cnt'])) {
 			return false;
 		}
@@ -165,6 +168,7 @@ SQL;
 UPDATE `order` SET 
 status = {$escape['status']},
 product_cd = {$escape['product_cd']},
+product_nm = {$escape['product_nm']},
 product_cnt = {$escape['product_cnt']},
 product_size = {$escape['product_size']},
 hot = {$escape['hot']},
@@ -199,6 +203,9 @@ SQL;
         if (empty($param['product_cd'])) {
             return false;
         }
+        if (empty($param['product_nm'])) {
+            return false;
+        }
         if (empty($param['product_cnt'])) {
             return false;
         }
@@ -225,6 +232,7 @@ ordnum = {$escape['ordnum']},
 status = {$escape['status']},
 member_name = {$escape['member_name']},
 product_cd = {$escape['product_cd']},
+product_nm = {$escape['product_nm']},
 product_cnt = {$escape['product_cnt']},
 product_size = {$escape['product_size']},
 hot = {$escape['hot']},
@@ -253,7 +261,8 @@ CREATE TABLE IF NOT EXISTS `order` (
    `ordnum` char(13) NOT NULL,
    `status` char(1) DEFAULT '1' COMMENT '1 : 대기, 2 : 완료, 3 : 주문',
    `member_name` varchar(50) DEFAULT NULL,
-   `product_cd` varchar(20) DEFAULT NULL,
+   `product_cd` varchar(50) DEFAULT NULL,
+   `product_nm` varchar(50) DEFAULT NULL,
    `product_cnt` tinyint(4) DEFAULT '0',
    `product_size` varchar(20) DEFAULT NULL,
    `comment` text,

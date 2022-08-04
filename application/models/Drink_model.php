@@ -488,7 +488,7 @@ SQL;
 	{
 		$sql = <<<SQL
 CREATE TABLE IF NOT EXISTS `drink` (
-`product_cd` VARCHAR(20) NOT NULL,
+`product_cd` VARCHAR(50) NOT NULL,
 `product_nm` VARCHAR(300) NULL,
 `product_img` VARCHAR(500) NULL,
 `cate_nm` VARCHAR(20) NULL,
