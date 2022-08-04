@@ -57,12 +57,12 @@ if (!empty($data['order'])) {
 	</style>
 	<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
 	<script>
+		const ordnum = '<?= $data['buyer']['ordnum'] ?>';
 		const user = '<?= $user['name'] ?>';
 		const makeLists = function(msg, clss = '') {
 			$('.socket-list').prepend($('<li />', {"class":"list-group-item " + clss}).text(msg));
 		}
-
-		var socket = io("https://ordersocket.run.goorm.io");
+		var socket = io("https://ordersocket.run.goorm.io", {query: {"ordnum": ordnum}});
 		socket.emit("welcome", user);
 		socket.on("welcome",(msg) => {
 			makeLists(msg, 'disabled');
@@ -292,8 +292,6 @@ if (!empty($data['order'])) {
 		});
 
 		$(document).ready(function () {
-			var ordnum = '<?= $data['buyer']['ordnum'] ?>';
-
 			$("#menu_nm").val('<?=isset($data['order']['product_nm']) ? $data['order']['product_nm'] : ''?>');
 			$("#code").val('<?=isset($data['order']['product_cd']) ? $data['order']['product_cd'] : ''?>');
 			$("#size").val('<?=isset($data['order']['product_size']) ? $data['order']['product_size'] : ''?>');
