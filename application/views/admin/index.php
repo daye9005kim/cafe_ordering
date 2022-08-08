@@ -270,7 +270,7 @@ $config = $this->config->item('cafe');
 								<i class="bi bi-printer"></i>
 							</a>
 							<a class="btn btn-info btn-sm" onclick="print_popup('/order/orderprint?ordnum=<?= $item['ordnum'] ?>')">
-								<iclass="bi bi-printer"></i>
+								<i class="bi bi-printer"></i>
 							</a>
 						</td>
 						<td>
