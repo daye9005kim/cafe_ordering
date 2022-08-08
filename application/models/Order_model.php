@@ -336,7 +336,7 @@ SQL;
 SELECT 
     o.product_cd, s.product_nm, o.product_size,
     CASE 
-		WHEN s.cafe = '01' THEN GROUP_CONCAT(concat_ws('-', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', concat('ICED:', o.ice)), CONCAT('당도:',o.sweet), o.comment) SEPARATOR '||')
+		WHEN s.cafe = '01' THEN GROUP_CONCAT(concat_ws('/', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', concat('ICED:', o.ice)), CONCAT('당도:',o.sweet), o.comment) SEPARATOR '||')
 		WHEN s.cafe = '06' THEN GROUP_CONCAT(concat_ws(' : ', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', 'ICED'), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
         ELSE GROUP_CONCAT(concat_ws(' : ', MASK_NAME(m.name), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
     END as comments,
