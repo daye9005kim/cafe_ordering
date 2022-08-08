@@ -266,10 +266,12 @@ $config = $this->config->item('cafe');
 						<td class="edit" data-type="comment"><?= $item['comment'] ?></td>
 						<td class="edit" data-type="time"><?= $item['start'] . ' ~ ' . $item['end'] ?></td>
 						<td>
-							<a href="/order/mprnt?ordnum=<?= $item['ordnum'] ?>" class="btn btn-secondary btn-sm"><i
-										class="bi bi-printer"></i></a>
-							<a href="/order/orderprint?ordnum=<?= $item['ordnum'] ?>" class="btn btn-info btn-sm"><i
-										class="bi bi-printer"></i></a>
+							<a class="btn btn-secondary btn-sm" onclick="print_popup('/order/mprnt?ordnum=<?= $item['ordnum'] ?>')">
+								<i class="bi bi-printer"></i>
+							</a>
+							<a class="btn btn-info btn-sm" onclick="print_popup('/order/orderprint?ordnum=<?= $item['ordnum'] ?>')">
+								<iclass="bi bi-printer"></i>
+							</a>
 						</td>
 						<td>
 							<a data-ordnum="<?= $item['ordnum'] ?>"

@@ -16,6 +16,7 @@
     <script src="//cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
     <script src="//cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
 	<script src="/static/printThis.js"></script>
+	<script src="/static/udfFunction.js"></script>
 	<style>
 		.font-size {
 			font-size: 15px;

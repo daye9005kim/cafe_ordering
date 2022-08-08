@@ -1,11 +1,10 @@
 <?php
 include_once APPPATH . 'views/_common/header.php';
-include_once APPPATH . 'views/_common/top.php';
 ?>
-	<div class="container" id="orderTable">
+	<div class="container" id="orderTable" style="margin-top: 1rem">
 		<div class="clearfix">
 			<div class="float-start">
-				<a href="/order?ordnum=<?= $data['ordnum'] ?>" class="btn alert-secondary btn-sm">주문번호 <?= $data['ordnum'] ?></a>
+				<a class="btn alert-secondary btn-sm">주문번호 <?= $data['ordnum'] ?></a>
 			</div>
 			<div class="float-end">
 				<button id="printing" class="btn btn-outline-secondary btn-sm ttip" aria-label="Print" data-bs-toggle="tooltip"

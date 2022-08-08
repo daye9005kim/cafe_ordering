@@ -315,7 +315,7 @@ if (!empty($data['order'])) {
 			});
 
 			$("#print").click(function () {
-				window.location.href = "/order/mprnt?ordnum=" + ordnum;
+				print_popup("/order/mprnt?ordnum=" + ordnum);
 			});
 
 			//기본 썸네일
