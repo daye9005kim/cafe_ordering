@@ -59,22 +59,18 @@ if (!empty($data['order'])) {
 	<script>
 		const ordnum = '<?= $data['buyer']['ordnum'] ?>';
 		const user = '<?= $user['name'] ?>';
-		const makeLists = function(msg, clss = '') {
-			$('.socket-list').prepend($('<li />', {"class":"list-group-item " + clss}).text(msg));
+		const makeLists = function (msg, clss = '') {
+			$('.socket-list').prepend($('<li />', {"class": "list-group-item " + clss}).text(msg));
 		}
 		var socket = io("https://ordersocket.run.goorm.io", {query: {"ordnum": ordnum}});
 		socket.emit("welcome", user);
 		socket.on("welcome",(msg) => {
-			makeLists(msg, 'disabled');
+			$(".toast-body").text(msg);
+			$("#liveToast").show();
 		});
-
 		socket.on("order",(msg) => {
 			makeLists(msg, 'list-group-item-warning');
 		});
-		socket.on("end",(msg) => {
-			makeLists(msg, 'list-group-item-danger');
-		});
-
 
 		var CAFE = '<?= $data['buyer']['cafe'] ?>';
 		var PRDCT_IMG = JSON.parse('<?= json_encode($prdct_img) ?>');
@@ -92,8 +88,14 @@ if (!empty($data['order'])) {
 				var disDt = _vDate - now;
 				if (disDt < 0) {
 					clearInterval(_timer);
-					document.getElementById(id).textContent = '주문 시간이 종료 되었습니다.';
-					socket.emit("end", {"user":user, "msg":"clear"});
+					var msg = '주문이 종료 되었습니다.';
+					document.getElementById(id).textContent = msg;
+
+					setTimeout(function () {
+						makeLists(msg, 'list-group-item-danger');
+					}, 1500);
+					socket.close();
+
 					return;
 				}
 
@@ -357,6 +359,14 @@ if (!empty($data['order'])) {
 					url = 'https://mo.twosome.co.kr/mn/menuInfoList.do?grtCd=1';
 				}
 				$('.modal-body').html('<iframe id="output-frame-id" src="' + url + '" style="width: 350px; height:700px"></iframe>');
+			});
+
+			$('#orderListClear').on('click', function () {
+				$('.socket-list').html('');
+			});
+
+			$('#toast_close').on('click', function () {
+				$("#liveToast").hide();
 			});
 
 			$('#myorder').on('click', function () {
@@ -716,14 +726,28 @@ if (!empty($data['order'])) {
 <!-- offcanvas -->
 	<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
 		<div class="offcanvas-header">
+			<button type="button" id="orderListClear" class="btn btn-default ttip" data-bs-placement="right" title="깨끗하게"><i class="bi bi-arrow-counterclockwise"></i></button>
 			<h5 id="offcanvasLabel">실시간 주문 현황</h5>
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body">
 			<ul class="list-group list-group-flush socket-list">
+				<li class="list-group-item list-group-item-light">자손 카페에 오신것을 환영합니다.</li>
 			</ul>
 		</div>
 	</div>
+
+	<!-- toasts -->
+	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+		<div id="liveToast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+			<div class="d-flex">
+				<div class="toast-body">
+				</div>
+				<button type="button" id="toast_close" class="btn-close me-2 m-auto" data-bs-dismiss="toast" data-bs-target="#my-toast" aria-label="Close"></button>
+			</div>
+		</div>
+	</div>
+
 
 <?php
 include_once APPPATH . 'views/_common/footer.php';
