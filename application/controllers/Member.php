@@ -20,7 +20,7 @@ class Member extends MY_Controller
 		$SES_KEY = $this->input->post('KEY');
 		$SES_USER = $this->session->userdata($SES_KEY);
 
-		$buyer = $this->Buyer_model->select(array('now' => true));
+		$buyer = $this->Buyer_model->select(array('interval' => 1));
 
 		if (count($buyer) > 0) {
 			foreach ($buyer as $key => &$val) {
