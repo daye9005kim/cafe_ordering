@@ -5,6 +5,7 @@ include_once APPPATH . 'views/_common/header.php';
 		<div class="clearfix">
 			<div class="float-start">
 				<span class="btn alert-secondary btn-sm">주문번호 <?= $data['ordnum'] ?></span>
+				<span class="btn alert-light btn-sm">픽업자 : <?= $data['pickup'] ?></span>
 			</div>
 			<div class="float-end">
 				<button id="printing" class="btn btn-outline-secondary btn-sm ttip" aria-label="Print" data-bs-toggle="tooltip"

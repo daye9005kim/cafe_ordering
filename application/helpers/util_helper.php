@@ -25,15 +25,15 @@ function masking($name)
 	}
 	if (preg_match('/^(.)(.)(\D)?$/u', $name)) {
 		$pattern = '/^(.)(.)(\D)?/u';
-		$replace = '${1}⭐${3}';
+		$replace = '${1}*${3}';
 
 	} elseif (preg_match('/^(.)(.)(.)(\D)+$/u', $name)) {
 		$pattern = '/^(.)(.)(.)(\D)+$/u';
-		$replace = '${1}⭐⭐${4}';
+		$replace = '${1}**${4}';
 
 	} elseif (preg_match('/^(.)(.)(.)(\d)$/u', $name)) {
 		$pattern = '/^(.)(.)(.)(\d)$/u';
-		$replace = '${1}⭐${3}${4}';
+		$replace = '${1}*${3}${4}';
 	} else {
 		return $name;
 	}

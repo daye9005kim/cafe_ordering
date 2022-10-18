@@ -226,7 +226,15 @@ class Order extends MY_Controller
 
 		$config = $this->config->item('cafe');
 
-		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order, 'total' => $order['total'], 'ordnum' => $ordnum, 'size' => $config[$cafe]['size'])));
+		$pickup = $this->Pickup_model->get_volunteer(array('ordnum' => $ordnum));
+
+		array_walk($pickup, function (&$item) {
+			$item['member_name'] = masking($item['member_name']);
+		});
+
+		$volunteer = join(', ', array_column($pickup, 'member_name'));
+
+		return $this->load->view('view', array('status' => 200, 'data' => array('order' => $order, 'total' => $order['total'], 'ordnum' => $ordnum, 'size' => $config[$cafe]['size'], 'pickup' => $volunteer)));
 	}
 
 
