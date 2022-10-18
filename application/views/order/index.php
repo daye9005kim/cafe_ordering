@@ -315,7 +315,7 @@ if (!empty($data['order'])) {
 			});
 
 			$("#print").click(function () {
-				print_popup("/order/mprnt?ordnum=" + ordnum);
+				print_popup("/order/orderprint?ordnum=" + ordnum);
 			});
 
 			//기본 썸네일
@@ -574,6 +574,31 @@ if (!empty($data['order'])) {
 				});
 			});
 
+			$("input[name='pickup']").click(function () {
+				const data = {
+					"ordnum": ordnum,
+					"pickup_yn": $(this).val()
+				}
+
+				console.log(data);
+
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '/pickup/set',
+					data: data,
+					success: function (request) {
+						console.log(request);
+						alert(request);
+					},
+					error: function (request, status, error) {
+						alert(JSON.parse(request.responseText));
+						console.log('code: ' + request.status + "\n" + 'message: ' + JSON.parse(request.responseText) + "\n" + 'error: ' + error);
+					}
+				});
+
+			})
+
 		});
 
 	</script>
@@ -706,7 +731,25 @@ if (!empty($data['order'])) {
 					</button>
 				</div>
 			</div>
-			<p class="text-danger" style="margin: 10px 0 10px; text-align: center;"><strong>다시 주문하시면 주문이 수정됩니다.</strong></p>
+			<p class="text-danger" style="margin: 10px 0 10px; text-align: center; font-size: 12px">다시 주문하시면 주문이 수정됩니다.</p>
+			<div class="row justify-content-md-center">
+				<div class="card text-center" style="width: 25rem;">
+					<div class="card-header bold">
+						<strong>잠깐! 픽업 지원자 모집합니다.</strong>
+					</div>
+					<div class="card-body">
+						<p class="card-text">
+							픽업자는 희망자 중 랜덤으로 선정됩니다.<br>
+							픽업을 원하지면 지원해주세요.<br>
+							버튼 선택과 동시에 지원됩니다.
+						</p>
+						<input type="radio" class="btn-check" name="pickup" id="pickup_y" autocomplete="off" value="Y">
+						<label class="btn btn-outline-primary" for="pickup_y">지원</label>
+						<input type="radio" class="btn-check" name="pickup" id="pickup_n" autocomplete="off" value="N">
+						<label class="btn btn-outline-primary" for="pickup_n">미지원</label>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 		<!-- Modal -->
@@ -726,7 +769,7 @@ if (!empty($data['order'])) {
 <!-- offcanvas -->
 	<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
 		<div class="offcanvas-header">
-			<button type="button" id="orderListClear" class="btn btn-default ttip" data-bs-placement="right" title="깨끗하게"><i class="bi bi-arrow-counterclockwise"></i></button>
+			<button type="button" id="orderListClear" class="btn btn-default ttip" data-bs-placement="right" title="깨끗하게"><i class="bi bi-eraser-fill"></i></button>
 			<h5 id="offcanvasLabel">실시간 주문 현황</h5>
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
