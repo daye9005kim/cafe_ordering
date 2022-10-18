@@ -43,8 +43,10 @@ class Order extends MY_Controller
 		}
 
 		$menu = $this->Drink_model->select(array('cafe' => $buyer[0]['cafe']));
-		$order = $this->Order_model->select(array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']));
+		$param = array('ordnum' => $buyer[0]['ordnum'], 'member_name' => $SES_USER['name']);
+		$order = $this->Order_model->select($param);
 		$buyer[0]['invite'] = strToTeam($team);
+		$pickup = $this->Pickup_model->select($param);
 
 		$return = array(
 			'user' => $SES_USER,
@@ -52,7 +54,8 @@ class Order extends MY_Controller
 			'buyer' => $buyer[0],
 			'order' => isset($order[0]) ? $order[0] : array(),
 			'timer' => date('m/d/Y H:i', strtotime($buyer[0]['end'])),
-			'admin' => $admin
+			'admin' => $admin,
+			'pickup' => !empty($pickup),
 		);
 		return $this->load->view('view', array('status' => 200, 'data' => $return));
 

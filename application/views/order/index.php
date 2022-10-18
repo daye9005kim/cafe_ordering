@@ -747,9 +747,9 @@ if (!empty($data['order'])) {
 							픽업을 원하지면 지원해주세요.<br>
 							버튼 선택과 동시에 지원됩니다.
 						</p>
-						<input type="radio" class="btn-check" name="pickup" id="pickup_y" autocomplete="off" value="Y">
+						<input type="radio" class="btn-check" name="pickup" id="pickup_y" autocomplete="off" value="Y" <?= $data['pickup'] ? 'checked' : '' ?>>
 						<label class="btn btn-outline-primary" for="pickup_y">지원</label>
-						<input type="radio" class="btn-check" name="pickup" id="pickup_n" autocomplete="off" value="N">
+						<input type="radio" class="btn-check" name="pickup" id="pickup_n" autocomplete="off" value="N" <?= !$data['pickup'] ? 'checked' : '' ?>>
 						<label class="btn btn-outline-primary" for="pickup_n">미지원</label>
 					</div>
 				</div>
