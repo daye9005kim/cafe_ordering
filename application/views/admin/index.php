@@ -44,6 +44,7 @@ $config = $this->config->item('cafe');
 			var end_time = $('#end_time').val();
 			var comment = $('#comment').val();
 			var option = $('#option').val();
+			var pickup = $('#pickup').val();
 			var cafe = $('#cafe').val();
 			var cafeName = $('#cafe option:checked').text();
 
@@ -73,6 +74,7 @@ $config = $this->config->item('cafe');
 					'end_time': end_time,
 					'comment': comment,
 					'option': option,
+					'pickup': pickup,
 					'cafe': cafe,
 				},
 				success: function (request) {
@@ -221,6 +223,12 @@ $config = $this->config->item('cafe');
 							<select id="option" class="form-select form-select-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="주문서에 코멘트 입력란을 추가합니다.">
 								<option value="0">옵션 안 받기</option>
 								<option value="1">옵션 받기</option>
+							</select>
+						</div>
+						<div class="col-auto">
+							<select id="pickup" class="form-select form-select-sm ttip" data-bs-toggle="tooltip" data-bs-placement="top" title="픽업 지원 노출여부">
+								<option value="1">픽업 노출</option>
+								<option value="0">미노출</option>
 							</select>
 						</div>
 						<div class="col-auto">

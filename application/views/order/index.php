@@ -736,6 +736,7 @@ if (!empty($data['order'])) {
 				</div>
 			</div>
 			<p class="text-danger" style="margin: 10px 0 10px; text-align: center; font-size: 12px">다시 주문하시면 주문이 수정됩니다.</p>
+			<?php if ($data['buyer']['pickup'] === '1') : ?>
 			<div class="row justify-content-md-center">
 				<div class="card text-center" style="width: 25rem;">
 					<div class="card-header bold">
@@ -754,6 +755,7 @@ if (!empty($data['order'])) {
 					</div>
 				</div>
 			</div>
+			<?php endif ?>
 		</div>
 	</div>
 		<!-- Modal -->

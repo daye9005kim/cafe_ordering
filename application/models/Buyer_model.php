@@ -85,7 +85,7 @@ SQL;
 		}
 
         $sql = <<<SQL
-SELECT ordnum, cafe, invite, start, `end`, comment, `option`, regdate, creator 
+SELECT ordnum, cafe, invite, start, `end`, comment, `option`, pickup, regdate, creator 
 FROM buyer
 {$where}
 ORDER BY regdate DESC
@@ -127,19 +127,23 @@ SQL;
         if (empty($param['option'])) {
             $param['option'] = '0';
         }
+        if (empty($param['pickup'])) {
+            $param['pickup'] = '0';
+        }
 
         $escape = $this->db->escape($param);
         $sql = <<<SQL
 INSERT INTO buyer SET 
-ordnum = {$escape['ordnum']},
-cafe = {$escape['cafe']},
-invite = {$escape['invite']},
-start = {$escape['start']},
+`ordnum` = {$escape['ordnum']},
+`cafe` = {$escape['cafe']},
+`invite` = {$escape['invite']},
+`start` = {$escape['start']},
 `end` = {$escape['end']},
-comment = {$escape['comment']},
-creator = {$escape['creator']},
+`comment` = {$escape['comment']},
+`creator` = {$escape['creator']},
 `option` = {$escape['option']},
-regdate = now()     
+`pickup` = {$escape['pickup']},
+`regdate` = now()     
 SQL;
         $this->db->query($sql);
         if ($this->db->affected_rows()) {
@@ -163,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `buyer` (
    `end` datetime NOT NULL,
    `comment` text NOT NULL,
    `option` char(1) NOT NULL DEFAULT '0',
+   `pickup` char(1) NOT NULL DEFAULT '0',
    `cafe` char(2) NOT NULL DEFAULT '01',
    `creator` varchar(50) DEFAULT NULL,
    `regdate` datetime NOT NULL,

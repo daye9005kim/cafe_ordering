@@ -55,7 +55,7 @@ class Order extends MY_Controller
 			'order' => isset($order[0]) ? $order[0] : array(),
 			'timer' => date('m/d/Y H:i', strtotime($buyer[0]['end'])),
 			'admin' => $admin,
-			'pickup' => !empty($pickup),
+			'pickup' => !empty($pickup), //pickup volunteer
 		);
 		return $this->load->view('view', array('status' => 200, 'data' => $return));
 
@@ -342,6 +342,7 @@ class Order extends MY_Controller
 		$end_time = $this->input->post('end_time');
 		$comment = $this->input->post('comment');
 		$option = $this->input->post('option');
+		$pickup = $this->input->post('pickup');
 		$cafe = $this->input->post('cafe');
 
 		$SES_KEY = $this->input->post('KEY');
@@ -363,6 +364,9 @@ class Order extends MY_Controller
 		}
 		if (empty($comment)) {
 			return $this->load->view('json', array('status' => 400, 'data' => '코멘트를 입력해주세요.'));
+		}
+		if (empty($pickup)) {
+			$pickup = '0';
 		}
 
 
@@ -412,7 +416,8 @@ class Order extends MY_Controller
 			'end' => $end_time,
 			'comment' => $comment,
 			'creator' => $SES_USER['name'],
-			'option' => $option // 0 : 옵션 안 받기, 1 : 옵션 받기
+			'option' => $option, // 0 : 옵션 안 받기, 1 : 옵션 받기
+			'pickup' => $pickup, // 0 : 미노출, 1 : 노출
 		);
 
 		$this->Buyer_model->insert($param);
