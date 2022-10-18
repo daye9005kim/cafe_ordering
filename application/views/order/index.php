@@ -59,6 +59,7 @@ if (!empty($data['order'])) {
 	<script>
 		const ordnum = '<?= $data['buyer']['ordnum'] ?>';
 		const user = '<?= $user['name'] ?>';
+		const data_time = '<?= $data['timer'] ?>';
 		const makeLists = function (msg, clss = '') {
 			$('.socket-list').prepend($('<li />', {"class": "list-group-item " + clss}).text(msg));
 		}
@@ -113,8 +114,7 @@ if (!empty($data['order'])) {
 			_timer = setInterval(showRemaining, 1000);
 		}
 
-		countDownTimer('sample02', '<?=$data['timer']?>'); // countDownTimer('sample02', '02/24/2021 23:59');
-
+		countDownTimer('sample02', data_time); // countDownTimer('sample02', '02/24/2021 23:59');
 		$(function () {
 			$.widget("custom.combobox", {
 				_create: function () {
@@ -574,6 +574,10 @@ if (!empty($data['order'])) {
 				});
 			});
 
+			if ((new Date(data_time) - new Date()) <= 0) {
+				$("input[name='pickup']").prop("disabled", true);
+			}
+
 			$("input[name='pickup']").click(function () {
 				const data = {
 					"ordnum": ordnum,
@@ -739,7 +743,7 @@ if (!empty($data['order'])) {
 					</div>
 					<div class="card-body">
 						<p class="card-text">
-							픽업자는 희망자 중 랜덤으로 선정됩니다.<br>
+							픽업자는 지원자 중 랜덤으로 선정됩니다.<br>
 							픽업을 원하지면 지원해주세요.<br>
 							버튼 선택과 동시에 지원됩니다.
 						</p>

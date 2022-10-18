@@ -383,4 +383,29 @@ SQL;
 		return $return;
 	}
 
+	/**
+	 * 주문 전체 수
+	 * @param $param
+	 * @return int
+	 */
+	function get_total($param) {
+		if (empty($param['ordnum'])) {
+			return array();
+		}
+		$escape = $this->db->escape($param);
+
+		$sql = <<<SQL
+SELECT 
+    SUM(product_cnt) AS cnt
+FROM
+    `order`
+WHERE
+    ordnum = {$escape['ordnum']}
+SQL;
+		$query = $this->db->query($sql);
+		$cnt = $query->row_array(1);
+
+		return intval($cnt['cnt']);
+	}
+
 }
