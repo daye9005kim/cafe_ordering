@@ -250,6 +250,7 @@ $config = $this->config->item('cafe');
 				<th>코멘트</th>
 				<th>유효기간</th>
 				<th>출력</th>
+				<th>픽업</th>
 				<th>수정/삭제</th>
 			</tr>
 			</thead>
@@ -271,6 +272,11 @@ $config = $this->config->item('cafe');
 							</a>
 							<a class="btn btn-info btn-sm" onclick="print_popup('/order/orderprint?ordnum=<?= $item['ordnum'] ?>')">
 								<i class="bi bi-printer"></i>
+							</a>
+						</td>
+						<td>
+							<a class="btn btn-outline-primary btn-sm" onclick="print_popup('/pickup/pick?ordnum=<?= $item['ordnum'] ?>')">
+								<i class="bi bi-shop"></i>
 							</a>
 						</td>
 						<td>
