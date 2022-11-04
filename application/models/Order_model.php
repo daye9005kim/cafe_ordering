@@ -334,19 +334,19 @@ SQL;
 
 		$sql = <<<SQL
 SELECT 
-    o.product_cd, s.product_nm, o.product_size,
+    o.product_cd, o.product_nm, o.product_size,
     CASE 
-		WHEN s.cafe = '01' THEN GROUP_CONCAT(concat_ws('/', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', concat('ICED:', o.ice)), CONCAT('당도:',o.sweet), o.comment) SEPARATOR '||')
-		WHEN s.cafe = '06' THEN GROUP_CONCAT(concat_ws(' : ', MASK_NAME(m.name),IF(o.hot = 1, 'HOT', 'ICED'), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
-        ELSE GROUP_CONCAT(concat_ws(' : ', MASK_NAME(m.name), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
+		WHEN s.cafe = '01' THEN GROUP_CONCAT(concat_ws('/', MASK_NAME(o.member_name),IF(o.hot = 1, 'HOT', concat('ICED:', o.ice)), CONCAT('당도:',o.sweet), o.comment) SEPARATOR '||')
+		WHEN s.cafe = '06' THEN GROUP_CONCAT(concat_ws(' : ', MASK_NAME(o.member_name),IF(o.hot = 1, 'HOT', 'ICED'), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
+        ELSE GROUP_CONCAT(concat_ws(' : ', MASK_NAME(o.member_name), o.comment) ORDER BY o.comment DESC SEPARATOR '||')
     END as comments,
     sum(o.product_cnt) as cnt,
     s.cafe
 FROM `order` AS o
-JOIN member AS m ON o.member_name = m.name
-JOIN drink AS s ON o.product_cd = s.product_cd AND s.cafe = {$escape['cafe']} 
+LEFT JOIN buyer AS s ON o.ordnum = s.ordnum  
 WHERE
     o.ordnum = {$escape['ordnum']}
+AND s.cafe = {$escape['cafe']}
 GROUP BY o.product_cd, o.product_size
 ORDER BY o.product_cd DESC
 SQL;
