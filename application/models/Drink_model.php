@@ -133,9 +133,7 @@ SQL;
 				if (strpos($drink['product_NM'], '리저브') !== false) {
 					continue;
 				}
-				if (strpos($drink['product_NM'], '피지오') !== false) {
-					continue;
-				}
+
 				$url = $drink['img_UPLOAD_PATH'] . $drink['file_PATH'];
 				if (!copy($url, '/workspace/menu_img/starbucks/' . $drink['product_CD'] . '.jpg')) {
 					putlog('starbucks', var_export($url, true));
