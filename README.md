@@ -6,7 +6,7 @@
 
 ## 개요
 - 개인 프로젝트
-- 2022-02-09~2022-03-16
+- 2021-02-10~2021-03-16
 - <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=PHP&logoColor=white"> <img src="https://img.shields.io/badge/codeigniter-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white"> <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">  <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/soket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white"> 
 
 ## 설명
