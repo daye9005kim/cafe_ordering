@@ -13,14 +13,14 @@
 ### 구성도
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/f32d3fc6-0c13-41fa-8be3-d26179f6cff3" width="50%">
 
-### 로그인
+### 로그인 화면
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/a31544fb-cbec-4a36-b298-6055c493da70" width="50%">
 
-### 관리자
+### 관리자 화면
 카페, 팀, 마감 시간을 설정하여 주문서를 열 수 있습니다. 해당 팀이 아닌 사원은 주문서에 진입 할 수 없습니다.
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/1c14856b-8f8a-492a-8165-85ac30cc93f5" width="50%">
 
-### 주문서
+### 주문서 화면
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/5a79730a-5d98-4e17-b3db-d51d9b1fd89d" width="50%">
 
 #### 실시간 주문 현황을 볼 수 있습니다.
