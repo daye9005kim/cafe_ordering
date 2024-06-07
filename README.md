@@ -26,9 +26,6 @@
 #### 실시간 주문 현황을 볼 수 있습니다.
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/004a27ed-e2f0-4627-af2e-6c3c0df341fb" width="50%">
 
-#### 이전에 주문했던 히스토리를 제공합니다.
-<img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/480be2bd-624a-43c5-9943-fe5d03d1cbd5" width="50%">
-
 ### 취합된 메뉴 목록을 출력합니다.
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/c78e166b-562b-489a-9471-0bd2b2b139f3" width="50%">
 
