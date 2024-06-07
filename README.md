@@ -9,6 +9,9 @@
 - <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=PHP&logoColor=white"> <img src="https://img.shields.io/badge/codeigniter-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white"> <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">  <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/soket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white"> 
 
 ## 설명
+### 구성도
+<img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/f32d3fc6-0c13-41fa-8be3-d26179f6cff3" width="50%">
+
 ### 로그인
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/a31544fb-cbec-4a36-b298-6055c493da70" width="50%">
 
