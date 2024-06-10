@@ -18,6 +18,7 @@
 
 ### 관리자 화면
 카페, 팀, 마감 시간을 설정하여 주문서를 열 수 있습니다. 해당 팀이 아닌 사원은 주문서에 진입 할 수 없습니다.
+
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/1c14856b-8f8a-492a-8165-85ac30cc93f5" width="50%">
 
 ### 주문서 화면
