@@ -1,13 +1,17 @@
 ## 카페 단체 주문 시스템
 
-이 프로그램은 카페 단체 주문을 위해 만들어진 시스템입니다.
+이 프로그램은 개인적인 목적으로 만들어진 시스템 입니다.
 
-단체 주문 시 카페 메뉴를 전달하고 각 개인의 주문을 받아 취합하는 번거로움을 줄이기 위해 시스템을 개발했습니다.
+단체 주문 시 카페 메뉴를 전달하고 각 개인의 주문을 받아 취합하는 번거로움을 줄이기 위해 개발했습니다.
+
+관리자가 주문을 오픈하면 허용된 사용자만 주문을 입력할 수 있습니다. 주문 시간이 마감되면 주문 할 수 없습니다.
+
+완료된 주문은 취합되어 출력됩니다.
 
 ## 개요
 - 개인 프로젝트
 - 2021-02-10~2021-03-16
-- <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=PHP&logoColor=white"> <img src="https://img.shields.io/badge/codeigniter-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white"> <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">  <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/soket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white"> 
+- <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=PHP&logoColor=white"> <img src="https://img.shields.io/badge/codeigniter-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"> <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/soket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white">
 
 ## 설명
 ### 구성도
