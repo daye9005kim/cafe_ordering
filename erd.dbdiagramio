@@ -1,0 +1,51 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+TABLE orders {
+   num integer [primary key]
+   ordnum char
+   cafe_code varchar
+   member_id varchar
+   product_code varchar
+   product_name varchar
+   product_cnt integer
+   product_size varchar
+   comment text
+   regdate datetime
+}
+
+TABLE member {
+   member_id integer [primary key]
+   member_name varchar
+   position varchar
+   team varchar
+   regdate datetime
+}
+
+TABLE open_order {
+   ordnum char [primary key]
+   invite varchar
+   start_dtm datetime
+   end_dtm datetime
+   comment text
+   option_yn char
+   cafe_code varchar
+   creator varchar
+   regdate datetime
+}
+
+TABLE product {
+   product_code varchar [primary key]
+   product_name varchar
+   product_img varchar
+   content text
+   cafe_code varchar
+   regdate datetime
+}
+
+
+Ref: open_order.ordnum < orders.ordnum
+Ref: orders.member_id > member.member_id
+Ref: product.product_code < orders.product_code
+
+https://dbdiagram.io/d
