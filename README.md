@@ -13,6 +13,9 @@
 ### 구성도
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/0698050d-1406-4d5b-ae6b-3f207c51c945" width="50%">
 
+### ERD
+<img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/bbe8d567-c100-4865-a429-3a589a5e86c7" width="50%">
+
 ### 로그인 화면
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/a31544fb-cbec-4a36-b298-6055c493da70" width="50%">
 
