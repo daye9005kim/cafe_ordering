@@ -22,6 +22,7 @@
 
 ### 로그인 화면
 세션 기반의 로그인 기능이며, 사원 API 목록에 존재하는 이름으로만 로그인 할 수 있습니다. 사원이 아닌 경우 로그인 할 수 없습니다.
+
 <img src="https://github.com/daye9005kim/cafe_ordering/assets/78843974/a31544fb-cbec-4a36-b298-6055c493da70" width="50%">
 
 ### 관리자 화면
